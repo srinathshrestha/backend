@@ -1,0 +1,41 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title><%= title ? `${title}` : blogTitle %></title>
+<link rel="stylesheet" href="/styles.css" />
+<!-- Syntax highlighting (Highlight.js) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+  integrity="sha512-0QyS2qvC7V0r6FqQ8Q9n8B2YgH1w1D2mR7P8+oT6tF3m5dA0qH0mQKzC5l7k2W7eS1o3dM4Ck3cP2wQ6m8qJsw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<script
+  defer
+  src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
+  integrity="sha512-DkPzC1s1qjzL6B6B9g4Y7gq3sXl0aKEOqk2R8qYp0xwRr3m5m8i7jzK2VQmX5b0dQkq3j1oQmH0G7m0F9eHyzQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    try {
+      if (window.hljs) {
+        window.hljs.highlightAll();
+      }
+    } catch (e) {}
+  });
+  window.addEventListener("load", function () {
+    try {
+      if (window.hljs) {
+        window.hljs.highlightAll();
+      }
+    } catch (e) {}
+  });
+</script>
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="<%= blogTitle %> RSS"
+  href="/rss.xml"
+/>

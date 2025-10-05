@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head") %>
+  </head>
+  <body class="writer-mode">
+    <main>
+      <header class="admin-header">
+        <h1>Writer Console</h1>
+        <nav>
+          <a href="/">Index</a>
+          <a href="/rss.xml">RSS</a>
+          <form method="post" action="/admin/logout">
+            <button class="button" type="submit">Logout</button>
+          </form>
+        </nav>
+      </header>
+
+      <section class="writer-shell admin-grid">
+        <aside class="writer-sidebar">
+          <div class="sidebar-actions">
+            <a class="button" href="/admin/posts/new">New draft</a>
+          </div>
+          <div class="post-groups">
+            <section class="post-group">
+              <div class="group-header">
+                <h2>Published</h2>
+                <span class="count-pill"><%= published.length %></span>
+              </div>
+              <ul class="post-list">
+                <% if (!published.length) { %>
+                <li class="empty-row">No published posts yet.</li>
+                <% } else { %> <% published.forEach(function(post) { %>
+                <li class="post-row">
+                  <span class="post-link-static"
+                    ><a href="/blog/<%= post.slug %>" target="_blank"
+                      ><%= post.title %></a
+                    ></span
+                  >
+                  <a
+                    class="button post-link"
+                    href="/admin/posts/<%= post.slug %>/edit"
+                    >Edit</a
+                  >
+                  <form
+                    method="post"
+                    action="/admin/posts/<%= post.slug %>/delete"
+                  >
+                    <button class="button danger post-delete" type="submit">
+                      Delete
+                    </button>
+                  </form>
+                </li>
+                <% }); %> <% } %>
+              </ul>
+            </section>
+
+            <section class="post-group">
+              <div class="group-header">
+                <h2>Drafts</h2>
+                <span class="count-pill"><%= drafts.length %></span>
+              </div>
+              <ul class="post-list">
+                <% if (!drafts.length) { %>
+                <li class="empty-row">No drafts on file.</li>
+                <% } else { %> <% drafts.forEach(function(post) { %>
+                <li class="post-row">
+                  <span class="post-link-static"><%= post.title %></span>
+                  <a
+                    class="button post-link"
+                    href="/admin/posts/<%= post.slug %>/edit"
+                    >Edit</a
+                  >
+                  <form
+                    method="post"
+                    action="/admin/posts/<%= post.slug %>/delete"
+                  >
+                    <button class="button danger post-delete" type="submit">
+                      Delete
+                    </button>
+                  </form>
+                </li>
+                <% }); %> <% } %>
+              </ul>
+            </section>
+          </div>
+        </aside>
+
+        <section class="admin-help">
+          <p>Select a post to edit or hit “New draft” to start raw.</p>
+          <p>Posts live in MongoDB now. Markdown wins, gradients lose.</p>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

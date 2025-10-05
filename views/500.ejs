@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head") %>
+  </head>
+  <body>
+    <main class="error-page">
+      <header>
+        <h1 class="site-title"><a href="/"><%= blogTitle %></a></h1>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/admin">Writer</a>
+        </nav>
+      </header>
+
+      <section class="error-card">
+        <h2>500 · Something broke</h2>
+        <p>The server choked on that request. Details:</p>
+        <pre><%= message %></pre>
+        <p>
+          <a class="button" href="/">Try the homepage</a>
+        </p>
+      </section>
+
+      <footer>
+        <p>Built the hard way. &copy; <%= year %>.</p>
+      </footer>
+    </main>
+  </body>
+</html>

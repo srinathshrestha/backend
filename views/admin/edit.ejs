@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head") %>
+  </head>
+  <body class="writer-mode">
+    <main>
+      <header class="admin-header">
+        <h1><%= post ? 'Edit Post' : 'New Draft' %></h1>
+        <nav>
+          <a href="/admin/posts">Dashboard</a>
+          <a href="/">Index</a>
+          <form method="post" action="/admin/logout">
+            <button class="button" type="submit">Logout</button>
+          </form>
+        </nav>
+      </header>
+
+      <section class="writer-shell admin-edit">
+        <form class="editor-form" method="post" action="/admin/posts/save">
+          <% if (post) { %>
+          <input type="hidden" name="originalSlug" value="<%= post.slug %>" />
+          <% } %>
+          <label>
+            Title
+            <input
+              name="title"
+              type="text"
+              value="<%= post ? post.title : '' %>"
+              required
+            />
+          </label>
+          <label>
+            Slug
+            <input
+              name="slug"
+              type="text"
+              placeholder="auto from title"
+              value="<%= post ? post.slug : '' %>"
+            />
+          </label>
+          <label>
+            Tags (comma separated)
+            <input
+              name="tags"
+              type="text"
+              value="<%= post && post.tags ? post.tags.join(', ') : '' %>"
+            />
+          </label>
+          <div class="editor-field" data-editor-root>
+            <label for="markdown">Markdown</label>
+            <div class="editor-toolbar" data-editor-toolbar>
+              <button
+                type="button"
+                class="toolbar-button"
+                data-command="image"
+                title="Upload image (Ctrl+Shift+I)"
+              >
+                Image
+              </button>
+              <span class="toolbar-status" data-upload-status></span>
+              <input type="file" accept="image/*" data-image-input hidden />
+            </div>
+            <textarea
+              id="markdown"
+              name="markdown"
+              rows="18"
+              spellcheck="false"
+              data-markdown-input
+            >
+<%= post ? post.markdown : '' %></textarea
+            >
+          </div>
+
+          <% if (message) { %>
+          <p class="muted"><%= message %></p>
+          <% } %>
+
+          <div class="editor-actions">
+            <button
+              class="button primary"
+              type="submit"
+              name="action"
+              value="draft"
+            >
+              Save draft
+            </button>
+            <button
+              class="button accent"
+              type="submit"
+              name="action"
+              value="publish"
+            >
+              Publish
+            </button>
+            <% if (post) { %>
+            <button
+              class="button danger"
+              type="submit"
+              formaction="/admin/posts/<%= post.slug %>/delete"
+              formmethod="post"
+            >
+              Delete
+            </button>
+            <% } %>
+          </div>
+        </form>
+
+        <article class="preview-pane">
+          <h2>Preview</h2>
+          <div class="post-body" data-preview-output>
+            <% if (previewHtml) { %> <%- previewHtml %> <% } else { %>
+            <p class="muted">Start writing to see a live preview.</p>
+            <% } %>
+          </div>
+          <p class="muted" data-preview-status hidden>Rendering preview…</p>
+        </article>
+      </section>
+    </main>
+    <script type="module" src="/editor.js"></script>
+  </body>
+</html>

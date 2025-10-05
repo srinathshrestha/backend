@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head") %>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1 class="site-title"><a href="/"><%= blogTitle %></a></h1>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/admin">Writer</a>
+        </nav>
+      </header>
+
+      <div class="author-info">
+        <img
+          src="/HeadShot/IMG_0622.JPG"
+          alt="srinath shrestha"
+          class="author-photo"
+        />
+        <span class="author-name">srinath shrestha</span>
+      </div>
+
+      <% if (!posts || posts.length === 0) { %>
+      <p>No posts yet. Time to write something raw.</p>
+      <% } else { %>
+      <section class="list-grid">
+        <% posts.forEach(function(post) { %>
+        <article class="post-preview">
+          <h2><a href="/blog/<%= post.slug %>"><%= post.title %></a></h2>
+          <div class="article-meta">
+            <%= formatDate(post.publishedAt || post.updatedAt) %> <% if
+            (post.tags && post.tags.length) { %> · <%
+            post.tags.forEach(function(tag) { %>
+            <span class="tag-chip"><%= tag %></span>
+            <% }); %> <% } %>
+          </div>
+          <p><%= post.excerpt %></p>
+          <a href="/blog/<%= post.slug %>">Read post →</a>
+        </article>
+        <% }); %>
+      </section>
+      <% } %>
+
+      <footer>
+        <p>Built the hard way. &copy; <%= year %>.</p>
+      </footer>
+    </main>
+  </body>
+</html>

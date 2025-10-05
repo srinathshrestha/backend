@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head") %>
+  </head>
+  <body class="writer-mode">
+    <main class="auth-shell">
+      <header>
+        <h1>Writer Login</h1>
+        <nav>
+          <a href="/">Index</a>
+          <a href="/rss.xml">RSS</a>
+        </nav>
+      </header>
+      <form method="post" action="/admin/login" class="auth-form">
+        <label>
+          Password
+          <input
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            required
+          />
+        </label>
+        <% if (error) { %>
+        <p class="error"><%= error %></p>
+        <% } %>
+        <button class="button" type="submit">Log in</button>
+      </form>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head") %>
+  </head>
+  <body>
+    <main class="error-page">
+      <header>
+        <h1 class="site-title"><a href="/"><%= blogTitle %></a></h1>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/admin">Writer</a>
+        </nav>
+      </header>
+
+      <section class="error-card">
+        <h2>404 · Not found</h2>
+        <p>
+          The page you were hunting for isn&#39;t here. Maybe the post got
+          scrapped, maybe it never existed.
+        </p>
+        <p>
+          <a class="button" href="/">Head back home</a>
+        </p>
+      </section>
+
+      <footer>
+        <p>Built the hard way. &copy; <%= year %>.</p>
+      </footer>
+    </main>
+  </body>
+</html>

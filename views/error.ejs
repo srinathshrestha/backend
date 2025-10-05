@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head") %>
+  </head>
+  <body>
+    <main class="error-page">
+      <header>
+        <h1 class="site-title"><a href="/"><%= blogTitle %></a></h1>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/admin">Writer</a>
+        </nav>
+      </header>
+
+      <section class="error-card">
+        <h2><%= status %> · Something went sideways</h2>
+        <p><%= message %></p>
+        <p>
+          <a class="button" href="/">Back to safety</a>
+        </p>
+      </section>
+
+      <footer>
+        <p>Built the hard way. &copy; <%= year %>.</p>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head") %>
+  </head>
+  <body>
+    <main>
+      <header>
+        <nav>
+          <a href="/">← Index</a>
+          <a href="/admin">Writer</a>
+        </nav>
+      </header>
+
+      <article>
+        <h1><%= post.title %></h1>
+        <div class="author-info">
+          <img
+            src="/HeadShot/IMG_0622.JPG"
+            alt="srinath shrestha"
+            class="author-photo"
+          />
+          <span class="author-name">srinath shrestha</span>
+        </div>
+        <div class="article-meta">
+          <%= formatDate(post.publishedAt || post.updatedAt) %> <% if (post.tags
+          && post.tags.length) { %> · <% post.tags.forEach(function(tag) { %>
+          <span class="tag-chip"><%= tag %></span>
+          <% }); %> <% } %>
+        </div>
+        <div class="post-body"><%- post.html %></div>
+      </article>
+
+      <footer>
+        <a href="/rss.xml">RSS feed</a>
+      </footer>
+    </main>
+  </body>
+</html>
