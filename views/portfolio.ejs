@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head") %>
+    <style>
+      .portfolio-hero {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .portfolio-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 999px;
+        object-fit: cover;
+        border: 2px solid var(--border);
+        box-shadow: var(--shadow);
+        margin-bottom: 24px;
+      }
+
+      .portfolio-name {
+        font-size: clamp(2rem, 3vw, 3rem);
+        margin: 0 0 12px;
+        color: var(--accent);
+      }
+
+      .portfolio-title {
+        font-size: 1.2rem;
+        color: var(--fg-muted);
+        margin: 0 0 32px;
+      }
+
+      .portfolio-section {
+        margin-bottom: 48px;
+      }
+
+      .portfolio-section h2 {
+        font-size: 1.8rem;
+        margin: 0 0 24px;
+        color: var(--fg);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 12px;
+      }
+
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+      }
+
+      .portfolio-card {
+        background: var(--bg-soft);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+      }
+
+      .project-links {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+
+      .project-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 16px;
+        background: var(--bg-softer);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--fg);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.15s ease;
+      }
+
+      .project-link:hover {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .tech-stack {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+        flex-wrap: wrap;
+      }
+
+      .tech-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 32px;
+        flex-wrap: wrap;
+      }
+
+      .social-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 20px;
+        background: var(--bg-softer);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--fg);
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: all 0.15s ease;
+      }
+
+      .social-link:hover {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent);
+        text-decoration: none;
+        transform: translateY(-2px);
+      }
+
+      .experience-item {
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .experience-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .experience-title {
+        font-size: 1.1rem;
+        margin: 0 0 4px;
+        color: var(--fg);
+      }
+
+      .experience-company {
+        color: var(--accent);
+        margin: 0 0 8px;
+        font-weight: 500;
+      }
+
+      .experience-duration {
+        color: var(--fg-muted);
+        font-size: 0.9rem;
+        margin: 0 0 12px;
+      }
+
+      .experience-description {
+        color: var(--fg-muted);
+        line-height: 1.6;
+      }
+
+      .about-content {
+        color: var(--fg-muted);
+        line-height: 1.7;
+        font-size: 1.05rem;
+      }
+
+      @media (max-width: 768px) {
+        .portfolio-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .social-links {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1 class="site-title"><a href="/blogs"><%= blogTitle %></a></h1>
+        <nav>
+          <a href="/blogs">Blogs</a>
+          <a href="/portfolio">Portfolio</a>
+          <a href="/admin">Writer</a>
+        </nav>
+      </header>
+
+      <div class="portfolio-hero">
+        <img
+          src="/HeadShot/IMG_0622 2.JPG"
+          alt="Srinath Shrestha"
+          class="portfolio-avatar"
+        />
+        <h1 class="portfolio-name">Srinath Shrestha</h1>
+        <p class="portfolio-title">Full Stack Developer & Tech Enthusiast</p>
+      </div>
+
+      <div class="portfolio-section">
+        <h2>About Me</h2>
+        <div class="portfolio-card">
+          <p class="about-content">
+            I'm a passionate full stack developer with a love for creating
+            elegant, efficient solutions to complex problems. My journey in
+            technology has been driven by curiosity and a constant desire to
+            learn and build something meaningful. When I'm not coding, you can
+            find me exploring new technologies, contributing to open source
+            projects, or sharing my knowledge through writing.
+          </p>
+        </div>
+      </div>
+
+      <div class="portfolio-section">
+        <h2>Projects</h2>
+        <div class="portfolio-grid">
+          <div class="portfolio-card">
+            <h3>Personal Blog Platform</h3>
+            <p>
+              A custom-built blogging platform with markdown support, admin
+              panel, and clean design.
+            </p>
+            <div class="tech-stack">
+              <span class="tech-tag">Node.js</span>
+              <span class="tech-tag">Express</span>
+              <span class="tech-tag">EJS</span>
+              <span class="tech-tag">SQLite</span>
+            </div>
+            <div class="project-links">
+              <a href="/blogs" class="project-link">View Blogs</a>
+              <a href="https://github.com/srinathshrestha" class="project-link"
+                >GitHub</a
+              >
+            </div>
+          </div>
+
+          <div class="portfolio-card">
+            <h3>More Projects Coming Soon</h3>
+            <p>Working on exciting new projects. Stay tuned for updates!</p>
+            <div class="tech-stack">
+              <span class="tech-tag">React</span>
+              <span class="tech-tag">TypeScript</span>
+              <span class="tech-tag">Next.js</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-section">
+        <h2>Experience</h2>
+        <div class="portfolio-card">
+          <div class="experience-item">
+            <h3 class="experience-title">Full Stack Developer</h3>
+            <p class="experience-company">Freelance / Personal Projects</p>
+            <p class="experience-duration">2023 - Present</p>
+            <p class="experience-description">
+              Developing web applications and maintaining personal projects.
+              Focus on creating scalable, user-friendly solutions with modern
+              technologies and best practices.
+            </p>
+          </div>
+
+          <div class="experience-item">
+            <h3 class="experience-title">Computer Science Student</h3>
+            <p class="experience-company">Tribhuvan University</p>
+            <p class="experience-duration">2020 - Present</p>
+            <p class="experience-description">
+              Studying computer science with a focus on software development,
+              algorithms, and system design. Active in coding communities and
+              hackathons.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-section">
+        <h2>Technologies & Skills</h2>
+        <div class="portfolio-card">
+          <div class="tech-stack" style="justify-content: flex-start">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Express.js</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">Git</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">AWS</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">C++</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-section">
+        <h2>Connect</h2>
+        <div class="social-links">
+          <a href="https://github.com/srinathshrestha" class="social-link">
+            GitHub
+          </a>
+          <a href="https://x.com/srinathshrestha" class="social-link">
+            Twitter / X
+          </a>
+          <a
+            href="/resume/SrinathShresthaFinalResume.pdf"
+            class="social-link"
+            download
+          >
+            Resume (PDF)
+          </a>
+          <a href="/blogs" class="social-link"> Blogs </a>
+        </div>
+      </div>
+
+      <footer>
+        <p>Built the hard way. &copy; <%= year %>.</p>
+      </footer>
+    </main>
+  </body>
+</html>

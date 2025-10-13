@@ -2,7 +2,7 @@
 function errorHandler(err, req, res, next) {
     const status = err.status || 500;
     if (status >= 500) {
-        console.error(err); // keep the raw vibe but still log
+        console.error(err); 
     }
     const message = err.message || 'internal server error';
     if (req.accepts('html')) {

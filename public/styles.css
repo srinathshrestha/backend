@@ -69,6 +69,16 @@ header {
   align-items: center;
   gap: 12px;
   margin: 12px 0 20px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  padding: 4px 8px;
+  transition: all 0.15s ease;
+}
+
+.author-info:hover {
+  background: var(--bg-soft);
+  transform: translateY(-1px);
 }
 
 .author-photo {

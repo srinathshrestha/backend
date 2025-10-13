@@ -10,7 +10,7 @@ function buildRssFeed({ siteUrl, blogTitle, description = 'rawdog dev notes', po
     const items = posts
         .filter((post) => post.status === 'published')
         .map((post) => {
-            const url = `${siteUrl.replace(/\/$/, '')}/blog/${post.slug}`;
+            const url = `${siteUrl.replace(/\/$/, '')}/blogs/${post.slug}`;
             const pubDate = post.publishedAt ? new Date(post.publishedAt).toUTCString() : new Date(post.updatedAt).toUTCString();
             return `    <item>
       <title>${escapeXml(post.title)}</title>

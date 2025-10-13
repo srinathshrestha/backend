@@ -6,22 +6,22 @@
   <body>
     <main>
       <header>
-        <h1 class="site-title"><a href="/"><%= blogTitle %></a></h1>
+        <h1 class="site-title"><a href="/blogs"><%= blogTitle %></a></h1>
         <nav>
-          <a href="/">Home</a>
+          <a href="/blogs">Home</a>
           <a href="/rss.xml">RSS</a>
           <a href="/admin">Writer</a>
         </nav>
       </header>
 
-      <div class="author-info">
+      <a href="/portfolio" class="author-info">
         <img
-          src="/HeadShot/IMG_0622.JPG"
+          src="/HeadShot/IMG_0622 2.JPG"
           alt="srinath shrestha"
           class="author-photo"
         />
         <span class="author-name">srinath shrestha</span>
-      </div>
+      </a>
 
       <% if (!posts || posts.length === 0) { %>
       <p>No posts yet. Time to write something raw.</p>
@@ -29,7 +29,7 @@
       <section class="list-grid">
         <% posts.forEach(function(post) { %>
         <article class="post-preview">
-          <h2><a href="/blog/<%= post.slug %>"><%= post.title %></a></h2>
+          <h2><a href="/blogs/<%= post.slug %>"><%= post.title %></a></h2>
           <div class="article-meta">
             <%= formatDate(post.publishedAt || post.updatedAt) %> <% if
             (post.tags && post.tags.length) { %> · <%
