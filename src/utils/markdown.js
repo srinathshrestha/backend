@@ -39,15 +39,18 @@ renderer.code = function codeRenderer(code, infostring, escaped) {
         ? `<div class="code-filename" title="${safeFilename}">${safeFilename}</div>`
         : '';
 
-    // Add language label (displayed as a small pill)
+    // Add language label (displayed as a small pill) — rendered ABOVE the code box
     const languageHeader = `<div class="code-language">${safeLanguage}</div>`;
 
-    return original
+    const withContainer = original
         .replace(
             '<pre>',
             `<div class="code-container">${filenameHeader}<pre class="code-block language-${safeLanguage}">`
         )
-        .replace('</pre>', `</pre>${languageHeader}</div>`);
+        .replace('</pre>', `</pre></div>`);
+
+    // Emit label outside the container so it appears above the box
+    return `${languageHeader}${withContainer}`;
 };
 
 function escapeHtml(value = '') {

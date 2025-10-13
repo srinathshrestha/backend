@@ -539,9 +539,12 @@ code {
   padding: 14px 16px;
 }
 
-.code-container .code-language {
+/* Position language pill above the code box */
+.code-language {
   display: inline-flex;
-  margin: 0 12px 12px auto;
+  align-items: center;
+  justify-content: center;
+  margin: 0 12px 8px auto;
   padding: 2px 8px;
   font-size: 0.75rem;
   letter-spacing: 0.06em;
