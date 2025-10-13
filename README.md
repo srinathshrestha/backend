@@ -1,72 +1,72 @@
-# Srinath Blogs – Backend
+# Srinath's Blog & Portfolio
 
-Simple, clean, minimalist blog backend. Dark theme. Fast and small.
+A minimalist blog and portfolio built with simplicity in mind. No bloated frameworks—just clean, fast, and purposeful code.
 
-## What this is
+**Live Demo:** [srinathshrestha.onrender.com](https://srinathshrestha.onrender.com)
 
-- Node.js + Express + EJS
-- Markdown posts with live preview
-- Local uploads served from `/uploads/*`
-- Admin (writer) console with drafts and publish
-- Portfolio page at `/portfolio`
+## Features
 
-## Quick start
+- **Blog**: Markdown-powered posts with live preview
+- **Portfolio**: Clean showcase of projects and experience  
+- **Admin Panel**: Simple writer console for managing content
+- **Dark Theme**: Consistent, modern aesthetic
+- **Fast & Lightweight**: Minimal dependencies, maximum performance
+
+## Tech Stack
+
+- Node.js + Express
+- EJS templating
+- MongoDB for content storage
+- Local file uploads
+- Markdown rendering with syntax highlighting
+
+## Quick Start
 
 ```bash
-# 1) Install npm ci
+# Install dependencies
+npm install
 
-# 2) Set env (copy/paste then edit)
-cp .env .env.local  # optional
+# Set up environment variables
+cp .env.example .env
 
-# 3) Run
+# Start the server
 npm start
-# open http://localhost:3000/blogs
 ```
 
-## Env vars
-
-Create `.env` in this folder:
-
-```
-PORT=3000
-SITE_URL=http://localhost:3000
-ADMIN_PASSWORD=change-me           # or ADMIN_PASSWORD_HASH
-MONGODB_URI=mongodb+srv://...
-MONGODB_DB_NAME=myblogs
-```
-
-## Uploads
-
-- Served by Express static from `public/`
-- Public URL pattern: `/uploads/YYYY/MM/<file>`
-- Production tip: use a persistent disk or S3 for durability
-
-## Scripts
-
-```bash
-npm start        # start server
-npm run dev      # with nodemon
-```
-
-## Deploy (minimal)
-
-- Keep Node running with PM2
-- Put Nginx in front (80/443 → 3000)
-- Set `NODE_ENV=production` and `SITE_URL=https://yourdomain.com`
-
-## Structure
+## Project Structure
 
 ```
 src/
-  app.js         # express app (thin)
-  server.js      # start + shutdown
-  routes/        # http routes
-  controllers/   # page + api handlers
-  utils/         # markdown, uploads, db, etc
-views/          # ejs templates (dark theme)
-public/         # static (images, uploads)
+├── app.js           # Express application setup
+├── server.js        # Server startup & shutdown
+├── routes/          # HTTP route definitions
+├── controllers/     # Business logic handlers
+└── utils/           # Utilities (markdown, uploads, db)
+views/               # EJS templates
+public/              # Static assets & uploads
 ```
 
-## License
+## Environment Variables
 
-MIT © Srinath Shrestha
+```env
+PORT=3000
+SITE_URL=http://localhost:3000
+ADMIN_PASSWORD=your-secure-password
+MONGODB_URI=mongodb://localhost:27017/blog
+```
+
+## Deployment
+
+This application is designed for simple deployment:
+
+- **Development**: `npm start`
+- **Production**: Use PM2 + Nginx
+- **Hosting**: Works well on Render, Railway, or any Node.js platform
+
+## Philosophy
+
+Built with the belief that good software doesn't need complexity. Every line of code serves a purpose, every dependency has a reason.
+
+---
+
+**License**: MIT © Srinath Shrestha
