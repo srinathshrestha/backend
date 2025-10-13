@@ -1,12 +1,15 @@
 const app = require('./app');
-const { port } = require('./config');
+const { port, siteUrl } = require('./config');
 const { connectToDatabase, closeDatabase } = require('./utils/db');
+
 
 async function start() {
     try {
         await connectToDatabase();
         const server = app.listen(port, () => {
-            console.log(`[rawdog-blog] listening on http://localhost:${port}`);
+            const base = (siteUrl || '').replace(/\/$/, '') || `http://localhost:${port}`;
+            console.log(`[rawdog-blog] listening on ${base}`);
+
         });
 
         const shutdown = () => {

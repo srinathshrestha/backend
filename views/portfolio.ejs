@@ -31,9 +31,9 @@
       }
 
       .portfolio-section {
+        margin-top: 48px;
         margin-bottom: 48px;
       }
-
       .portfolio-section h2 {
         font-size: 1.8rem;
         margin: 0 0 24px;
@@ -185,14 +185,7 @@
   </head>
   <body>
     <main>
-      <header>
-        <h1 class="site-title"><a href="/blogs"><%= blogTitle %></a></h1>
-        <nav>
-          <a href="/blogs">Blogs</a>
-          <a href="/portfolio">Portfolio</a>
-          <a href="/admin">Writer</a>
-        </nav>
-      </header>
+      
 
       <div class="portfolio-hero">
         <img
@@ -204,16 +197,15 @@
         <p class="portfolio-title">Full Stack Developer & Tech Enthusiast</p>
       </div>
 
-      <div class="portfolio-section">
+      
         <h2>About Me</h2>
         <div class="portfolio-card">
           <p class="about-content">
-            I'm a passionate full stack developer with a love for creating
-            elegant, efficient solutions to complex problems. My journey in
-            technology has been driven by curiosity and a constant desire to
-            learn and build something meaningful. When I'm not coding, you can
-            find me exploring new technologies, contributing to open source
-            projects, or sharing my knowledge through writing.
+            I’m a full-stack developer passionate about solving problems with
+            clean, scalable code. My work spans backend systems, real-time apps,
+            and cloud solutions. I thrive on curiosity—always learning,
+            building, and sharing. Outside coding, I contribute to open source
+            and write about tech in my <a href="/blogs">blog</a>.
           </p>
         </div>
       </div>
@@ -222,34 +214,31 @@
         <h2>Projects</h2>
         <div class="portfolio-grid">
           <div class="portfolio-card">
-            <h3>Personal Blog Platform</h3>
-            <p>
-              A custom-built blogging platform with markdown support, admin
-              panel, and clean design.
-            </p>
-            <div class="tech-stack">
-              <span class="tech-tag">Node.js</span>
-              <span class="tech-tag">Express</span>
-              <span class="tech-tag">EJS</span>
-              <span class="tech-tag">SQLite</span>
-            </div>
+            <h3>Bona – Collaborative Media Platform (Aug 2025)</h3>
+            <ul>
+              <li>Full-stack team chat and cloud media storage</li>
+              <li>Stack: Next.js, Neon DB, AWS S3</li>
+              <li>Implemented S3-backed storage for 100+ media uploads with secure team sharing</li>
+            </ul>
             <div class="project-links">
-              <a href="/blogs" class="project-link">View Blogs</a>
-              <a href="https://github.com/srinathshrestha" class="project-link"
-                >GitHub</a
-              >
+              <a href="https://bona-five.vercel.app" class="project-link">Live Demo</a>
             </div>
           </div>
 
           <div class="portfolio-card">
-            <h3>More Projects Coming Soon</h3>
-            <p>Working on exciting new projects. Stay tuned for updates!</p>
-            <div class="tech-stack">
-              <span class="tech-tag">React</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">Next.js</span>
+            <h3>CartMate – Collaborative Shopping List (Aug 2025)</h3>
+            <ul>
+              <li>Real-time shopping list with 20+ concurrent users</li>
+              <li>Stack: Next.js, Neon DB, WebSocket</li>
+              <li>Achieved under 200ms sync latency</li>
+            </ul>
+            <div class="project-links">
+              <a href="https://cartmate-wheat.vercel.app/" class="project-link">Live Demo</a>
             </div>
           </div>
+        </div>
+        <div class="project-links" style="margin-top:16px;">
+          <a href="https://github.com/srinathshrestha" class="project-link">More on GitHub</a>
         </div>
       </div>
 
@@ -257,24 +246,22 @@
         <h2>Experience</h2>
         <div class="portfolio-card">
           <div class="experience-item">
-            <h3 class="experience-title">Full Stack Developer</h3>
-            <p class="experience-company">Freelance / Personal Projects</p>
-            <p class="experience-duration">2023 - Present</p>
+            <h3 class="experience-title">Backend Developer Intern</h3>
+            <p class="experience-company">SkyForge System Solutions</p>
+            <p class="experience-duration">Jan–May 2025</p>
             <p class="experience-description">
-              Developing web applications and maintaining personal projects.
-              Focus on creating scalable, user-friendly solutions with modern
-              technologies and best practices.
+              Built production backend for Heliosensium (AI parenting agent). Integrated Neon DB,
+              Pinecone, and secure payments; deployed on Render.
             </p>
           </div>
 
           <div class="experience-item">
-            <h3 class="experience-title">Computer Science Student</h3>
-            <p class="experience-company">Tribhuvan University</p>
-            <p class="experience-duration">2020 - Present</p>
+            <h3 class="experience-title">Full Stack Developer Intern</h3>
+            <p class="experience-company">LinkVerse</p>
+            <p class="experience-duration">May–July 2025</p>
             <p class="experience-description">
-              Studying computer science with a focus on software development,
-              algorithms, and system design. Active in coding communities and
-              hackathons.
+              Automated PDF certificate generation (Next.js + Puppeteer), 100+ uses. Developed AWS
+              CloudFormation utilities for an AI DevOps agent.
             </p>
           </div>
         </div>
@@ -284,18 +271,22 @@
         <h2>Technologies & Skills</h2>
         <div class="portfolio-card">
           <div class="tech-stack" style="justify-content: flex-start">
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">JavaScript (ES6+)</span>
             <span class="tech-tag">Node.js</span>
             <span class="tech-tag">React</span>
+            <span class="tech-tag">Next.js</span>
             <span class="tech-tag">Express.js</span>
-            <span class="tech-tag">PostgreSQL</span>
-            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">SQL</span>
             <span class="tech-tag">Git</span>
             <span class="tech-tag">Docker</span>
-            <span class="tech-tag">AWS</span>
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">C++</span>
+            <span class="tech-tag">GitHub Actions</span>
+            <span class="tech-tag">Vercel</span>
+            <span class="tech-tag">Neon DB</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Pinecone</span>
+            <span class="tech-tag">AWS S3</span>
+            <span class="tech-tag">AWS CloudFormation</span>
+            <span class="tech-tag">AWS EC2</span>
           </div>
         </div>
       </div>
@@ -303,20 +294,11 @@
       <div class="portfolio-section">
         <h2>Connect</h2>
         <div class="social-links">
-          <a href="https://github.com/srinathshrestha" class="social-link">
-            GitHub
-          </a>
-          <a href="https://x.com/srinathshrestha" class="social-link">
-            Twitter / X
-          </a>
-          <a
-            href="/resume/SrinathShresthaFinalResume.pdf"
-            class="social-link"
-            download
-          >
-            Resume (PDF)
-          </a>
-          <a href="/blogs" class="social-link"> Blogs </a>
+          <a href="mailto:srinathshrestha9890@gmail.com" class="social-link">Email</a>
+          <a href="/portfolio" class="social-link">Portfolio</a>
+          <a href="https://github.com/srinathshrestha" class="social-link">GitHub</a>
+          <a href="https://www.linkedin.com/in/srinath-shrestha-584171204/" class="social-link">LinkedIn</a>
+          <a href="/resume/SrinathShresthaFinalResume.pdf" class="social-link" download>Resume (PDF)</a>
         </div>
       </div>
 
