@@ -42,9 +42,7 @@ pids/
 .cache/
 .next/
 
-# Local uploads (optional)
-public/uploads/**
-!public/uploads/.gitkeep
+
 
 # Misc
 *.local
