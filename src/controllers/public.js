@@ -1,6 +1,8 @@
+const path = require('path');
 const { listPosts, getPostBySlug } = require('../utils/postStore');
 const { buildRssFeed } = require('../utils/rss');
 const { siteUrl, blogTitle } = require('../config');
+const { PUBLIC_DIR } = require('../utils/paths');
 
 async function showBlogs(req, res, next) {
     try {
@@ -32,15 +34,13 @@ function showLanding(req, res) {
 }
 
 async function showDownloadResume(req, res, next) {
-    res.download('/resume/SrinathShresthaFinalResume.pdf', "SrinathShresthaResume.pdf",
-        (error) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).send('Error downloading resume');
-            }
-            console.log('Downloaded resume');
-        }
-    );
+    try {
+        const resumePath = path.join(PUBLIC_DIR, 'resume', 'srinathShresthaResume.pdf');
+        return res.download(resumePath, 'SrinathShresthaResume.pdf');
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Error downloading resume');
+    }
 }
 
 async function showRssFeed(req, res, next) {
