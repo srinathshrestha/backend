@@ -1,10 +1,25 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title><%= title ? `${title}` : blogTitle %></title>
+
+<!-- Apply saved theme immediately to prevent flash -->
+<script>
+  // Load theme from localStorage before page renders
+  // This prevents the flash of wrong theme
+  (function() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+
 <link rel="stylesheet" href="/styles.css" />
-<!-- Syntax highlighting (Highlight.js) -->
+
+<!-- Syntax highlighting (Highlight.js) - theme loaded dynamically -->
 <link
   rel="stylesheet"
+  id="highlight-theme"
   href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
   integrity="sha512-0QyS2qvC7V0r6FqQ8Q9n8B2YgH1w1D2mR7P8+oT6tF3m5dA0qH0mQKzC5l7k2W7eS1o3dM4Ck3cP2wQ6m8qJsw=="
   crossorigin="anonymous"
@@ -17,14 +32,25 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 ></script>
+
+<!-- Theme switcher and syntax highlight initialization -->
 <script>
+  // Initialize theme and syntax highlighting
   document.addEventListener("DOMContentLoaded", function () {
+    // Apply syntax highlighting
     try {
       if (window.hljs) {
         window.hljs.highlightAll();
       }
     } catch (e) {}
+    
+    // Update highlight.js theme based on current theme
+    updateHighlightTheme();
+    
+    // Update theme toggle button icons
+    updateThemeIcons();
   });
+  
   window.addEventListener("load", function () {
     try {
       if (window.hljs) {
@@ -32,7 +58,75 @@
       }
     } catch (e) {}
   });
+  
+  // Toggle between light and dark theme
+  function toggleTheme() {
+    const root = document.documentElement;
+    const currentTheme = root.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    // Update theme attribute
+    if (newTheme === 'light') {
+      root.setAttribute('data-theme', 'light');
+    } else {
+      root.removeAttribute('data-theme');
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('theme', newTheme);
+    
+    // Update syntax highlighting theme
+    updateHighlightTheme();
+    
+    // Update all theme toggle button icons
+    updateThemeIcons();
+  }
+  
+  // Update theme toggle button icons based on current theme
+  function updateThemeIcons() {
+    const root = document.documentElement;
+    const currentTheme = root.getAttribute('data-theme') || 'dark';
+    const icons = document.querySelectorAll('.theme-toggle .icon');
+    
+    icons.forEach(icon => {
+      // Show moon icon when in light mode (click to go to dark)
+      // Show sun icon when in dark mode (click to go to light)
+      icon.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+    });
+  }
+  
+  // Update Highlight.js theme based on current mode
+  function updateHighlightTheme() {
+    const root = document.documentElement;
+    const currentTheme = root.getAttribute('data-theme') || 'dark';
+    const themeLink = document.getElementById('highlight-theme');
+    
+    if (!themeLink) return;
+    
+    // Switch between dark and light highlight themes
+    if (currentTheme === 'light') {
+      // Light mode: use GitHub light theme
+      themeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+      themeLink.integrity = 'sha512-0aPQyyeZrWj9sCA46UlmWgKOP0mUipLQ6OZXu8l4IcAmD2u31EPEy9VcIMvl7SoAaKe8bLXZhYoMaE/in+gcgA==';
+    } else {
+      // Dark mode: use GitHub dark dimmed theme
+      themeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css';
+      themeLink.integrity = 'sha512-0QyS2qvC7V0r6FqQ8Q9n8B2YgH1w1D2mR7P8+oT6tF3m5dA0qH0mQKzC5l7k2W7eS1o3dM4Ck3cP2wQ6m8qJsw==';
+    }
+    
+    // Re-highlight code blocks after theme change
+    setTimeout(() => {
+      try {
+        if (window.hljs) {
+          document.querySelectorAll('pre code').forEach((block) => {
+            window.hljs.highlightElement(block);
+          });
+        }
+      } catch (e) {}
+    }, 50);
+  }
 </script>
+
 <link
   rel="alternate"
   type="application/rss+xml"

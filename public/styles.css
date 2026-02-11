@@ -1,3 +1,4 @@
+/* Dark mode colors (default) */
 :root {
   color-scheme: dark;
   font-family: "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
@@ -15,6 +16,22 @@
   --shadow: 0 18px 40px -32px rgba(15, 23, 42, 0.9);
 }
 
+/* Light/bright mode colors */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #fafbfc;
+  --bg-soft: #ffffff;
+  --bg-softer: #f5f7fa;
+  --fg: #1a202c;
+  --fg-muted: #4a5568;
+  --accent: #2563eb;
+  --accent-soft: rgba(37, 99, 235, 0.08);
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.08);
+  --border: rgba(45, 55, 72, 0.12);
+  --shadow: 0 18px 40px -32px rgba(15, 23, 42, 0.15);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -25,6 +42,8 @@ body {
   min-height: 100%;
   background: var(--bg);
   color: var(--fg);
+  /* Smooth transitions when theme changes */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -135,6 +154,8 @@ p {
   border-radius: var(--radius);
   padding: 20px;
   box-shadow: var(--shadow);
+  /* Smooth transitions for theme changes */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .post-preview h2 {
@@ -241,8 +262,11 @@ p {
   margin: 1.6rem 0;
   padding: 0.5rem 1rem;
   border-left: 3px solid var(--accent);
-  background: rgba(59, 130, 246, 0.08);
+  background: var(--accent-soft);
   color: var(--fg-muted);
+  font-style: italic;
+  /* Smooth transition for theme changes */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .post-body hr {
@@ -590,6 +614,13 @@ code {
   border-radius: 10px;
   margin: 18px 0;
   box-shadow: var(--shadow);
+  /* Smooth transitions for theme changes */
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Light mode specific: lighter code container background */
+:root[data-theme="light"] .code-container {
+  background: rgba(248, 250, 252, 0.8);
 }
 
 .code-container .code-filename {
@@ -607,6 +638,13 @@ code {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  /* Smooth transitions */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Light mode: lighter filename bar */
+:root[data-theme="light"] .code-container .code-filename {
+  background: rgba(241, 245, 249, 0.8);
 }
 
 .code-container .code-block {
@@ -627,6 +665,34 @@ code {
   background: var(--accent-soft);
   border: 1px solid rgba(59, 130, 246, 0.45);
   border-radius: 999px;
+}
+
+/* Theme toggle button - clean and minimal */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-softer);
+  color: var(--fg);
+  cursor: pointer;
+  transition: border 0.15s ease, transform 0.15s ease, background 0.2s ease;
+  font-size: 0.95rem;
+  gap: 6px;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: rgba(148, 163, 184, 0.4);
+  background: var(--bg-soft);
+}
+
+/* Icon styles for theme toggle */
+.theme-toggle .icon {
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
 @media (max-width: 960px) {
