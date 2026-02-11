@@ -101,7 +101,6 @@ header {
 
 .author-info:hover {
   background: var(--bg-soft);
-  transform: translateY(-1px);
 }
 
 .author-photo {
@@ -328,12 +327,11 @@ button {
   background: var(--bg-softer);
   color: var(--fg);
   cursor: pointer;
-  transition: border 0.15s ease, transform 0.15s ease;
+  transition: border 0.15s ease;
 }
 
 .button:hover,
 button:hover {
-  transform: translateY(-1px);
   border-color: rgba(148, 163, 184, 0.4);
 }
 
@@ -354,12 +352,27 @@ button:hover {
   color: #fee2e2;
 }
 
-.button.post-link {
-  min-width: 72px;
+/* Light mode: stronger danger colors so the button is visible */
+:root[data-theme="light"] .button.danger {
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.4);
+  color: #dc2626;
 }
 
+/* Icon-only edit button — compact square */
+.button.post-link {
+  min-width: unset;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+}
+
+/* Icon-only delete button — compact square */
 .button.post-delete {
-  min-width: 82px;
+  min-width: unset;
+  width: 34px;
+  height: 34px;
+  padding: 0;
 }
 
 .muted {
@@ -408,11 +421,10 @@ textarea {
   color: var(--fg);
   font-size: 0.85rem;
   cursor: pointer;
-  transition: border 0.15s ease, transform 0.15s ease;
+  transition: border 0.15s ease;
 }
 
 .toolbar-button:hover {
-  transform: translateY(-1px);
   border-color: rgba(148, 163, 184, 0.45);
 }
 
@@ -667,32 +679,73 @@ code {
   border-radius: 999px;
 }
 
-/* Theme toggle button - clean and minimal */
+/* ── Theme toggle button ─────────────────────────────── */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
-  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--bg-softer);
-  color: var(--fg);
+  color: var(--fg-muted);
   cursor: pointer;
-  transition: border 0.15s ease, transform 0.15s ease, background 0.2s ease;
-  font-size: 0.95rem;
-  gap: 6px;
+  transition: border 0.15s ease, background 0.2s ease, color 0.2s ease;
 }
 
 .theme-toggle:hover {
-  transform: translateY(-1px);
   border-color: rgba(148, 163, 184, 0.4);
   background: var(--bg-soft);
+  color: var(--fg);
 }
 
-/* Icon styles for theme toggle */
+/* SVG icon base styles inside the toggle */
 .theme-toggle .icon {
-  font-size: 1.1rem;
-  line-height: 1;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+/* Dark mode (default): show sun, hide moon */
+.theme-toggle .icon-sun  { opacity: 1; }
+.theme-toggle .icon-moon { display: none; }
+
+/* Light mode: show moon, hide sun */
+:root[data-theme="light"] .theme-toggle .icon-sun  { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: block; opacity: 1; }
+
+/* ── Inline code styling ─────────────────────────────── */
+/* Inline `code` that is NOT inside a <pre> block */
+.post-body code:not(pre code) {
+  background: rgba(148, 163, 184, 0.12);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+  color: var(--fg);
+  border: 1px solid var(--border);
+}
+
+/* Light mode: slightly warmer inline code background */
+:root[data-theme="light"] .post-body code:not(pre code) {
+  background: rgba(37, 99, 235, 0.06);
+  border-color: rgba(37, 99, 235, 0.12);
+}
+
+/* ── Light mode overrides for table headers ──────────── */
+:root[data-theme="light"] .post-body th {
+  background: rgba(37, 99, 235, 0.06);
+}
+
+/* ── Light mode: error card code background ──────────── */
+:root[data-theme="light"] .error-card pre {
+  background: rgba(241, 245, 249, 0.8);
+}
+
+/* ── Light mode: toolbar button background ───────────── */
+:root[data-theme="light"] .toolbar-button {
+  background: rgba(241, 245, 249, 0.8);
+  border-color: rgba(45, 55, 72, 0.15);
 }
 
 @media (max-width: 960px) {

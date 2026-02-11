@@ -4,11 +4,11 @@
 
 <!-- Apply saved theme immediately to prevent flash -->
 <script>
-  // Load theme from localStorage before page renders
-  // This prevents the flash of wrong theme
+  // Load theme from localStorage before page renders.
+  // This prevents the flash of wrong theme on reload.
   (function() {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    if (savedTheme === 'light') {
+    var saved = localStorage.getItem('theme') || 'dark';
+    if (saved === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
     }
   })();
@@ -16,114 +16,74 @@
 
 <link rel="stylesheet" href="/styles.css" />
 
-<!-- Syntax highlighting (Highlight.js) - theme loaded dynamically -->
+<!--
+  Syntax highlighting (Highlight.js)
+  We load BOTH dark and light stylesheets, then disable the wrong one.
+  This avoids SRI integrity hash issues when swapping href dynamically.
+-->
 <link
   rel="stylesheet"
-  id="highlight-theme"
+  id="hljs-dark"
   href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
-  integrity="sha512-0QyS2qvC7V0r6FqQ8Q9n8B2YgH1w1D2mR7P8+oT6tF3m5dA0qH0mQKzC5l7k2W7eS1o3dM4Ck3cP2wQ6m8qJsw=="
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  id="hljs-light"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+  disabled
 />
 <script
   defer
   src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
-  integrity="sha512-DkPzC1s1qjzL6B6B9g4Y7gq3sXl0aKEOqk2R8qYp0xwRr3m5m8i7jzK2VQmX5b0dQkq3j1oQmH0G7m0F9eHyzQ=="
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 ></script>
 
 <!-- Theme switcher and syntax highlight initialization -->
 <script>
-  // Initialize theme and syntax highlighting
+  // ── Highlight.js init ──────────────────────────────────────
   document.addEventListener("DOMContentLoaded", function () {
-    // Apply syntax highlighting
-    try {
-      if (window.hljs) {
-        window.hljs.highlightAll();
-      }
-    } catch (e) {}
-    
-    // Update highlight.js theme based on current theme
-    updateHighlightTheme();
-    
-    // Update theme toggle button icons
-    updateThemeIcons();
+    try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
+
+    // Make sure the correct hljs stylesheet is active on load
+    syncHighlightTheme();
   });
-  
+
   window.addEventListener("load", function () {
-    try {
-      if (window.hljs) {
-        window.hljs.highlightAll();
-      }
-    } catch (e) {}
+    try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
   });
-  
-  // Toggle between light and dark theme
+
+  // ── Theme toggle ───────────────────────────────────────────
   function toggleTheme() {
-    const root = document.documentElement;
-    const currentTheme = root.getAttribute('data-theme') || 'dark';
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    // Update theme attribute
-    if (newTheme === 'light') {
-      root.setAttribute('data-theme', 'light');
-    } else {
-      root.removeAttribute('data-theme');
-    }
-    
-    // Save to localStorage
-    localStorage.setItem('theme', newTheme);
-    
-    // Update syntax highlighting theme
-    updateHighlightTheme();
-    
-    // Update all theme toggle button icons
-    updateThemeIcons();
+    var root  = document.documentElement;
+    var cur   = root.getAttribute('data-theme') || 'dark';
+    var next  = cur === 'dark' ? 'light' : 'dark';
+
+    // Flip theme attribute
+    if (next === 'light') root.setAttribute('data-theme', 'light');
+    else                  root.removeAttribute('data-theme');
+
+    // Persist choice
+    localStorage.setItem('theme', next);
+
+    // Swap highlight.js stylesheet
+    syncHighlightTheme();
   }
-  
-  // Update theme toggle button icons based on current theme
-  function updateThemeIcons() {
-    const root = document.documentElement;
-    const currentTheme = root.getAttribute('data-theme') || 'dark';
-    const icons = document.querySelectorAll('.theme-toggle .icon');
-    
-    icons.forEach(icon => {
-      // Show moon icon when in light mode (click to go to dark)
-      // Show sun icon when in dark mode (click to go to light)
-      icon.textContent = currentTheme === 'light' ? '🌙' : '☀️';
-    });
-  }
-  
-  // Update Highlight.js theme based on current mode
-  function updateHighlightTheme() {
-    const root = document.documentElement;
-    const currentTheme = root.getAttribute('data-theme') || 'dark';
-    const themeLink = document.getElementById('highlight-theme');
-    
-    if (!themeLink) return;
-    
-    // Switch between dark and light highlight themes
-    if (currentTheme === 'light') {
-      // Light mode: use GitHub light theme
-      themeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
-      themeLink.integrity = 'sha512-0aPQyyeZrWj9sCA46UlmWgKOP0mUipLQ6OZXu8l4IcAmD2u31EPEy9VcIMvl7SoAaKe8bLXZhYoMaE/in+gcgA==';
-    } else {
-      // Dark mode: use GitHub dark dimmed theme
-      themeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css';
-      themeLink.integrity = 'sha512-0QyS2qvC7V0r6FqQ8Q9n8B2YgH1w1D2mR7P8+oT6tF3m5dA0qH0mQKzC5l7k2W7eS1o3dM4Ck3cP2wQ6m8qJsw==';
-    }
-    
-    // Re-highlight code blocks after theme change
-    setTimeout(() => {
-      try {
-        if (window.hljs) {
-          document.querySelectorAll('pre code').forEach((block) => {
-            window.hljs.highlightElement(block);
-          });
-        }
-      } catch (e) {}
-    }, 50);
+
+  // ── Sync highlight.js stylesheet to current theme ──────────
+  // We toggle the "disabled" attribute on the two preloaded
+  // <link> tags instead of rewriting href (avoids SRI issues).
+  function syncHighlightTheme() {
+    var isLight   = document.documentElement.getAttribute('data-theme') === 'light';
+    var darkLink  = document.getElementById('hljs-dark');
+    var lightLink = document.getElementById('hljs-light');
+
+    if (darkLink)  darkLink.disabled  = isLight;
+    if (lightLink) lightLink.disabled = !isLight;
   }
 </script>
 
