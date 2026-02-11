@@ -400,6 +400,11 @@ textarea {
   line-height: 1.6;
 }
 
+/* Markdown editor textarea — tall enough to write comfortably */
+textarea#markdown {
+  min-height: 60vh;
+}
+
 .editor-field {
   display: flex;
   flex-direction: column;
@@ -561,9 +566,10 @@ label {
   font-size: 0.9rem;
 }
 
+/* Editor layout: single column, preview stacked below the form */
 .admin-edit {
-  display: grid;
-  grid-template-columns: minmax(340px, 1fr) minmax(280px, 0.9fr);
+  display: flex;
+  flex-direction: column;
   gap: 32px;
 }
 
@@ -579,6 +585,7 @@ label {
   flex-wrap: wrap;
 }
 
+/* Preview pane: scrollable, capped height so it doesn't push page forever */
 .preview-pane {
   background: var(--bg-softer);
   border: 1px solid var(--border);
@@ -587,7 +594,8 @@ label {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-height: 100%;
+  max-height: 70vh;
+  overflow-y: auto;
 }
 
 .preview-pane h2 {
@@ -749,8 +757,7 @@ code {
 }
 
 @media (max-width: 960px) {
-  .admin-grid,
-  .admin-edit {
+  .admin-grid {
     grid-template-columns: 1fr;
   }
 
@@ -759,8 +766,9 @@ code {
     grid-auto-flow: row;
   }
 
+  /* On small screens the preview is shorter */
   .preview-pane {
-    min-height: unset;
+    max-height: 50vh;
   }
 
   header {
