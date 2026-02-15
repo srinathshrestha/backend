@@ -1,0 +1,81 @@
+/* ── Obsidian-style features: callouts, highlights, anchors, footnotes, code blocks ── */
+
+/* Callouts */
+.callout { margin: 1.6rem 0; padding: 0; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
+.callout-title { display: flex; align-items: center; gap: 8px; padding: 10px 14px; font-weight: 600; font-size: 0.95rem; }
+.callout-title svg { flex-shrink: 0; }
+.callout-body { padding: 4px 14px 12px; font-size: 0.95rem; line-height: 1.65; }
+.callout-body p:last-child { margin-bottom: 0; }
+
+.callout-note      { background: rgba(59, 130, 246, 0.06); border-color: rgba(59, 130, 246, 0.25); }
+.callout-tip       { background: rgba(34, 197, 94, 0.06);  border-color: rgba(34, 197, 94, 0.25); }
+.callout-warning   { background: rgba(245, 158, 11, 0.06); border-color: rgba(245, 158, 11, 0.25); }
+.callout-important { background: rgba(168, 85, 247, 0.06); border-color: rgba(168, 85, 247, 0.25); }
+.callout-caution   { background: rgba(239, 68, 68, 0.06);  border-color: rgba(239, 68, 68, 0.25); }
+
+.callout-note .callout-title      { color: #3b82f6; }
+.callout-tip .callout-title       { color: #22c55e; }
+.callout-warning .callout-title   { color: #f59e0b; }
+.callout-important .callout-title { color: #a855f7; }
+.callout-caution .callout-title   { color: #ef4444; }
+
+/* Light mode callout overrides */
+:root[data-theme="light"] .callout-note      { background: rgba(59, 130, 246, 0.05); }
+:root[data-theme="light"] .callout-tip       { background: rgba(34, 197, 94, 0.05); }
+:root[data-theme="light"] .callout-warning   { background: rgba(245, 158, 11, 0.05); }
+:root[data-theme="light"] .callout-important { background: rgba(168, 85, 247, 0.05); }
+:root[data-theme="light"] .callout-caution   { background: rgba(239, 68, 68, 0.05); }
+:root[data-theme="light"] .callout-note .callout-title      { color: #2563eb; }
+:root[data-theme="light"] .callout-tip .callout-title       { color: #16a34a; }
+:root[data-theme="light"] .callout-warning .callout-title    { color: #d97706; }
+:root[data-theme="light"] .callout-important .callout-title  { color: #9333ea; }
+:root[data-theme="light"] .callout-caution .callout-title    { color: #dc2626; }
+
+/* Highlights */
+mark { background: rgba(250, 204, 21, 0.25); color: inherit; padding: 1px 4px; border-radius: 3px; }
+:root[data-theme="light"] mark { background: rgba(250, 204, 21, 0.35); }
+
+/* Heading anchors */
+.heading-anchor { color: var(--fg-muted); text-decoration: none; opacity: 0; padding-right: 6px; font-weight: 400; transition: opacity 0.15s ease; }
+h1:hover .heading-anchor, h2:hover .heading-anchor, h3:hover .heading-anchor,
+h4:hover .heading-anchor, h5:hover .heading-anchor, h6:hover .heading-anchor,
+.heading-anchor:focus { opacity: 0.5; }
+.heading-anchor:hover { opacity: 1; color: var(--accent); }
+
+/* Footnotes */
+.fn-ref a { color: var(--accent); text-decoration: none; font-size: 0.8em; }
+.fn-ref a:hover { text-decoration: underline; }
+.footnotes { margin-top: 3rem; font-size: 0.9rem; color: var(--fg-muted); }
+.footnotes hr { border: 0; border-top: 1px solid var(--border); margin-bottom: 1rem; }
+.footnotes ol { padding-left: 1.4rem; line-height: 1.7; }
+.footnotes li { margin-bottom: 0.4rem; }
+.fn-backref { color: var(--accent); text-decoration: none; font-size: 0.85em; margin-left: 4px; }
+.fn-backref:hover { text-decoration: underline; }
+
+/* Code blocks */
+.code-container {
+  position: relative; background: rgba(17, 24, 39, 0.6);
+  border: 1px solid var(--border); border-radius: 10px;
+  margin: 18px 0; box-shadow: var(--shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+:root[data-theme="light"] .code-container { background: rgba(248, 250, 252, 0.8); }
+
+.code-container .code-filename {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px 12px; font-size: 0.85rem; color: var(--fg-muted);
+  border-bottom: 1px solid var(--border); background: rgba(15, 23, 42, 0.45);
+  border-top-left-radius: 10px; border-top-right-radius: 10px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+:root[data-theme="light"] .code-container .code-filename { background: rgba(241, 245, 249, 0.8); }
+.code-container .code-block { padding: 14px 16px; }
+
+.code-language {
+  position: absolute; top: 8px; right: 10px;
+  padding: 2px 8px; font-size: 0.7rem; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--fg-muted);
+  background: var(--bg-softer); border: 1px solid var(--border);
+  border-radius: 4px; z-index: 1; pointer-events: none;
+}
