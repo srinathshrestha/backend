@@ -51,8 +51,9 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* Article pages: wide enough to breathe */
 .article-page main {
-  max-width: 760px;
+  max-width: 960px;
 }
 
 .site-title {
@@ -73,7 +74,7 @@ a:focus {
 }
 
 main {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 48px 24px 96px;
 }
@@ -184,7 +185,7 @@ p {
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: 4px;
   border: 1px solid var(--border);
   background: var(--bg-softer);
   color: var(--fg-muted);
@@ -201,7 +202,7 @@ p {
 }
 
 .post-article {
-  max-width: 760px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
@@ -224,9 +225,15 @@ p {
   line-height: 1.35;
 }
 
-.post-body ul,
+.post-body ul {
+  padding-left: 2rem;
+  margin: 0 0 1.6rem;
+  line-height: 1.7;
+}
+
+/* Numbered lists need more padding for the number markers */
 .post-body ol {
-  padding-left: 1.4rem;
+  padding-left: 2.4rem;
   margin: 0 0 1.6rem;
   line-height: 1.7;
 }
@@ -234,6 +241,29 @@ p {
 .post-body li + li {
   margin-top: 0.4rem;
 }
+
+/* Nested lists: deeper indent for clear visual hierarchy */
+.post-body li > ul {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  padding-left: 2rem;
+}
+
+.post-body li > ol {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  padding-left: 2.4rem;
+}
+
+/* Different bullet styles per nesting level */
+.post-body ul { list-style-type: disc; }
+.post-body ul ul { list-style-type: circle; }
+.post-body ul ul ul { list-style-type: square; }
+
+/* Numbered list nesting */
+.post-body ol { list-style-type: decimal; }
+.post-body ol ol { list-style-type: lower-alpha; }
+.post-body ol ol ol { list-style-type: lower-roman; }
 
 .post-body pre {
   background: transparent;
@@ -249,12 +279,61 @@ p {
   border: none;
 }
 
-.post-body img {
+/* ── Post images with sizing/alignment support ─────────── */
+/* Default: full-width, centered */
+.post-body img,
+.post-body .post-img {
   max-width: 100%;
   border-radius: 8px;
   display: block;
   margin: 28px auto;
   box-shadow: var(--shadow);
+  height: auto;
+}
+
+/* Figure wrapper: shrinks to fit the image width */
+.post-body .post-figure {
+  display: table;
+  margin: 28px auto;
+  padding: 0;
+  max-width: 100%;
+}
+
+/* Image inside figure: no extra margin, figure handles it */
+.post-body .post-figure img {
+  margin: 0;
+  display: block;
+}
+
+/* Caption: matches the image width, centered right below */
+.post-body figcaption {
+  display: table-caption;
+  caption-side: bottom;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--fg-muted);
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Left-aligned image or figure */
+.post-body .img-left {
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+/* Right-aligned image or figure */
+.post-body .img-right {
+  margin: 16px 0 16px 24px;
+  float: right;
+}
+
+/* Clear floats so text doesn't wrap forever */
+.post-body h2,
+.post-body h3,
+.post-body hr {
+  clear: both;
 }
 
 .post-body blockquote {
@@ -274,31 +353,229 @@ p {
   margin: 2rem 0;
 }
 
+/* ── Tables ─────────────────────────────────────────────── */
+/* Scrollable wrapper so wide tables don't break layout */
+.post-body .table-wrap {
+  overflow-x: auto;
+  margin: 1.6rem 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
 .post-body table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.4rem 0;
   background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
+  /* Remove margin — wrapper handles it */
+  margin: 0;
+  font-size: 0.92rem;
 }
 
 .post-body th,
 .post-body td {
-  padding: 12px 14px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--border);
   text-align: left;
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+/* Prevent cells from getting too squished */
+.post-body th,
+.post-body td {
+  min-width: 80px;
 }
 
 .post-body th {
-  background: rgba(59, 130, 246, 0.08);
+  background: var(--accent-soft);
   color: var(--fg);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .post-body tr:last-child td {
   border-bottom: none;
+}
+
+/* Alternate row stripes for readability */
+.post-body tbody tr:nth-child(even) {
+  background: var(--bg-softer);
+}
+
+/* Code inside table cells — smaller, no extra margin */
+.post-body td code {
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+/* ── Callouts (Obsidian-style) ─────────────────────────── */
+/* Base callout container */
+.callout {
+  margin: 1.6rem 0;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* Callout title bar: icon + text */
+.callout-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Callout title SVG icons inherit color from parent */
+.callout-title svg {
+  flex-shrink: 0;
+}
+
+/* Callout body text */
+.callout-body {
+  padding: 4px 14px 12px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.callout-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* Per-type colors: note (blue) */
+.callout-note {
+  background: rgba(59, 130, 246, 0.06);
+  border-color: rgba(59, 130, 246, 0.25);
+}
+.callout-note .callout-title { color: #3b82f6; }
+
+/* tip (green) */
+.callout-tip {
+  background: rgba(34, 197, 94, 0.06);
+  border-color: rgba(34, 197, 94, 0.25);
+}
+.callout-tip .callout-title { color: #22c55e; }
+
+/* warning (amber) */
+.callout-warning {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.25);
+}
+.callout-warning .callout-title { color: #f59e0b; }
+
+/* important (purple) */
+.callout-important {
+  background: rgba(168, 85, 247, 0.06);
+  border-color: rgba(168, 85, 247, 0.25);
+}
+.callout-important .callout-title { color: #a855f7; }
+
+/* caution (red) */
+.callout-caution {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+.callout-caution .callout-title { color: #ef4444; }
+
+/* Light mode: slightly stronger callout backgrounds */
+:root[data-theme="light"] .callout-note    { background: rgba(59, 130, 246, 0.05); }
+:root[data-theme="light"] .callout-tip     { background: rgba(34, 197, 94, 0.05); }
+:root[data-theme="light"] .callout-warning { background: rgba(245, 158, 11, 0.05); }
+:root[data-theme="light"] .callout-important { background: rgba(168, 85, 247, 0.05); }
+:root[data-theme="light"] .callout-caution { background: rgba(239, 68, 68, 0.05); }
+
+/* Light mode: deeper title colors for contrast */
+:root[data-theme="light"] .callout-note .callout-title    { color: #2563eb; }
+:root[data-theme="light"] .callout-tip .callout-title     { color: #16a34a; }
+:root[data-theme="light"] .callout-warning .callout-title  { color: #d97706; }
+:root[data-theme="light"] .callout-important .callout-title { color: #9333ea; }
+:root[data-theme="light"] .callout-caution .callout-title  { color: #dc2626; }
+
+/* ── Highlight (==text==) ──────────────────────────────── */
+mark {
+  background: rgba(250, 204, 21, 0.25);
+  color: inherit;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+:root[data-theme="light"] mark {
+  background: rgba(250, 204, 21, 0.35);
+}
+
+/* ── Heading anchors ───────────────────────────────────── */
+/* The # link sits before the heading text, visible on hover */
+.heading-anchor {
+  color: var(--fg-muted);
+  text-decoration: none;
+  opacity: 0;
+  padding-right: 6px;
+  font-weight: 400;
+  transition: opacity 0.15s ease;
+}
+
+/* Show anchor on heading hover or focus */
+h1:hover .heading-anchor,
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor,
+h5:hover .heading-anchor,
+h6:hover .heading-anchor,
+.heading-anchor:focus {
+  opacity: 0.5;
+}
+
+.heading-anchor:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+
+/* ── Footnotes ─────────────────────────────────────────── */
+/* Superscript footnote reference in body text */
+.fn-ref a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.8em;
+}
+
+.fn-ref a:hover {
+  text-decoration: underline;
+}
+
+/* Footnotes section at the bottom of the post */
+.footnotes {
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+}
+
+.footnotes hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.footnotes ol {
+  padding-left: 1.4rem;
+  line-height: 1.7;
+}
+
+.footnotes li {
+  margin-bottom: 0.4rem;
+}
+
+/* Back-link arrow after each footnote */
+.fn-backref {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85em;
+  margin-left: 4px;
+}
+
+.fn-backref:hover {
+  text-decoration: underline;
 }
 
 footer {
@@ -403,6 +680,38 @@ textarea {
 /* Markdown editor textarea — tall enough to write comfortably */
 textarea#markdown {
   min-height: 60vh;
+}
+
+/* Label row: Markdown label + help button side by side */
+.editor-label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editor-label-row label {
+  margin: 0;
+}
+
+/* Help toggle: small circle with ? icon */
+.help-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-softer);
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: border 0.15s ease, color 0.15s ease;
+}
+
+.help-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .editor-field {
@@ -534,7 +843,7 @@ label {
 .count-pill {
   background: var(--accent-soft);
   color: var(--accent);
-  border-radius: 999px;
+  border-radius: 4px;
   padding: 2px 10px;
   font-size: 0.75rem;
 }
@@ -629,6 +938,7 @@ code {
 
 /* Code block enhancements: container, filename bar, language pill */
 .code-container {
+  position: relative;
   background: rgba(17, 24, 39, 0.6);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -671,20 +981,21 @@ code {
   padding: 14px 16px;
 }
 
-/* Position language pill above the code box */
+/* Language pill: positioned top-right inside the code container (Obsidian-style) */
 .code-language {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 12px 8px auto;
+  position: absolute;
+  top: 8px;
+  right: 10px;
   padding: 2px 8px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid rgba(59, 130, 246, 0.45);
-  border-radius: 999px;
+  color: var(--fg-muted);
+  background: var(--bg-softer);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* ── Theme toggle button ─────────────────────────────── */
@@ -756,6 +1067,112 @@ code {
   border-color: rgba(45, 55, 72, 0.15);
 }
 
+/* ── Help modal (syntax reference popup) ───────────────── */
+/* Dark overlay behind the modal */
+.help-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Hide when the hidden attribute is set */
+.help-overlay[hidden] {
+  display: none;
+}
+
+/* Modal box */
+.help-modal {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 640px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modal header with title + close button */
+.help-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.help-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Close button */
+.help-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--fg-muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.help-close:hover {
+  color: var(--fg);
+  background: var(--bg-softer);
+}
+
+/* Modal body with the cheat sheet content */
+.help-body {
+  padding: 20px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  overflow-y: auto;
+}
+
+.help-body h3 {
+  margin: 1.4rem 0 0.5rem;
+  font-size: 1rem;
+}
+
+.help-body h3:first-child {
+  margin-top: 0;
+}
+
+.help-body pre {
+  background: var(--bg-softer);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  margin: 8px 0 12px;
+  white-space: pre-wrap;
+}
+
+.help-body code {
+  background: var(--bg-softer);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 0.88em;
+}
+
+.help-body p {
+  margin: 0 0 0.6rem;
+}
+
 @media (max-width: 960px) {
   .admin-grid {
     grid-template-columns: 1fr;
@@ -779,5 +1196,12 @@ code {
   header nav {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  /* On small screens, don't float images — stack them centered */
+  .post-body .img-left,
+  .post-body .img-right {
+    float: none;
+    margin: 20px auto;
   }
 }
