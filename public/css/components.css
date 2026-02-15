@@ -1,0 +1,98 @@
+/* ── Buttons, forms, inputs, tags, theme toggle ───────────── */
+
+.button, button, input, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+.button, button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-softer);
+  color: var(--fg);
+  cursor: pointer;
+  transition: border 0.15s ease;
+}
+
+.button:hover, button:hover { border-color: rgba(148, 163, 184, 0.4); }
+.button.primary { background: var(--bg-soft); border-color: rgba(59, 130, 246, 0.4); }
+.button.accent { background: var(--accent); color: #0b1120; border-color: transparent; }
+
+.button.danger {
+  background: var(--danger-soft);
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #fee2e2;
+}
+:root[data-theme="light"] .button.danger {
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.4);
+  color: #dc2626;
+}
+
+/* Icon-only buttons */
+.button.post-link, .button.post-delete {
+  min-width: unset; width: 34px; height: 34px; padding: 0;
+}
+
+input, textarea {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-softer);
+  padding: 10px 12px;
+}
+
+textarea { resize: vertical; min-height: 240px; line-height: 1.6; }
+label { display: flex; flex-direction: column; gap: 6px; font-size: 0.95rem; }
+
+.tag-chip {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 4px;
+  border: 1px solid var(--border); background: var(--bg-softer);
+  color: var(--fg-muted); font-size: 0.75rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ── Theme toggle ─────────────────────────────────────── */
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; padding: 0; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--bg-softer);
+  color: var(--fg-muted); cursor: pointer;
+  transition: border 0.15s ease, background 0.2s ease, color 0.2s ease;
+}
+.theme-toggle:hover {
+  border-color: rgba(148, 163, 184, 0.4);
+  background: var(--bg-soft); color: var(--fg);
+}
+.theme-toggle .icon { display: block; transition: opacity 0.2s ease; }
+.theme-toggle .icon-sun  { opacity: 1; }
+.theme-toggle .icon-moon { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-sun  { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: block; opacity: 1; }
+
+/* ── Site title and author ────────────────────────────── */
+.site-title {
+  font-family: "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  letter-spacing: 0.06em; color: var(--accent);
+}
+
+.author-info {
+  display: flex; align-items: center; gap: 12px;
+  margin: 12px 0 20px; text-decoration: none;
+  color: inherit; border-radius: 8px; padding: 4px 8px;
+  transition: all 0.15s ease;
+}
+.author-info:hover { background: var(--bg-soft); }
+
+.author-photo {
+  width: 44px; height: 44px; border-radius: 999px;
+  object-fit: cover; border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.author-name { font-size: 0.95rem; color: var(--fg-muted); }
