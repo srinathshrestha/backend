@@ -1,0 +1,45 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>{{ title if title else blog_title }}</title>
+<script>
+  (function() {
+    var saved = localStorage.getItem('theme') || 'dark';
+    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  })();
+</script>
+<link rel="stylesheet" href="/styles.css" />
+<link rel="stylesheet" id="hljs-dark"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" id="hljs-light"
+  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+  crossorigin="anonymous" referrerpolicy="no-referrer" disabled />
+<script defer
+  src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
+    syncHighlightTheme();
+  });
+  window.addEventListener("load", function () {
+    try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
+  });
+  function toggleTheme() {
+    var root = document.documentElement;
+    var next = (root.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
+    if (next === 'light') root.setAttribute('data-theme', 'light');
+    else root.removeAttribute('data-theme');
+    localStorage.setItem('theme', next);
+    syncHighlightTheme();
+  }
+  function syncHighlightTheme() {
+    var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    var d = document.getElementById('hljs-dark'), l = document.getElementById('hljs-light');
+    if (d) d.disabled = isLight;
+    if (l) l.disabled = !isLight;
+  }
+</script>
+<link rel="alternate" type="application/rss+xml" title="{{ blog_title }} RSS" href="/rss.xml" />
