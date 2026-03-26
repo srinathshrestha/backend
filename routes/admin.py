@@ -1,16 +1,13 @@
-from pathlib import Path
-from fastapi import APIRouter, Depends, Request, Form, UploadFile, File, HTTPException
+from fastapi import APIRouter, Depends, Request, Form, HTTPException
 from fastapi.responses import RedirectResponse, HTMLResponse
-from fastapi.templating import Jinja2Templates
 from urllib.parse import quote
 import post_store as store
 from markdown_render import render_markdown
-from upload import save_upload
 from deps import require_auth
 from config import cfg
+from templates_env import tmpl
 
 router = APIRouter(prefix="/admin", dependencies=[Depends(require_auth)])
-tmpl = Jinja2Templates(directory=str(Path(__file__).parent.parent / "templates"))
 _ctx = lambda title: {"title": f"{title} · {cfg.BLOG_TITLE}"}
 
 
@@ -41,15 +38,6 @@ async def edit_post(slug: str, req: Request, message: str = ""):
 async def preview(markdown: str = Form("")):
     return HTMLResponse(render_markdown(markdown))
 
-
-@router.post("/media/upload")
-async def media_upload(file: UploadFile = File(...)):
-    data = await file.read()
-    try:
-        url = await save_upload(data, file.filename or "upload")
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    return {"url": url}
 
 
 @router.post("/posts/save")

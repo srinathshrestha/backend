@@ -63,17 +63,6 @@
           </div>
         </form>
 
-        <!-- Image upload via HTMX — no custom JS needed -->
-        <div class="upload-zone" style="margin-bottom: 1rem;">
-          <label style="font-size:0.85rem;opacity:0.7;">Upload image</label>
-          <input type="file" name="file" accept="image/*"
-            hx-post="/admin/media/upload"
-            hx-trigger="change"
-            hx-target="#upload-result"
-            hx-encoding="multipart/form-data" />
-          <div id="upload-result" style="font-size:0.8rem;margin-top:4px;"></div>
-        </div>
-
         <article class="preview-pane">
           <h2>Preview</h2>
           <div class="post-body" id="preview-output">

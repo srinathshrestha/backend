@@ -1,14 +1,12 @@
 from pathlib import Path
 from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse, Response
-from fastapi.templating import Jinja2Templates
 import post_store as store
 from rss import build_rss
 from config import cfg
+from templates_env import tmpl
 
 router = APIRouter()
-_TEMPLATES = Path(__file__).parent.parent / "templates"
-tmpl = Jinja2Templates(directory=str(_TEMPLATES))
 _RESUME = Path(__file__).parent.parent / "public" / "resume" / "srinathShresthaResume.pdf"
 
 

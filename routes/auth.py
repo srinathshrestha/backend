@@ -1,13 +1,11 @@
-from pathlib import Path
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import RedirectResponse
-from fastapi.templating import Jinja2Templates
 import session as sess
 from deps import get_token, COOKIE
 from config import cfg, verify_password
+from templates_env import tmpl
 
 router = APIRouter()
-tmpl = Jinja2Templates(directory=str(Path(__file__).parent.parent / "templates"))
 
 
 @router.get("/admin")
