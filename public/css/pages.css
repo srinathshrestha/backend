@@ -43,6 +43,7 @@
 .experience-duration { color: var(--fg-muted); font-size: 0.9rem; margin: 0 0 12px; }
 .experience-description { color: var(--fg-muted); line-height: 1.6; }
 .about-content { color: var(--fg-muted); line-height: 1.7; font-size: 1.05rem; }
+.tech-highlight { background: var(--accent-soft); color: var(--accent); padding: 2px 6px; border-radius: 3px; font-weight: 500; font-size: 0.95em; }
 
 @media (max-width: 768px) {
   .landing-nav { flex-direction: column; align-items: center; }
