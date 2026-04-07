@@ -54,28 +54,58 @@ h4:hover .heading-anchor, h5:hover .heading-anchor, h6:hover .heading-anchor,
 
 /* Code blocks */
 .code-container {
-  position: relative; background: rgba(17, 24, 39, 0.6);
-  border: 1px solid var(--border); border-radius: 10px;
-  margin: 18px 0; box-shadow: var(--shadow);
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-:root[data-theme="light"] .code-container { background: rgba(248, 250, 252, 0.8); }
-
-.code-container .code-filename {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: 10px 12px; font-size: 0.85rem; color: var(--fg-muted);
-  border-bottom: 1px solid var(--border); background: rgba(15, 23, 42, 0.45);
-  border-top-left-radius: 10px; border-top-right-radius: 10px;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  position: relative; 
+  background: var(--bg-soft);
+  border: 1px solid var(--border); 
+  border-radius: 2px;
+  margin: 24px 0; 
+  padding: 20px;
+  box-shadow: var(--shadow);
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
-:root[data-theme="light"] .code-container .code-filename { background: rgba(241, 245, 249, 0.8); }
-.code-container .code-block { padding: 14px 16px; }
+
+.code-container .code-filename {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 8px;
+  margin: -20px -20px 16px -20px;
+  padding: 12px 20px; 
+  font-size: 0.8rem; 
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--fg-muted);
+  border-bottom: 1px solid var(--border); 
+  background: transparent;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+
+.code-container .code-block { 
+  padding: 0;
+}
+
+.code-container .code-block pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
 
 .code-language {
-  position: absolute; top: 8px; right: 10px;
-  padding: 2px 8px; font-size: 0.7rem; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--fg-muted);
-  background: var(--bg-softer); border: 1px solid var(--border);
-  border-radius: 4px; z-index: 1; pointer-events: none;
+  position: absolute; 
+  top: 12px; 
+  right: 12px;
+  padding: 4px 12px; 
+  font-size: 0.65rem; 
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase; 
+  color: var(--fg-muted);
+  background: var(--bg-softer); 
+  border: 1px solid var(--border);
+  border-radius: 2px; 
+  z-index: 10; 
+  pointer-events: none;
 }
