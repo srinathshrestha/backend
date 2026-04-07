@@ -1,37 +1,50 @@
 /* ── Theme variables and base reset ────────────────────────── */
 
-/* Dark mode colors (default) */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+/* Light mode (default - paper theme) */
 :root {
-  color-scheme: dark;
-  font-family: "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
-  --bg: #0c0f14;
-  --bg-soft: #11151f;
-  --bg-softer: #161a26;
-  --fg: #f5f7ff;
-  --fg-muted: #9aa4c2;
-  --accent: #3b82f6;
-  --accent-soft: rgba(59, 130, 246, 0.12);
-  --danger: #ef4444;
-  --danger-soft: rgba(239, 68, 68, 0.12);
-  --border: rgba(148, 163, 184, 0.12);
-  --radius: 10px;
-  --shadow: 0 18px 40px -32px rgba(15, 23, 42, 0.9);
+  color-scheme: light;
+  font-family: 'EB Garamond', Georgia, serif;
+  --ink: #1a1612;
+  --paper: #f5f0e8;
+  --muted: #5a5248;
+  --accent: #8b1a1a;
+  --rule: #d4cfc0;
+  
+  --bg: #f5f0e8;
+  --bg-soft: #ebe6de;
+  --bg-softer: #e5dfd5;
+  --fg: #1a1612;
+  --fg-muted: #5a5248;
+  --accent-soft: rgba(139, 26, 26, 0.08);
+  --danger: #8b1a1a;
+  --danger-soft: rgba(139, 26, 26, 0.08);
+  --border: #d4cfc0;
+  --radius: 2px;
+  --shadow: 0 2px 8px rgba(26, 22, 18, 0.08);
 }
 
-/* Light/bright mode colors */
-:root[data-theme="light"] {
-  color-scheme: light;
-  --bg: #fafbfc;
-  --bg-soft: #ffffff;
-  --bg-softer: #f5f7fa;
-  --fg: #1a202c;
-  --fg-muted: #4a5568;
-  --accent: #2563eb;
-  --accent-soft: rgba(37, 99, 235, 0.08);
-  --danger: #dc2626;
-  --danger-soft: rgba(220, 38, 38, 0.08);
-  --border: rgba(45, 55, 72, 0.12);
-  --shadow: 0 18px 40px -32px rgba(15, 23, 42, 0.15);
+/* Dark mode - inverted ink on dark paper */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e8e3db;
+  --paper: #1a1612;
+  --muted: #9d9184;
+  --accent: #d4a574;
+  --rule: #3a342c;
+  
+  --bg: #1a1612;
+  --bg-soft: #221e1a;
+  --bg-softer: #2a2520;
+  --fg: #e8e3db;
+  --fg-muted: #9d9184;
+  --accent-soft: rgba(212, 165, 116, 0.12);
+  --danger: #d4a574;
+  --danger-soft: rgba(212, 165, 116, 0.12);
+  --border: #3a342c;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 * { box-sizing: border-box; }
@@ -42,22 +55,52 @@ html, body {
   background: var(--bg);
   color: var(--fg);
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 19px;
+}
+
+/* Paper texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.6;
 }
 
 body {
-  line-height: 1.55;
+  line-height: 1.85;
   letter-spacing: 0.01em;
 }
 
-a { color: var(--accent); text-decoration: none; }
-a:hover, a:focus { text-decoration: underline; }
-p { margin: 0 0 1.25rem; }
-code { font-family: inherit; }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+a:hover, a:focus { border-bottom-color: var(--accent); text-decoration: none; }
+p { margin: 0 0 1.6em; }
+code { 
+  font-family: 'Courier New', monospace; 
+  background: var(--bg-softer);
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 0.9em;
+}
 
 main {
-  max-width: 1100px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 48px 24px 96px;
+  padding: 64px 40px 120px;
+}
+
+@media (min-width: 1400px) {
+  main {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 48px 24px 80px;
+  }
 }
 
 header {
@@ -65,29 +108,112 @@ header {
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+header h1 a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: none;
+}
+
+header h1 a:hover {
+  color: var(--fg);
+  border-bottom: none;
 }
 
 header nav {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   flex-wrap: wrap;
   align-items: center;
 }
 
-header nav a, header nav form { font-size: 0.95rem; }
+header nav a, header nav form { 
+  font-size: 0.8rem; 
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s;
+}
 
-header h1, article h1, section h2 {
+header nav a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+header h1 {
   margin: 0;
-  font-size: clamp(1.5rem, 1.8vw + 1rem, 2.8rem);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+article h1, section h2 {
+  margin: 0 0 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin: 48px 0 24px;
+  line-height: 1.3;
+}
+
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 40px 0 20px;
 }
 
 footer {
-  margin-top: 64px;
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
   font-size: 0.85rem;
+  font-family: 'Cormorant Garamond', serif;
   color: var(--fg-muted);
   text-align: center;
+  letter-spacing: 0.05em;
 }
 
-.muted { color: var(--fg-muted); margin-top: 12px; }
-.error { margin-top: 12px; color: #fda4af; }
+.muted { 
+  color: var(--fg-muted); 
+  margin-top: 12px;
+  font-style: italic;
+}
+.error { 
+  margin-top: 12px; 
+  color: var(--danger);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  main { padding: 48px 24px 80px; }
+  header { flex-direction: column; align-items: flex-start; }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+main { 
+  animation: fadeIn 0.6s ease both; 
+}
