@@ -7,9 +7,9 @@
   // Load theme from localStorage before page renders.
   // This prevents the flash of wrong theme on reload.
   (function() {
-    var saved = localStorage.getItem('theme') || 'dark';
-    if (saved === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
+    var saved = localStorage.getItem('theme') || 'light';
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
     }
   })();
 </script>
@@ -27,6 +27,7 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
+  disabled
 />
 <link
   rel="stylesheet"
@@ -34,7 +35,6 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
-  disabled
 />
 <script
   defer
@@ -60,12 +60,12 @@
   // ── Theme toggle ───────────────────────────────────────────
   function toggleTheme() {
     var root  = document.documentElement;
-    var cur   = root.getAttribute('data-theme') || 'dark';
-    var next  = cur === 'dark' ? 'light' : 'dark';
+    var cur   = root.getAttribute('data-theme') || 'light';
+    var next  = cur === 'light' ? 'dark' : 'light';
 
     // Flip theme attribute
-    if (next === 'light') root.setAttribute('data-theme', 'light');
-    else                  root.removeAttribute('data-theme');
+    if (next === 'dark') root.setAttribute('data-theme', 'dark');
+    else                 root.removeAttribute('data-theme');
 
     // Persist choice
     localStorage.setItem('theme', next);
@@ -78,12 +78,12 @@
   // We toggle the "disabled" attribute on the two preloaded
   // <link> tags instead of rewriting href (avoids SRI issues).
   function syncHighlightTheme() {
-    var isLight   = document.documentElement.getAttribute('data-theme') === 'light';
+    var isDark    = document.documentElement.getAttribute('data-theme') === 'dark';
     var darkLink  = document.getElementById('hljs-dark');
     var lightLink = document.getElementById('hljs-light');
 
-    if (darkLink)  darkLink.disabled  = isLight;
-    if (lightLink) lightLink.disabled = !isLight;
+    if (darkLink)  darkLink.disabled  = !isDark;
+    if (lightLink) lightLink.disabled = isDark;
   }
 </script>
 
