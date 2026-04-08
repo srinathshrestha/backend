@@ -5,6 +5,7 @@ const { purgeExpired } = require('./utils/sessionStore');
 const { blogTitle } = require('./config');
 const { VIEWS_DIR, PUBLIC_DIR } = require('./utils/paths');
 const errorHandler = require('./middleware/errorHandler');
+const { connectToDatabase } = require('./utils/db');
 
 // Import routes
 const routes = require('./routes');
@@ -36,6 +37,42 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use(express.static(PUBLIC_DIR));
+
+// Initialize database connection for serverless environments
+let dbInitialized = false;
+let dbInitializing = false;
+
+async function ensureDbConnection() {
+    if (dbInitialized) return;
+    if (dbInitializing) {
+        // Wait for ongoing initialization
+        while (dbInitializing) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        return;
+    }
+    
+    dbInitializing = true;
+    try {
+        await connectToDatabase();
+        dbInitialized = true;
+    } catch (error) {
+        console.error('[rawdog-blog] Database connection failed:', error);
+        throw error;
+    } finally {
+        dbInitializing = false;
+    }
+}
+
+// Middleware to ensure DB is connected before handling requests
+app.use(async (req, res, next) => {
+    try {
+        await ensureDbConnection();
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
 // Global middleware
 app.use((req, res, next) => {
