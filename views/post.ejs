@@ -1,45 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include("partials/head") %>
-  </head>
-  <body class="article-page">
-    <main>
-      <header>
-        <nav>
-          <a href="/blogs">← Index</a>
-          <a href="/admin">Writer</a>
-          <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-            <!-- Sun icon (shown in dark mode) -->
-            <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            <!-- Moon icon (shown in light mode) -->
-            <svg class="icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          </button>
-        </nav>
-      </header>
+<head>
+  <%- include("partials/head") %>
+</head>
+<body>
 
-      <article class="post-article">
-        <h1 class="post-title"><%= post.title %></h1>
-        <a href="/portfolio" class="author-info">
-          <img
-            src="/HeadShot/IMG_0622 2.jpg"
-            alt="srinath shrestha"
-            class="author-photo"
-          />
-          <span class="author-name">srinath shrestha</span>
-        </a>
-        <div class="article-meta">
-          <%= formatDate(post.publishedAt || post.updatedAt) %> <% if (post.tags
-          && post.tags.length) { %> · <% post.tags.forEach(function(tag) { %>
-          <span class="tag-chip"><%= tag %></span>
-          <% }); %> <% } %>
-        </div>
-        <div class="post-body"><%- post.html %></div>
-      </article>
+<div class="reading-progress"><div class="bar" id="pbar"></div></div>
 
-      <footer>
-        <a href="/rss.xml">RSS feed</a>
-      </footer>
-    </main>
-  </body>
+<nav class="top wide">
+  <a class="wordmark" href="/blogs">
+    <span class="dot"></span>srinath<i>.</i>xyz
+  </a>
+  <div class="navlinks">
+    <a href="/blogs" class="active">Blog</a>
+    <a href="/portfolio">Portfolio</a>
+  </div>
+  <div class="nav-right nav-right-links">
+    <a href="/blogs">← all posts</a>
+    <a href="/rss.xml">rss ↗</a>
+  </div>
+</nav>
+
+<%
+  const pubDate = new Date(post.publishedAt || post.updatedAt);
+  const pubDay = pubDate.getDate().toString().padStart(2, '0');
+  const pubMonth = pubDate.toLocaleString('en-US', { month: 'short' });
+  const pubYear = pubDate.getFullYear();
+  const pubFull = pubMonth + ' ' + pubDay + ', ' + pubYear;
+
+  const wordCount = (post.markdown || post.html.replace(/<[^>]+>/g, '')).split(/\s+/).filter(Boolean).length;
+  const readingMin = Math.max(1, Math.ceil(wordCount / 200));
+%>
+
+<div class="post-page">
+
+  <!-- Left meta rail -->
+  <aside class="meta-rail">
+    <div class="m-block">
+      <h4>Published</h4>
+      <div class="m-val big"><%= pubFull %></div>
+    </div>
+    <div class="m-block">
+      <h4>Reading time</h4>
+      <div class="m-val">~<%= readingMin %> min · <%= wordCount.toLocaleString() %> words</div>
+    </div>
+    <% if (post.tags && post.tags.length) { %>
+    <div class="m-block">
+      <h4>Filed under</h4>
+      <div class="m-tags">
+        <% post.tags.forEach(function(tag) { %>
+        <span class="m-tag"><%= tag %></span>
+        <% }); %>
+      </div>
+    </div>
+    <% } %>
+    <div class="m-block">
+      <h4>Author</h4>
+      <div class="m-val">Srinath Shrestha</div>
+    </div>
+    <div class="m-block">
+      <h4>Share</h4>
+      <div class="m-share">
+        <a href="#" id="copyLink"><span>copy link</span><span>⌘L</span></a>
+        <a href="https://news.ycombinator.com/submitlink?u=<%= encodeURIComponent('https://srinathshrestha.xyz/blogs/' + post.slug) %>&t=<%= encodeURIComponent(post.title) %>" target="_blank" rel="noopener"><span>send to hn</span><span>↗</span></a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Article -->
+  <article class="post-article">
+    <header class="post-hero">
+      <div class="post-kicker">Essay</div>
+      <h1><%= post.title %></h1>
+      <div class="post-byline">
+        <span>By <b>Srinath Shrestha</b></span>
+        <span>·</span>
+        <span><%= pubFull %></span>
+        <span>·</span>
+        <span><b><%= readingMin %> min</b> read</span>
+      </div>
+    </header>
+
+    <div class="post-body" id="body">
+      <%- post.html %>
+    </div>
+
+    <div class="post-signoff">
+      <div><em>— Srinath</em></div>
+      <div class="eof">/* end of file */</div>
+    </div>
+  </article>
+
+  <!-- Right sidebar: TOC -->
+  <aside class="post-side">
+    <h4>On this page</h4>
+    <nav class="post-toc" id="toc"></nav>
+  </aside>
+
+  <!-- Prev / Next -->
+  <% if (prevPost || nextPost) { %>
+  <nav class="post-nav">
+    <% if (prevPost) { %>
+    <a href="/blogs/<%= prevPost.slug %>" class="pn-prev">
+      <div class="pn-dir">← previous</div>
+      <div class="pn-title"><%= prevPost.title %></div>
+    </a>
+    <% } else { %>
+    <div></div>
+    <% } %>
+    <% if (nextPost) { %>
+    <a href="/blogs/<%= nextPost.slug %>" class="pn-next">
+      <div class="pn-dir">next →</div>
+      <div class="pn-title"><%= nextPost.title %></div>
+    </a>
+    <% } %>
+  </nav>
+  <% } %>
+
+</div>
+
+<footer class="post-footer">
+  <div>&copy; <%= year %> &middot; srinath shrestha &middot; no bugs were harmed in the making of this site</div>
+  <div>
+    <a href="/blogs">/ all writing</a>
+    <a href="/rss.xml">/ rss</a>
+    <a href="#">↑ top</a>
+  </div>
+</footer>
+
+<script>
+// Reading progress bar
+const pbar = document.getElementById('pbar');
+const body = document.getElementById('body');
+function updateBar() {
+  if (!body) return;
+  const bodyH = body.offsetHeight;
+  const viewH = window.innerHeight;
+  const bodyTop = body.getBoundingClientRect().top + window.scrollY;
+  const total = bodyH - viewH + bodyTop;
+  const done = Math.min(Math.max(window.scrollY / total, 0), 1);
+  pbar.style.width = (done * 100) + '%';
+}
+updateBar();
+window.addEventListener('scroll', updateBar, { passive: true });
+window.addEventListener('resize', updateBar);
+
+// Build TOC from h2 headings
+const tocEl = document.getElementById('toc');
+const headings = body ? [...body.querySelectorAll('h2')] : [];
+const tocLinks = [];
+
+headings.forEach((h, i) => {
+  const id = 'section-' + (i + 1);
+  h.id = id;
+  const a = document.createElement('a');
+  a.href = '#' + id;
+  const n = document.createElement('span');
+  n.className = 'toc-n';
+  n.textContent = String(i + 1).padStart(2, '0');
+  a.appendChild(n);
+  // Strip leading §NN or #Roman numeral prefixes from display text
+  const label = h.textContent.replace(/^[§#]+[\s\w.]+\s*/, '').trim() || h.textContent.trim();
+  a.appendChild(document.createTextNode(label));
+  tocEl.appendChild(a);
+  tocLinks.push(a);
+});
+
+// Highlight the TOC entry whose section is at/above the viewport midpoint.
+// Exactly one link is active at a time.
+function updateTOC() {
+  if (!headings.length) return;
+  const scrollY = window.scrollY;
+  const threshold = window.innerHeight * 0.25; // top quarter of viewport
+  let activeIdx = 0;
+  for (let i = 0; i < headings.length; i++) {
+    const top = headings[i].getBoundingClientRect().top + scrollY;
+    if (scrollY + threshold >= top) activeIdx = i;
+  }
+  tocLinks.forEach((a, i) => a.classList.toggle('toc-active', i === activeIdx));
+}
+
+if (headings.length > 0) {
+  updateTOC();
+  window.addEventListener('scroll', updateTOC, { passive: true });
+  window.addEventListener('resize', updateTOC);
+}
+
+// Copy link
+document.getElementById('copyLink').addEventListener('click', e => {
+  e.preventDefault();
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const el = e.currentTarget;
+    const orig = el.querySelector('span').textContent;
+    el.querySelector('span').textContent = 'copied!';
+    setTimeout(() => { el.querySelector('span').textContent = orig; }, 1500);
+  });
+});
+</script>
+</body>
 </html>

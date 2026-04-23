@@ -1,167 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include("partials/head") %>
-  </head>
-  <body>
-    <main>
-      <!-- Theme toggle button for portfolio page -->
-      <div style="position: absolute; top: 24px; right: 24px;">
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-          <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg class="icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-      </div>
+<head>
+  <%- include("partials/head") %>
+</head>
+<body>
 
-      <div class="portfolio-hero">
-        <img
-          src="/HeadShot/IMG_0622 2.jpg"
-          alt="Srinath Shrestha"
-          class="portfolio-avatar"
-        />
-        <h1 class="portfolio-name">Srinath Shrestha</h1>
-        <p class="portfolio-title">C/C++ &middot; Systems Programming &middot; Program Internals</p>
-      </div>
+<nav class="top">
+  <a class="wordmark" href="/blogs">
+    <span class="dot"></span>srinath<i>.</i>xyz
+  </a>
+  <div class="navlinks">
+    <a href="/blogs">Blog</a>
+    <a href="/portfolio" class="active">Portfolio</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-rss" href="/rss.xml">RSS ↗</a>
+  </div>
+</nav>
 
-      
-        <h2>About Me</h2>
-        <div class="portfolio-card">
-          <p class="about-content">
-            I'm fascinated by the full lifecycle of a program &mdash; from source code through
-            compilation, to ELF binaries, linking, loading, and execution on the CPU.
-            I care about simplicity and understanding systems at their fundamentals.
-            I know my way around C, GDB, lldb, Valgrind, and Make.
-            Outside of code, I learn and write about what I'm exploring on my <a href="/blogs">blog</a>.
-          </p>
+<div class="container">
+
+  <!-- Hero -->
+  <header class="port-hero">
+    <div class="port-avatar">
+      <img src="/HeadShot/IMG_0622 2.jpg" alt="Srinath Shrestha" />
+    </div>
+    <div>
+      <h1>Srinath <em>Shrestha</em></h1>
+      <div class="subtitle">
+        <span><b>C / C++</b></span>
+        <span class="sep">·</span>
+        <span>Systems Programming</span>
+        <span class="sep">·</span>
+        <span>Program Internals</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- § 01 About -->
+  <section class="block about-body">
+    <div class="block-head">
+      <span class="sec-num">§ 01</span>
+      <h2>About Me</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <p>
+      I'm fascinated by the full lifecycle of a program — from source code through
+      compilation, to ELF binaries, linking, loading, and execution on the CPU.
+      I care about simplicity and understanding systems at their fundamentals.
+    </p>
+    <p>
+      I know my way around C, GDB, lldb, Valgrind, and Make.
+      Outside of code, I learn and write about what I'm exploring on my <a href="/blogs">blog</a>.
+    </p>
+  </section>
+
+  <!-- § 02 Projects -->
+  <section class="block">
+    <div class="block-head">
+      <span class="sec-num">§ 02</span>
+      <h2>Projects</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="projects-grid">
+
+      <article class="project">
+        <div class="p-kicker"><span>/ systems</span><span class="no">No. 01</span></div>
+        <h3>Priso<span class="dash">— Scene Description Language</span></h3>
+        <ul>
+          <li>A scene description language with a built-in editor for 2D/3D rendering of simple objects using OpenGL.</li>
+          <li>Built from scratch in C: lexer, parser, renderer, and editor UI.</li>
+        </ul>
+        <div class="p-stack">
+          <span class="chip">C</span>
+          <span class="chip">OpenGL</span>
+          <span class="chip">lexer/parser</span>
+        </div>
+        <div class="p-gh">
+          <span>github.com/srinathshrestha/priso</span>
+          <a href="https://github.com/srinathshrestha/priso" target="_blank" rel="noopener">view on github ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="p-kicker"><span>/ game</span><span class="no">No. 02</span></div>
+        <h3>2D Car Racing Game<span class="dash">— classic arcade in C</span></h3>
+        <ul>
+          <li>Classic arcade-style racing game built in C.</li>
+          <li>Custom graphics rendering and assets.</li>
+        </ul>
+        <div class="p-stack">
+          <span class="chip">C</span>
+          <span class="chip">graphics</span>
+        </div>
+        <div class="p-gh">
+          <span>github.com/srinathshrestha/c-Game</span>
+          <a href="https://github.com/srinathshrestha/c-Game" target="_blank" rel="noopener">view on github ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="p-kicker"><span>/ platform</span><span class="no">No. 03</span></div>
+        <h3>ShortURL<span class="dash">— link analytics platform</span></h3>
+        <ul>
+          <li>Self-hosted microservices for URL shortening and analytics — you can download and use it too.</li>
+          <li>Tracks clicks by country, device, and referrer with a dashboard.</li>
+        </ul>
+        <div class="p-stack">
+          <span class="chip">Go</span>
+          <span class="chip">Python</span>
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">Redis</span>
+        </div>
+        <div class="p-gh">
+          <span>github.com/srinathshrestha/shortURL</span>
+          <a href="https://github.com/srinathshrestha/shortURL" target="_blank" rel="noopener">view on github ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="p-kicker"><span>/ cli</span><span class="no">No. 04</span></div>
+        <h3>quickLogg<span class="dash">— fast structured log parser</span></h3>
+        <ul>
+          <li>CLI utility that parses logs at <b>1–2 GB/s</b> on a single core.</li>
+          <li>Auto-detects: JSON, Syslog (RFC 3164), Nginx/Apache Combined, KV.</li>
+          <li>Emits NDJSON — pipe into <code>jq</code>, grep, or anything downstream.</li>
+        </ul>
+        <div class="p-stack">
+          <span class="chip">C</span>
+          <span class="chip">NDJSON</span>
+          <span class="chip">cli</span>
+        </div>
+        <div class="p-gh">
+          <span>github.com/srinathshrestha/quickLogg</span>
+          <a href="https://github.com/srinathshrestha/quickLogg" target="_blank" rel="noopener">view on github ↗</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- § 03 Experience -->
+  <section class="block">
+    <div class="block-head">
+      <span class="sec-num">§ 03</span>
+      <h2>Experience</h2>
+      <span class="sec-rule"></span>
+    </div>
+
+    <div class="exp-item">
+      <div class="when"><b>Jan — May 2025</b>Backend Intern</div>
+      <div>
+        <h3>Backend Developer Intern</h3>
+        <div class="at">at <b>SkyForge System Solutions</b></div>
+        <p>Built production backend for <em>Heliosensium</em> (AI parenting agent). Integrated Neon DB, Pinecone, and secure payments; deployed on Render.</p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="when"><b>May — Jul 2025</b>Full Stack Intern</div>
+      <div>
+        <h3>Full Stack Developer Intern</h3>
+        <div class="at">at <b>LinkVerse</b></div>
+        <p>Automated PDF certificate generation (Next.js + Puppeteer, 100+ uses). Developed AWS CloudFormation utilities for an AI DevOps agent.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 04 Skills -->
+  <section class="block">
+    <div class="block-head">
+      <span class="sec-num">§ 04</span>
+      <h2>Skills</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>/ systems</h4>
+        <div class="skill-list">
+          <span>C</span>
+          <span>GDB</span>
+          <span>Valgrind</span>
+          <span>Make</span>
+          <span class="learning">x86 Assembly (learning)</span>
+          <span>Git</span>
         </div>
       </div>
-
-      <div class="portfolio-section">
-        <h2>Projects</h2>
-        <div class="portfolio-grid">
-          <div class="portfolio-card">
-            <h3>Priso – Scene Description Language</h3>
-            <ul>
-              <li>A scene description language with built-in editor for 2D/3D rendering of simple objects using <span class="tech-highlight">OpenGL</span></li>
-              <li>Built from scratch in <span class="tech-highlight">C</span>: <span class="tech-highlight">lexer</span>, <span class="tech-highlight">parser</span>, <span class="tech-highlight">renderer</span>, and editor UI</li>
-            </ul>
-            <div class="project-links">
-              <a href="https://github.com/srinathshrestha/priso" class="project-link">View on GitHub</a>
-            </div>
-          </div>
-
-          <div class="portfolio-card">
-            <h3>2D Car Racing Game</h3>
-            <ul>
-              <li>Classic arcade-style racing game built in <span class="tech-highlight">C</span></li>
-              <li>Custom graphics rendering and assets</li>
-            </ul>
-            <div class="project-links">
-              <a href="https://github.com/srinathshrestha/c-Game" class="project-link">View on GitHub</a>
-            </div>
-          </div>
-
-          <div class="portfolio-card">
-            <h3>ShortURL – Link Analytics Platform</h3>
-            <ul>
-              <li>Self-hosted <span class="tech-highlight">microservices</span> for URL shortening and analytics — you can download and use it too</li>
-              <li>Tracks clicks by country, device, and referrer with dashboard</li>
-              <li>Stack: <span class="tech-highlight">Go</span> (API Gateway, Auth, Link), <span class="tech-highlight">Python</span> (Analytics, Reports), <span class="tech-highlight">PostgreSQL</span>, <span class="tech-highlight">Redis</span></li>
-            </ul>
-            <div class="project-links">
-              <a href="https://github.com/srinathshrestha/shortURL" class="project-link">View on GitHub</a>
-            </div>
-          </div>
-
-          <div class="portfolio-card">
-            <h3>quickLogg – Fast Structured Log Parser</h3>
-            <ul>
-              <li>CLI utility that parses logs at <span class="tech-highlight">1–2 GB/s</span> on a single core</li>
-              <li>Auto-detects format: <span class="tech-highlight">JSON</span>, <span class="tech-highlight">Syslog (RFC 3164)</span>, <span class="tech-highlight">Nginx/Apache Combined</span>, and <span class="tech-highlight">KV</span> logs</li>
-              <li>Emits <span class="tech-highlight">NDJSON</span> — pipe it into <code>jq</code>, grep, or any downstream tool</li>
-            </ul>
-            <div class="project-links">
-              <a href="https://github.com/srinathshrestha/quickLogg" class="project-link">View on GitHub</a>
-            </div>
-          </div>
+      <div class="skill-group">
+        <h4>/ web (previous)</h4>
+        <div class="skill-list">
+          <span>JavaScript</span>
+          <span>Node.js</span>
+          <span>Next.js</span>
+          <span>Express.js</span>
+          <span>PostgreSQL</span>
+          <span>Docker</span>
+          <span>AWS</span>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="portfolio-section">
-        <h2>Experience</h2>
-        <div class="portfolio-card">
-          <div class="experience-item">
-            <h3 class="experience-title">Backend Developer Intern</h3>
-            <p class="experience-company">SkyForge System Solutions</p>
-            <p class="experience-duration">Jan–May 2025</p>
-            <p class="experience-description">
-              Built production backend for Heliosensium (AI parenting agent). Integrated Neon DB,
-              Pinecone, and secure payments; deployed on Render.
-            </p>
-          </div>
-
-          <div class="experience-item">
-            <h3 class="experience-title">Full Stack Developer Intern</h3>
-            <p class="experience-company">LinkVerse</p>
-            <p class="experience-duration">May–July 2025</p>
-            <p class="experience-description">
-              Automated PDF certificate generation (Next.js + Puppeteer), 100+ uses. Developed AWS
-              CloudFormation utilities for an AI DevOps agent.
-            </p>
-          </div>
+  <!-- § 05 Currently Studying -->
+  <section class="block">
+    <div class="block-head">
+      <span class="sec-num">§ 05</span>
+      <h2>Currently Studying</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <ul class="reading-list">
+      <li>
+        <span class="r-n">01</span>
+        <div>
+          <div class="r-t">CS:APP <em>— Computer Systems: A Programmer's Perspective</em></div>
+          <div class="r-author">Bryant &amp; O'Hallaron</div>
         </div>
-      </div>
-
-      <div class="portfolio-section">
-        <h2>Skills</h2>
-        <div class="portfolio-card">
-          <p style="margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;">Systems</p>
-          <div class="tech-stack" style="justify-content: flex-start; margin-bottom: 16px;">
-            <span class="tech-tag">C</span>
-            <span class="tech-tag">GDB</span>
-            <span class="tech-tag">Valgrind</span>
-            <span class="tech-tag">Make</span>
-            <span class="tech-tag">x86 Assembly (learning)</span>
-            <span class="tech-tag">Git</span>
-          </div>
-          <p style="margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;">Web (Previous)</p>
-          <div class="tech-stack" style="justify-content: flex-start;">
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">Node.js</span>
-            <span class="tech-tag">Next.js</span>
-            <span class="tech-tag">Express.js</span>
-            <span class="tech-tag">PostgreSQL</span>
-            <span class="tech-tag">Docker</span>
-            <span class="tech-tag">AWS</span>
-          </div>
+      </li>
+      <li>
+        <span class="r-n">02</span>
+        <div>
+          <div class="r-t">K&amp;R C <em>— The C Programming Language</em></div>
+          <div class="r-author">Kernighan &amp; Ritchie</div>
         </div>
-      </div>
-
-      <div class="portfolio-section">
-        <h2>Currently Studying</h2>
-        <div class="portfolio-card">
-          <ul style="margin: 0; padding-left: 1.2em; line-height: 2;">
-            <li>CS:APP &mdash; <em>Computer Systems: A Programmer's Perspective</em></li>
-            <li>K&amp;R C &mdash; <em>The C Programming Language</em>, Kernighan &amp; Ritchie</li>
-            <li>OSTEP &mdash; <em>Operating Systems: Three Easy Pieces</em></li>
-            <li><em>Hacking: The Art of Exploitation</em> &mdash; Jon Erickson</li>
-          </ul>
+      </li>
+      <li>
+        <span class="r-n">03</span>
+        <div>
+          <div class="r-t">OSTEP <em>— Operating Systems: Three Easy Pieces</em></div>
+          <div class="r-author">Arpaci-Dusseau</div>
         </div>
-      </div>
-
-      <div class="portfolio-section">
-        <h2>Connect</h2>
-        <div class="social-links">
-          <a href="mailto:srinathshrestha9890@gmail.com" class="social-link">Email</a>
-          <a href="/portfolio" class="social-link">Portfolio</a>
-          <a href="https://github.com/srinathshrestha" class="social-link">GitHub</a>
-          <a href="https://www.linkedin.com/in/srinath-shrestha-584171204/" class="social-link">LinkedIn</a>
+      </li>
+      <li>
+        <span class="r-n">04</span>
+        <div>
+          <div class="r-t"><em>Hacking: The Art of Exploitation</em></div>
+          <div class="r-author">Jon Erickson</div>
         </div>
-      </div>
+      </li>
+    </ul>
+  </section>
 
-      <footer>
-        <p>Built with hands &copy; <%= year %>.</p>
-      </footer>
-    </main>
-  </body>
+  <!-- § 06 Connect -->
+  <section class="block">
+    <div class="block-head">
+      <span class="sec-num">§ 06</span>
+      <h2>Connect</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="connect-grid">
+      <a href="mailto:me@srinathshrestha.xyz">
+        <span class="c-arr">↗</span>
+        <div class="c-label">/ email</div>
+        <div class="c-val">me@srinath<br/>shrestha.xyz</div>
+      </a>
+      <a href="https://github.com/srinathshrestha" target="_blank" rel="noopener">
+        <span class="c-arr">↗</span>
+        <div class="c-label">/ github</div>
+        <div class="c-val">@srinath<br/>shrestha</div>
+      </a>
+      <a href="https://www.linkedin.com/in/srinath-shrestha-584171204/" target="_blank" rel="noopener">
+        <span class="c-arr">↗</span>
+        <div class="c-label">/ linkedin</div>
+        <div class="c-val">srinath<br/>shrestha</div>
+      </a>
+      <a href="/blogs">
+        <span class="c-arr">→</span>
+        <div class="c-label">/ writing</div>
+        <div class="c-val">the<br/>blog</div>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  <div>Built with hands &copy; <%= year %></div>
+  <div class="links">
+    <a href="/blogs">/ blog</a>
+    <a href="/rss.xml">/ rss.xml</a>
+    <a href="#">↑ top</a>
+  </div>
+</footer>
+
+</body>
 </html>

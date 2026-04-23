@@ -1,58 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include("partials/head") %>
-  </head>
-  <body>
-    <main>
-      <header>
-        <h1 class="site-title"><a href="/blogs"><%= blogTitle %></a></h1>
-        <nav>
-          <a href="/blogs">Home</a>
-          <a href="/rss.xml">RSS</a>
-          <a href="/admin">Writer</a>
-          <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-            <!-- Sun icon (shown in dark mode) -->
-            <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            <!-- Moon icon (shown in light mode) -->
-            <svg class="icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          </button>
-        </nav>
-      </header>
+<head>
+  <%- include("partials/head") %>
+</head>
+<body>
 
-      <a href="/portfolio" class="author-info">
-        <img
-          src="/HeadShot/IMG_0622 2.jpg"
-          alt="srinath shrestha"
-          class="author-photo"
-        />
-        <span class="author-name">srinath shrestha</span>
-      </a>
+<nav class="top">
+  <a class="wordmark" href="/blogs">
+    <span class="dot"></span>srinath<i>.</i>xyz
+  </a>
+  <div class="navlinks">
+    <a href="/blogs" class="active">Blog</a>
+    <a href="/portfolio">Portfolio</a>
+  </div>
+  <div class="nav-right">
+    <div class="search" onclick="this.querySelector('input').focus()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="searchInput" placeholder="search posts…" aria-label="Search posts" />
+      <span class="kbd">⌘K</span>
+    </div>
+    <a class="btn-rss" href="/rss.xml">RSS ↗</a>
+  </div>
+</nav>
 
-      <% if (!posts || posts.length === 0) { %>
-      <p>No posts yet. Time to write something raw.</p>
-      <% } else { %>
-      <section class="list-grid">
-        <% posts.forEach(function(post) { %>
-        <article class="post-preview">
-          <h2><a href="/blogs/<%= post.slug %>"><%= post.title %></a></h2>
-          <div class="article-meta">
-            <%= formatDate(post.publishedAt || post.updatedAt) %> <% if
-            (post.tags && post.tags.length) { %> · <%
-            post.tags.forEach(function(tag) { %>
-            <span class="tag-chip"><%= tag %></span>
-            <% }); %> <% } %>
-          </div>
-          <p><%= post.excerpt %></p>
-          <a href="/blog/<%= post.slug %>">Read post →</a>
-        </article>
-        <% }); %>
-      </section>
-      <% } %>
+<div class="container">
+  <header class="sitehead">
+    <div class="title">
+      <h1>Blog<em>.</em></h1>
+      <span class="under">writing on systems, C/C++, and whatever I'm currently reading</span>
+    </div>
+    <a class="me" href="/portfolio">
+      <div class="pic">
+        <img src="/HeadShot/IMG_0622 2.jpg" alt="Srinath Shrestha" />
+      </div>
+      <div>
+        <div class="n">Srinath Shrestha</div>
+        <div class="h">/ portfolio →</div>
+      </div>
+    </a>
+  </header>
 
-      <footer>
-         <p>Built with hands &copy; <%= year %>.</p>
-      </footer>
-    </main>
-  </body>
+  <section class="posts" id="posts">
+    <% if (!posts || posts.length === 0) { %>
+    <p style="font-family: var(--mono); color: var(--muted); padding: 60px 0;">No posts yet. Time to write something raw.</p>
+    <% } else { %>
+    <% posts.forEach(function(post) {
+      const isNonTech = post.tags && post.tags.some(t => t.toLowerCase() === 'non-tech');
+      const d = new Date(post.publishedAt || post.updatedAt);
+      const day = d.getDate().toString().padStart(2, '0');
+      const month = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+      const yr = d.getFullYear();
+    %>
+    <article class="post" <%= isNonTech ? 'data-kind="non-tech"' : '' %>>
+      <div class="date">
+        <span class="d"><%= day %></span>
+        <span class="m"><%= month %></span>
+        <span class="y"><%= yr %></span>
+      </div>
+      <div class="main">
+        <h2><a href="/blogs/<%= post.slug %>"><%= post.title %></a></h2>
+        <% if (post.excerpt) { %>
+        <p class="excerpt"><%= post.excerpt %></p>
+        <% } %>
+        <% if (post.tags && post.tags.length) { %>
+        <div class="tags">
+          <% post.tags.forEach(function(tag) { %>
+          <span class="tag"><%= tag %></span>
+          <% }); %>
+        </div>
+        <% } %>
+      </div>
+      <a class="read" href="/blogs/<%= post.slug %>">read post →</a>
+    </article>
+    <% }); %>
+    <% } %>
+  </section>
+
+  <div class="noresults" id="noresults" style="display:none">
+    Nothing matches <b id="searchQuery"></b>. Try another word.
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div>Built with hands &copy; <%= year %></div>
+  <div class="links">
+    <a href="/portfolio">/ portfolio</a>
+    <a href="/rss.xml">/ rss.xml</a>
+    <a href="/admin">/ writer</a>
+  </div>
+</footer>
+
+<script>
+const inp = document.getElementById('searchInput');
+const postsEls = [...document.querySelectorAll('#posts .post')];
+const nr = document.getElementById('noresults');
+const qOut = document.getElementById('searchQuery');
+
+inp.addEventListener('input', () => {
+  const q = inp.value.trim().toLowerCase();
+  let hits = 0;
+  postsEls.forEach(p => {
+    const show = !q || p.textContent.toLowerCase().includes(q);
+    p.style.display = show ? '' : 'none';
+    if (show) hits++;
+  });
+  if (q && hits === 0) {
+    nr.style.display = '';
+    qOut.textContent = '"' + inp.value + '"';
+  } else {
+    nr.style.display = 'none';
+  }
+});
+
+window.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    inp.focus();
+  }
+});
+</script>
+</body>
 </html>

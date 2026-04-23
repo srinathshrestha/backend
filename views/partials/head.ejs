@@ -2,37 +2,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <title><%= title ? `${title}` : blogTitle %></title>
-<!-- Apply saved theme immediately to prevent flash -->
 <script>
-  // Load theme from localStorage before page renders.
-  // This prevents the flash of wrong theme on reload.
   (function() {
     var saved = localStorage.getItem('theme') || 'light';
-    if (saved === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
   })();
 </script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="/styles.css" />
 
-<!--
-  Syntax highlighting (Highlight.js)
-  We load BOTH dark and light stylesheets, then disable the wrong one.
-  This avoids SRI integrity hash issues when swapping href dynamically.
--->
 <link
   rel="stylesheet"
   id="hljs-dark"
   href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-  disabled
-/>
-<link
-  rel="stylesheet"
-  id="hljs-light"
-  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 />
@@ -43,53 +29,22 @@
   referrerpolicy="no-referrer"
 ></script>
 
-<!-- Theme switcher and syntax highlight initialization -->
 <script>
-  // ── Highlight.js init ──────────────────────────────────────
   document.addEventListener("DOMContentLoaded", function () {
     try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
-
-    // Make sure the correct hljs stylesheet is active on load
-    syncHighlightTheme();
   });
-
   window.addEventListener("load", function () {
     try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
   });
 
-  // ── Theme toggle ───────────────────────────────────────────
   function toggleTheme() {
-    var root  = document.documentElement;
-    var cur   = root.getAttribute('data-theme') || 'light';
-    var next  = cur === 'light' ? 'dark' : 'light';
-
-    // Flip theme attribute
+    var root = document.documentElement;
+    var cur = root.getAttribute('data-theme') || 'light';
+    var next = cur === 'light' ? 'dark' : 'light';
     if (next === 'dark') root.setAttribute('data-theme', 'dark');
-    else                 root.removeAttribute('data-theme');
-
-    // Persist choice
+    else root.removeAttribute('data-theme');
     localStorage.setItem('theme', next);
-
-    // Swap highlight.js stylesheet
-    syncHighlightTheme();
-  }
-
-  // ── Sync highlight.js stylesheet to current theme ──────────
-  // We toggle the "disabled" attribute on the two preloaded
-  // <link> tags instead of rewriting href (avoids SRI issues).
-  function syncHighlightTheme() {
-    var isDark    = document.documentElement.getAttribute('data-theme') === 'dark';
-    var darkLink  = document.getElementById('hljs-dark');
-    var lightLink = document.getElementById('hljs-light');
-
-    if (darkLink)  darkLink.disabled  = !isDark;
-    if (lightLink) lightLink.disabled = isDark;
   }
 </script>
 
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title="<%= blogTitle %> RSS"
-  href="/rss.xml"
-/>
+<link rel="alternate" type="application/rss+xml" title="<%= blogTitle %> RSS" href="/rss.xml" />

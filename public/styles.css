@@ -1,9 +1,8 @@
 /* ── Main stylesheet ──────────────────────────────────────── */
-/* Each concern lives in its own file under css/.              */
 
-@import url('./css/base.css');        /* theme vars, reset, layout    */
-@import url('./css/components.css');   /* buttons, forms, tags, toggle */
-@import url('./css/post.css');        /* article body, lists, tables  */
-@import url('./css/obsidian.css');    /* callouts, highlights, code   */
-@import url('./css/pages.css');       /* landing, portfolio            */
-@import url('./css/admin.css');       /* editor, dashboard, help modal*/
+@import url('./css/base.css');        /* theme vars, reset, nav, footer  */
+@import url('./css/components.css');   /* buttons, forms, tags, toggle    */
+@import url('./css/obsidian.css');    /* callouts, highlights, code       */
+@import url('./css/post.css');        /* article body — must follow obsidian */
+@import url('./css/pages.css');       /* blog index, portfolio            */
+@import url('./css/admin.css');       /* editor, dashboard, help modal    */
