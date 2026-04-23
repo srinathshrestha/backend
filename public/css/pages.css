@@ -375,3 +375,24 @@ body.page-404 footer.site-footer {
   .skills-grid { grid-template-columns: 1fr; }
   .connect-grid { grid-template-columns: 1fr 1fr; }
 }
+
+@media (max-width: 480px) {
+  .sitehead .title h1 { font-size: 40px; }
+  .me { display: none; }
+
+  article.post { grid-template-columns: 1fr; gap: 10px; }
+  .post .date { display: flex; gap: 8px; align-items: baseline; padding-top: 0; }
+  .post .date .d { font-size: 20px; }
+  .post .main h2 { font-size: 22px; }
+  .post .read { display: none; }
+
+  .port-hero { grid-template-columns: 1fr; gap: 14px; }
+  .port-hero h1 { font-size: 36px; }
+  .port-avatar { width: 64px; height: 64px; }
+
+  .connect-grid { grid-template-columns: 1fr; }
+
+  .err-wrap { padding: 48px 0 80px; }
+  .err-num { font-size: 80px; }
+  .err-title { font-size: 36px; }
+}

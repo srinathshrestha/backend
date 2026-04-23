@@ -271,6 +271,15 @@ footer.site-footer .links a:hover { color: var(--accent); }
   .writer-mode header { flex-direction: column; align-items: flex-start; }
 }
 
+@media (max-width: 480px) {
+  nav.top, nav.top.wide { padding: 12px 14px; gap: 10px; }
+  .search { display: none; }
+  .kbd { display: none; }
+  footer.site-footer { flex-direction: column; gap: 10px; text-align: center; padding: 18px 14px 24px; }
+  footer.site-footer .links { flex-wrap: wrap; justify-content: center; }
+  .container { padding: 0 14px; }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
