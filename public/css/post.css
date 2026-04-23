@@ -286,21 +286,173 @@ footer.post-footer a {
 }
 footer.post-footer a:hover { color: var(--accent); }
 
-/* ── Responsive: single column below 1100px ────────────────── */
+/* ── Responsive: tablet — drop sidebars, single column ─────── */
 @media (max-width: 1100px) {
   .post-page {
-    grid-template-columns: 1fr;
-    padding: 26px 22px 60px;
+    /* minmax(0, 1fr) is critical — bare `1fr` lets grid items expand to
+       fit oversized children (images, pre), which breaks mobile layout. */
+    grid-template-columns: minmax(0, 1fr);
+    padding: 28px 24px 60px;
     gap: 32px;
   }
-  .meta-rail, .post-side { position: static; }
+  /* Hide both sidebars — their info is already in the hero byline */
+  .meta-rail, .post-side { display: none; }
   .post-nav { grid-column: 1; }
-  .post-body { font-size: 17px; max-width: 100%; }
+  .post-article { min-width: 0; }
+  .post-body { font-size: 17px; max-width: 100%; min-width: 0; }
 }
 
+/* ── Responsive: mobile — everything fits inside viewport ────── */
 @media (max-width: 820px) {
-  footer.post-footer { flex-direction: column; gap: 12px; text-align: center; }
-  footer.post-footer a { margin-left: 8px; }
+  /* Safety net: no element on this page can extend past the viewport */
+  html, body { overflow-x: hidden; }
+
+  .post-page,
+  .post-article,
+  .post-body,
+  .post-hero,
+  .post-body figure,
+  .post-body img,
+  .post-body pre,
+  .post-body .code-container,
+  .post-body .callout,
+  .post-body blockquote,
+  .post-body table {
+    max-width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .post-page {
+    width: 100%;
+    padding: 20px 16px 56px;
+  }
+
+  /* Hero card */
+  .post-hero {
+    padding: 22px 18px;
+    margin-bottom: 28px;
+  }
+  .post-hero::before { display: none; }
+  .post-hero h1 {
+    font-size: clamp(28px, 7.5vw, 44px);
+    line-height: 1.05;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  .post-kicker { font-size: 10.5px; }
+  .post-byline { font-size: 11.5px; gap: 10px 16px; }
+
+  /* Body */
+  .post-body {
+    width: 100%;
+    font-size: 17px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .post-body > p:first-of-type::first-letter {
+    font-size: 4em;
+    padding: 4px 8px 0 0;
+  }
+  .post-body h2 { font-size: 28px; line-height: 1.1; word-break: break-word; }
+  .post-body h3 { font-size: 22px; line-height: 1.2; word-break: break-word; }
+  .post-body h4 { font-size: 18px; }
+  .post-body p, .post-body li { overflow-wrap: break-word; }
+  .post-body a { overflow-wrap: break-word; word-break: break-word; }
+
+  /* Images — force fit regardless of any inline width/style from markdown */
+  .post-body figure,
+  .post-body .post-figure {
+    width: 100% !important;
+    margin: 1.4em 0 !important;
+    padding: 0;
+  }
+  .post-body img,
+  .post-body .post-img {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    display: block;
+    margin: 0 auto;
+  }
+  /* Kill floats on mobile — they break reading flow */
+  .post-body .img-left,
+  .post-body .img-right,
+  .post-body .post-figure.img-left,
+  .post-body .post-figure.img-right {
+    float: none !important;
+    margin: 1em 0 !important;
+    width: 100% !important;
+  }
+
+  /* Blockquotes */
+  .post-body blockquote {
+    font-size: 20px;
+    padding: 4px 0 4px 14px;
+  }
+
+  /* Callouts */
+  .post-body .callout { padding: 14px 16px; }
+
+  /* Tables — scroll internally */
+  .post-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  /* Code blocks — scroll internally, preserve whitespace inside */
+  .post-body pre,
+  .post-body .code-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .post-body pre code,
+  .post-body .code-container .code-block pre,
+  .post-body .code-container code {
+    white-space: pre;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  /* Signoff */
+  .post-signoff { font-size: 20px; gap: 12px; flex-wrap: wrap; }
+  .post-signoff .eof { font-size: 12px; }
+
+  /* Prev/Next */
+  .post-nav { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 32px; }
+  .post-nav a { padding: 14px; }
+  .post-nav .pn-title { font-size: 18px; line-height: 1.1; }
+  .post-nav .pn-dir { font-size: 10px; }
+
+  /* Footer */
+  footer.post-footer {
+    flex-direction: column; gap: 10px;
+    align-items: center; text-align: center;
+    padding: 22px 18px 26px;
+    font-size: 11.5px;
+  }
+  footer.post-footer a { margin-left: 6px; }
+}
+
+/* ── Responsive: small phone ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .post-page { padding: 14px 12px 40px; gap: 22px; }
+  .post-hero { padding: 18px 14px; margin-bottom: 22px; }
+  .post-hero h1 { font-size: clamp(24px, 8vw, 36px); }
+  .post-body { font-size: 16px; line-height: 1.6; }
+  .post-body h2 { font-size: 24px; }
+  .post-body h3 { font-size: 19px; }
+  .post-body blockquote { font-size: 17px; }
+  .post-body > p:first-of-type::first-letter {
+    font-size: 3.2em;
+    padding: 2px 6px 0 0;
+  }
+  .post-nav { grid-template-columns: 1fr; gap: 10px; }
+  .post-nav .pn-title { font-size: 17px; }
+  .post-nav a.pn-next { text-align: left; }
 }
 
 /* ── Code container overrides (must follow obsidian.css) ─────── */

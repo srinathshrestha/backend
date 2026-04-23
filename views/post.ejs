@@ -160,7 +160,7 @@ headings.forEach((h, i) => {
   n.textContent = String(i + 1).padStart(2, '0');
   a.appendChild(n);
   // Strip leading §NN or #Roman numeral prefixes from display text
-  const label = h.textContent.replace(/^[§#]+[\s\w.]+\s*/, '').trim() || h.textContent.trim();
+  const label = h.textContent.replace(/^[§#:\s]+/, '').trim() || h.textContent.trim();
   a.appendChild(document.createTextNode(label));
   tocEl.appendChild(a);
   tocLinks.push(a);
