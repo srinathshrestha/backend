@@ -23,7 +23,11 @@ async function showBlogPost(req, res, next) {
         if (!post || post.status !== 'published') {
             return res.status(404).render('404', { title: 'Not found' });
         }
-        res.render('post', { title: post.title, post });
+        const allPosts = await listPosts();
+        const idx = allPosts.findIndex(p => p.slug === post.slug);
+        const prevPost = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
+        const nextPost = idx > 0 ? allPosts[idx - 1] : null;
+        res.render('post', { title: post.title, post, prevPost, nextPost });
     } catch (error) {
         next(error);
     }

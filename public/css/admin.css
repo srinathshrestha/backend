@@ -1,13 +1,28 @@
 /* ── Admin/editor styles ──────────────────────────────────── */
 
 .auth-shell {
-  max-width: 400px; 
-  margin: 88px auto; 
+  max-width: 400px;
+  margin: 88px auto;
   background: var(--bg-soft);
-  padding: 40px; 
+  padding: 40px;
   border-radius: 2px;
-  border: 1px solid var(--border); 
+  border: 1px solid var(--border);
   box-shadow: var(--shadow);
+}
+
+/* Override .writer-mode main wide layout for the login page */
+.writer-mode main.auth-shell {
+  max-width: 400px;
+  padding: 40px;
+  margin: auto;
+}
+
+/* Center the login card on the page */
+body.writer-mode:has(main.auth-shell) {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .auth-shell h1 {
@@ -223,14 +238,19 @@ textarea#markdown {
   overflow-y: auto; 
 }
 
-.preview-pane h2 { 
-  margin: 0; 
+.preview-pane h2 {
+  margin: 0;
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--fg-muted); 
+  color: var(--fg-muted);
+}
+
+.preview-pane .post-body {
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 /* Help toggle */

@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 // Import controllers
-const { showLanding, showBlogs, showPortfolio, showDownloadResume, showBlogPost, showRssFeed } = require('../controllers/public');
+const { showBlogs, showPortfolio, showDownloadResume, showBlogPost, showRssFeed } = require('../controllers/public');
 const { showAdminLogin, showAdminPosts, showNewPost, showEditPost, previewMarkdown, uploadMedia, savePost, deletePostHandler } = require('../controllers/admin');
 const { handleLogin, handleLogout, requireAuth } = require('../controllers/auth');
 
 // Public routes
-router.get('/', showLanding);
+router.get('/', showPortfolio);
 router.get('/blogs', showBlogs);
-router.get('/portfolio', showPortfolio);
+router.get('/portfolio', (req, res) => res.redirect(301, '/'));
 router.get('/resume', showDownloadResume);
 router.get('/blogs/:slug', showBlogPost);
 router.get('/rss.xml', showRssFeed);

@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include("partials/head") %>
-  </head>
-  <body>
-    <main class="error-page">
-      <header>
-        <h1 class="site-title"><a href="/"><%= blogTitle %></a></h1>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/rss.xml">RSS</a>
-          <a href="/admin">Writer</a>
-        </nav>
-      </header>
+<head>
+  <%- include("partials/head") %>
+</head>
+<body class="page-404">
 
-      <section class="error-card">
-        <h2>404 · Not found</h2>
-        <p>
-          The page you were hunting for isn&#39;t here. Maybe the post got
-          scrapped, maybe it never existed.
-        </p>
-        <p>
-          <a class="button" href="/blogs">Head back home</a>
-        </p>
-      </section>
+<nav class="top">
+  <a class="wordmark" href="/blogs">
+    <span class="dot"></span>srinath<i>.</i>xyz
+  </a>
+  <div class="navlinks">
+    <a href="/blogs">Blog</a>
+    <a href="/">Portfolio</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-rss" href="/rss.xml">RSS ↗</a>
+  </div>
+</nav>
 
-      <footer>
-         <p>Built with hands &copy; <%= year %>.</p>
+<div class="container">
+  <div class="err-wrap">
+    <div class="err-num">404</div>
+    <h1 class="err-title">Nothing here.</h1>
+    <p class="err-body">The page you were hunting for isn't here. Maybe the post got scrapped, maybe it never existed.</p>
+    <a class="err-back" href="/blogs">← head back to the blog</a>
+  </div>
+</div>
 
+<footer class="site-footer">
+  <span>&copy; <%= year %> · srinath shrestha</span>
+  <div class="links">
+    <a href="/blogs">blog</a>
+    <a href="/">portfolio</a>
+    <a href="/rss.xml">rss</a>
+  </div>
+</footer>
 
-      </footer>
-    </main>
-  </body>
+</body>
 </html>
