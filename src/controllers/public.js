@@ -14,7 +14,7 @@ async function showBlogs(req, res, next) {
 }
 
 function showPortfolio(req, res) {
-    res.render('portfolio', { title: `Portfolio · ${req.app.locals.blogTitle}` });
+    res.render('portfolio', { title: 'Portfolio · Srinath' });
 }
 
 async function showBlogPost(req, res, next) {
