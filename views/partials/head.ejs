@@ -4,8 +4,31 @@
 <title><%= title ? `${title}` : blogTitle %></title>
 <script>
   (function() {
+    var darkHref = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css';
+    var lightHref = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+
+    // Keep theme state in one place so all pages behave the same.
+    function applyTheme(theme) {
+      var root = document.documentElement;
+      var next = theme === 'dark' ? 'dark' : 'light';
+      if (next === 'dark') root.setAttribute('data-theme', 'dark');
+      else root.removeAttribute('data-theme');
+      localStorage.setItem('theme', next);
+
+      // Keep code block colors readable in both themes.
+      var hljsSheet = document.getElementById('hljs-theme');
+      if (hljsSheet) hljsSheet.href = next === 'dark' ? darkHref : lightHref;
+      return next;
+    }
+
     var saved = localStorage.getItem('theme') || 'light';
-    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    window.applyTheme = applyTheme;
+    window.toggleTheme = function toggleTheme() {
+      var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      var next = cur === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+    };
+    applyTheme(saved);
   })();
 </script>
 
@@ -17,7 +40,7 @@
 
 <link
   rel="stylesheet"
-  id="hljs-dark"
+  id="hljs-theme"
   href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
@@ -37,14 +60,6 @@
     try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
   });
 
-  function toggleTheme() {
-    var root = document.documentElement;
-    var cur = root.getAttribute('data-theme') || 'light';
-    var next = cur === 'light' ? 'dark' : 'light';
-    if (next === 'dark') root.setAttribute('data-theme', 'dark');
-    else root.removeAttribute('data-theme');
-    localStorage.setItem('theme', next);
-  }
 </script>
 
 <link rel="alternate" type="application/rss+xml" title="<%= blogTitle %> RSS" href="/rss.xml" />
