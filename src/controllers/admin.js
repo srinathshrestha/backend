@@ -6,7 +6,7 @@ const {
     showAdminLogin, showAdminPosts, showNewPost, showEditPost,
     previewMarkdown, savePost, deletePostHandler,
 } = require('./adminPosts');
-const { uploadMedia } = require('./adminMedia');
+const { uploadMedia, listMedia, deleteMedia } = require('./adminMedia');
 
 module.exports = {
     showAdminLogin,
@@ -15,6 +15,8 @@ module.exports = {
     showEditPost,
     previewMarkdown,
     uploadMedia,
+    listMedia,
+    deleteMedia,
     savePost,
     deletePostHandler,
 };

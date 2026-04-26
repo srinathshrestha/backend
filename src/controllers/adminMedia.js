@@ -1,14 +1,26 @@
-// ── Admin media upload handler ───────────────────────────────
-// TODO: swap the local upload helper for S3/object storage so uploaded images
-// are stored outside the app server and served from a durable bucket/CDN.
-
 const multer = require('multer');
-const { uploadImage } = require('../utils/localUpload');
+const { uploadImage, deleteImage, listImages } = require('../utils/localUpload');
 
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 5 * 1024 * 1024 },
 });
+
+async function listMedia(req, res, next) {
+    try {
+        const images = await listImages();
+        res.render('admin/media', { images, title: 'Media Library' });
+    } catch (err) { next(err); }
+}
+
+async function deleteMedia(req, res, next) {
+    try {
+        const { key } = req.body;
+        if (!key) return res.status(400).json({ error: 'Missing key' });
+        await deleteImage(key);
+        res.json({ ok: true });
+    } catch (err) { next(err); }
+}
 
 async function uploadMedia(req, res, next) {
     const singleUpload = upload.single('image');
@@ -40,4 +52,4 @@ async function uploadMedia(req, res, next) {
     });
 }
 
-module.exports = { uploadMedia };
+module.exports = { uploadMedia, listMedia, deleteMedia };
