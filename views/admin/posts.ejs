@@ -2,32 +2,6 @@
 <html lang="en">
   <head>
     <%- include("../partials/head") %>
-    <style>
-      /* ── Analytics summary bar ── */
-      .stats-bar {
-        display: flex; gap: 1.5rem; flex-wrap: wrap;
-        padding: 1rem 1.25rem; margin-bottom: 1.5rem;
-        border: 1px solid var(--border, #e0e0e0); border-radius: 6px;
-        background: var(--surface, transparent);
-      }
-      .stat-item { display: flex; flex-direction: column; gap: .2rem; }
-      .stat-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted, #888); }
-      .stat-value { font-size: 1.4rem; font-weight: 700; line-height: 1; }
-
-      .referrers { margin-top: 1rem; }
-      .referrers h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted, #888); margin-bottom: .5rem; }
-      .referrer-row { display: flex; justify-content: space-between; font-size: .82rem; padding: .2rem 0; border-bottom: 1px solid var(--border, #f0f0f0); }
-      .referrer-row:last-child { border-bottom: none; }
-      .referrer-source { font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 260px; }
-
-      /* ── View count pill on post rows ── */
-      .view-pill {
-        font-size: .7rem; padding: .15rem .45rem; border-radius: 20px;
-        background: var(--hover-bg, #f0f0f0); color: var(--muted, #666);
-        white-space: nowrap; flex-shrink: 0; line-height: 1.4;
-      }
-      .view-pill .week { color: var(--accent, #4a9eff); font-weight: 600; }
-    </style>
   </head>
   <body class="writer-mode">
     <main>
@@ -158,7 +132,7 @@
             <% }); %>
           </div>
           <% } else { %>
-          <p style="color:var(--muted,#888);font-size:.875rem;">No referrer data yet — views will appear here as readers arrive.</p>
+          <p class="no-data-msg">No referrer data yet — views will appear here as readers arrive.</p>
           <% } %>
         </section>
       </section>
