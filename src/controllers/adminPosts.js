@@ -3,6 +3,7 @@
 
 const { listPosts, getPostBySlug, createPost, updatePost, deletePost } = require('../utils/postStore');
 const { renderMarkdown } = require('../utils/markdown');
+const { getPostViewCounts, getSiteSummary } = require('../utils/analytics');
 
 async function showAdminLogin(req, res) {
     if (res.locals.isAuthenticated) return res.redirect('/admin/posts');
@@ -20,7 +21,15 @@ async function showAdminPosts(req, res, next) {
     try {
         const posts = await listPosts({ includeDrafts: true });
         const { published, drafts } = splitPosts(posts);
-        res.render('admin/posts', { title: `Posts · ${res.locals.blogTitle}`, published, drafts });
+        const slugs = posts.map(p => p.slug);
+        const [viewCounts, summary] = await Promise.all([
+            getPostViewCounts(slugs),
+            getSiteSummary(),
+        ]);
+        res.render('admin/posts', {
+            title: `Posts · ${res.locals.blogTitle}`,
+            published, drafts, viewCounts: Object.fromEntries(viewCounts), summary,
+        });
     } catch (err) { next(err); }
 }
 
