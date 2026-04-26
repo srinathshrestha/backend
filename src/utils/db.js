@@ -23,6 +23,8 @@ async function connectToDatabase() {
 
     await database.collection('posts').createIndex({ slug: 1 }, { unique: true });
     await database.collection('posts').createIndex({ status: 1, publishedAt: -1 });
+    await database.collection('pageviews').createIndex({ slug: 1, ts: -1 });
+    await database.collection('pageviews').createIndex({ ts: -1 });
     await importFromFilesystem(database);
 
     console.log(`[rawdog-blog] connected to MongoDB database "${mongodbDbName}"`);
