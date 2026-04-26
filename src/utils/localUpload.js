@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const path = require('path');
-const fs = require('fs').promises;
+const { S3Client, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
 const ALLOWED_MIME_TYPES = new Set([
     'image/png',
@@ -22,6 +22,9 @@ const EXTENSION_BY_TYPE = {
     'image/avif': '.avif',
 };
 
+const s3 = new S3Client({ region: process.env.AWS_REGION });
+const BUCKET = process.env.S3_BUCKET;
+
 function buildFileName(filename) {
     const now = new Date();
     const year = now.getUTCFullYear();
@@ -35,14 +38,13 @@ function buildFileName(filename) {
 
 function ensureExtension(mimeType, filename) {
     const currentExt = path.extname(filename);
-    if (currentExt) {
-        return filename;
-    }
+    if (currentExt) return filename;
     const inferred = EXTENSION_BY_TYPE[mimeType];
-    if (!inferred) {
-        return filename;
-    }
-    return `${filename}${inferred}`;
+    return inferred ? `${filename}${inferred}` : filename;
+}
+
+function publicUrl(key) {
+    return `https://${BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
 }
 
 async function uploadImage({ buffer, mimetype, originalname }) {
@@ -59,35 +61,26 @@ async function uploadImage({ buffer, mimetype, originalname }) {
     }
 
     const safeName = ensureExtension(mimetype, originalname || 'upload');
-    const fileName = buildFileName(safeName);
-    const uploadPath = path.join(__dirname, '../../public/uploads', fileName);
-    const uploadDir = path.dirname(uploadPath);
+    const key = buildFileName(safeName);
 
-    // Ensure upload directory exists
-    await fs.mkdir(uploadDir, { recursive: true });
+    await s3.send(new PutObjectCommand({
+        Bucket: BUCKET,
+        Key: key,
+        Body: buffer,
+        ContentType: mimetype,
+    }));
 
-    // Write file to disk
-    await fs.writeFile(uploadPath, buffer);
-
-    // Return public URL
-    const url = `/uploads/${fileName}`;
-    console.log('Uploaded image URL:', url);
-    return { key: fileName, url };
+    const url = publicUrl(key);
+    return { key, url };
 }
 
-async function deleteImage(fileName) {
-    if (!fileName) {
-        return;
-    }
-    const filePath = path.join(__dirname, '../../public/uploads', fileName);
+async function deleteImage(key) {
+    if (!key) return;
     try {
-        await fs.unlink(filePath);
+        await s3.send(new DeleteObjectCommand({ Bucket: BUCKET, Key: key }));
     } catch (error) {
-        console.error('Error deleting file:', error);
+        console.error('Error deleting S3 object:', error);
     }
 }
 
-module.exports = {
-    uploadImage,
-    deleteImage,
-};
+module.exports = { uploadImage, deleteImage };
