@@ -1,5 +1,6 @@
 // ── Admin media upload handler ───────────────────────────────
-// Handles image uploads via multer + local disk storage.
+// TODO: swap the local upload helper for S3/object storage so uploaded images
+// are stored outside the app server and served from a durable bucket/CDN.
 
 const multer = require('multer');
 const { uploadImage } = require('../utils/localUpload');
