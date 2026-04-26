@@ -7,7 +7,7 @@ function escapeHtml(value = '') {
         .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-/** Only allow safe image sources: data URIs, http(s), or /uploads/ */
+/** Allow safe image sources: data URIs, http(s), or legacy /uploads/ paths. */
 function sanitizeImageSrc(src = '') {
     if (typeof src !== 'string') return '';
     const t = src.trim();
