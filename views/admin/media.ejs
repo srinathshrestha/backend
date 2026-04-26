@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head") %>
+    <style>
+      .media-shell { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+      .media-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+      .upload-label {
+        display: inline-flex; align-items: center; gap: .5rem;
+        padding: .5rem 1rem; cursor: pointer;
+        border: 1px solid var(--border, #d0d0d0); border-radius: 4px;
+        font-size: .875rem; font-weight: 500;
+      }
+      .upload-label:hover { background: var(--hover-bg, #f5f5f5); }
+      #file-input { display: none; }
+      #upload-status { font-size: .875rem; color: var(--muted, #666); }
+
+      .media-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+      .media-table th {
+        text-align: left; padding: .6rem .75rem;
+        border-bottom: 2px solid var(--border, #d0d0d0);
+        font-weight: 600; white-space: nowrap;
+      }
+      .media-table td { padding: .6rem .75rem; border-bottom: 1px solid var(--border, #eee); vertical-align: middle; }
+      .media-table tr:last-child td { border-bottom: none; }
+
+      .thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; display: block; background: var(--hover-bg, #f0f0f0); }
+      .key-cell { font-family: monospace; font-size: .8rem; color: var(--muted, #555); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .url-cell { display: flex; align-items: center; gap: .5rem; }
+      .url-text { font-family: monospace; font-size: .78rem; max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted, #555); }
+      .copy-btn, .del-btn {
+        flex-shrink: 0; padding: .3rem .65rem; font-size: .8rem;
+        border: 1px solid var(--border, #ccc); border-radius: 4px;
+        cursor: pointer; background: transparent; white-space: nowrap;
+      }
+      .copy-btn:hover { background: var(--hover-bg, #f5f5f5); }
+      .del-btn { color: #c0392b; border-color: #e8b4b0; }
+      .del-btn:hover { background: #fdf0ef; }
+      .size-cell { white-space: nowrap; color: var(--muted, #777); }
+      .empty-msg { text-align: center; padding: 3rem; color: var(--muted, #888); }
+      .flash { padding: .5rem 1rem; border-radius: 4px; font-size: .875rem; }
+      .flash.error { background: #fdf0ef; color: #c0392b; border: 1px solid #e8b4b0; }
+    </style>
+  </head>
+  <body class="writer-mode">
+    <main>
+      <header class="admin-header">
+        <h1>Media Library</h1>
+        <nav>
+          <a href="/admin/posts">Posts</a>
+          <a href="/">Index</a>
+          <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <form method="post" action="/admin/logout">
+            <button class="button" type="submit">Logout</button>
+          </form>
+        </nav>
+      </header>
+
+      <div class="media-shell">
+        <div id="error-banner" class="flash error" style="display:none;margin-bottom:1rem;"></div>
+
+        <div class="media-toolbar">
+          <label class="upload-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            Upload image
+            <input id="file-input" type="file" accept="image/*" />
+          </label>
+          <span id="upload-status"></span>
+        </div>
+
+        <% if (images.length === 0) { %>
+          <p class="empty-msg">No images in S3 yet. Upload one above.</p>
+        <% } else { %>
+        <table class="media-table" id="media-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Key</th>
+              <th>URL</th>
+              <th>Size</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% images.forEach(function(img) { %>
+            <tr data-key="<%= img.key %>">
+              <td><img class="thumb" src="<%= img.url %>" alt="" loading="lazy" /></td>
+              <td class="key-cell" title="<%= img.key %>"><%= img.key %></td>
+              <td>
+                <div class="url-cell">
+                  <span class="url-text" title="<%= img.url %>"><%= img.url %></span>
+                  <button class="copy-btn" data-url="<%= img.url %>">Copy</button>
+                </div>
+              </td>
+              <td class="size-cell"><%= (img.size / 1024).toFixed(0) %> KB</td>
+              <td>
+                <button class="del-btn" data-key="<%= img.key %>">Delete</button>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <% } %>
+      </div>
+    </main>
+
+    <script>
+      // Upload
+      document.getElementById('file-input').addEventListener('change', async function () {
+        const file = this.files[0];
+        if (!file) return;
+        const status = document.getElementById('upload-status');
+        status.textContent = 'Uploading…';
+
+        const fd = new FormData();
+        fd.append('image', file);
+
+        try {
+          const res = await fetch('/admin/media/upload', { method: 'POST', body: fd });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || 'Upload failed');
+          status.textContent = 'Uploaded. Refreshing…';
+          location.reload();
+        } catch (err) {
+          status.textContent = '';
+          showError(err.message);
+        }
+        this.value = '';
+      });
+
+      // Copy URL
+      document.addEventListener('click', function (e) {
+        if (!e.target.classList.contains('copy-btn')) return;
+        const url = e.target.dataset.url;
+        navigator.clipboard.writeText(url).then(() => {
+          const orig = e.target.textContent;
+          e.target.textContent = 'Copied!';
+          setTimeout(() => { e.target.textContent = orig; }, 1500);
+        });
+      });
+
+      // Delete
+      document.addEventListener('click', async function (e) {
+        if (!e.target.classList.contains('del-btn')) return;
+        const key = e.target.dataset.key;
+        if (!confirm('Delete "' + key + '" from S3? This cannot be undone.')) return;
+
+        try {
+          const res = await fetch('/admin/media', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ key }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Delete failed');
+          const row = document.querySelector(`tr[data-key="${CSS.escape(key)}"]`);
+          if (row) row.remove();
+        } catch (err) {
+          showError(err.message);
+        }
+      });
+
+      function showError(msg) {
+        const banner = document.getElementById('error-banner');
+        banner.textContent = msg;
+        banner.style.display = 'block';
+        setTimeout(() => { banner.style.display = 'none'; }, 5000);
+      }
+    </script>
+  </body>
+</html>

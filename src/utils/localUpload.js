@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const path = require('path');
-const { S3Client, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } = require('@aws-sdk/client-s3');
 
 const ALLOWED_MIME_TYPES = new Set([
     'image/png',
@@ -83,4 +83,26 @@ async function deleteImage(key) {
     }
 }
 
-module.exports = { uploadImage, deleteImage };
+async function listImages() {
+    const results = [];
+    let token;
+    do {
+        const res = await s3.send(new ListObjectsV2Command({
+            Bucket: BUCKET,
+            ContinuationToken: token,
+        }));
+        for (const obj of res.Contents || []) {
+            results.push({
+                key: obj.Key,
+                url: publicUrl(obj.Key),
+                size: obj.Size,
+                lastModified: obj.LastModified,
+            });
+        }
+        token = res.NextContinuationToken;
+    } while (token);
+    results.sort((a, b) => b.lastModified - a.lastModified);
+    return results;
+}
+
+module.exports = { uploadImage, deleteImage, listImages };
