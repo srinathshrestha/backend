@@ -117,11 +117,11 @@ body.writer-mode:has(main.auth-shell) {
   gap: 12px; 
 }
 
-.post-row { 
-  display: grid; 
-  grid-template-columns: 1fr auto auto; 
-  gap: 12px; 
-  align-items: center; 
+.post-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 8px;
+  align-items: center;
 }
 
 .post-link-static { 
@@ -411,15 +411,110 @@ textarea#markdown {
   margin: 0 0 0.8rem; 
 }
 
+/* ── Analytics ─────────────────────────────────────────── */
+.stats-bar {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  background: var(--bg-softer);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+}
+
+.stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--fg);
+}
+
+.referrers {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+.referrers h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fg-muted);
+  margin: 0 0 12px;
+}
+
+.referrer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+
+.referrer-row:last-child { border-bottom: none; }
+
+.referrer-source {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--fg-muted);
+}
+
+.no-data-msg {
+  color: var(--fg-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* View count pill on post rows */
+.view-pill {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  padding: 2px 8px;
+  border-radius: 2px;
+  background: var(--accent-soft);
+  color: var(--fg-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.6;
+}
+
+.view-pill .week {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* ── Responsive ───────────────────────────────────────── */
 @media (max-width: 960px) {
-  .admin-grid { 
-    grid-template-columns: 1fr; 
+  .admin-grid {
+    grid-template-columns: 1fr;
   }
-  .post-row { 
-    grid-template-columns: 1fr auto; 
-    grid-auto-flow: row; 
+  .post-row {
+    grid-template-columns: 1fr auto auto;
+    grid-auto-flow: row;
   }
+  .view-pill { display: none; }
   .preview-pane { 
     max-height: 50vh; 
   }
