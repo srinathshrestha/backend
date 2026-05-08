@@ -170,10 +170,21 @@ section.block:last-of-type { border-bottom: 1.5px solid var(--ink); }
 }
 
 /* About */
-.about-body p {
-  font-family: var(--serif); font-size: 19px; line-height: 1.6;
-  color: var(--ink-2); margin: 0 0 12px; max-width: 62ch;
+.about-body {
+  width: 100%;
 }
+.about-body p {
+  font-family: var(--serif); font-size: 19px; line-height: 1.62;
+  color: var(--ink-2); margin: 0 0 12px;
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
+}
+.about-body p:last-child { margin-bottom: 0; }
 .about-body a { color: var(--accent); border-bottom: 1px dotted var(--accent); }
 
 /* Projects */
@@ -215,18 +226,36 @@ section.block:last-of-type { border-bottom: 1.5px solid var(--ink); }
   background: var(--paper-2); padding: 1px 5px;
   border-radius: 2px; border: 1px solid var(--rule);
 }
-.project .p-gh {
+.project .p-tail {
+  display: flex;
+  flex-direction: column;
   margin-top: auto;
+}
+.project .p-gh {
   font-family: var(--mono); font-size: 12px; color: var(--ink-2);
   border-top: 1px dashed var(--rule); padding-top: 12px;
   display: flex; justify-content: space-between; align-items: center;
 }
 .project .p-gh a { color: var(--ink); border-bottom: 1px dotted var(--ink); }
 .project .p-gh a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-.project .p-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.project .p-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
 .project .chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 22px;
+  line-height: 1;
   font-family: var(--mono); font-size: 10.5px;
-  padding: 2px 7px; border: 1px solid var(--rule); border-radius: 2px;
+  padding: 2px 8px;
+  border: 1px solid var(--rule); border-radius: 2px;
   color: var(--ink-2); background: var(--paper);
 }
 
@@ -370,6 +399,8 @@ body.page-404 footer.site-footer {
   .port-avatar { width: 80px; height: 80px; }
   .port-hero h1 { font-size: 44px; }
 
+  .about-body p { font-size: 17px; }
+
   .projects-grid { grid-template-columns: 1fr; }
   .exp-item { grid-template-columns: 1fr; gap: 8px; }
   .skills-grid { grid-template-columns: 1fr; }
@@ -389,6 +420,14 @@ body.page-404 footer.site-footer {
   .port-hero { grid-template-columns: 1fr; gap: 14px; }
   .port-hero h1 { font-size: 36px; }
   .port-avatar { width: 64px; height: 64px; }
+
+  .about-body p {
+    font-size: 16px;
+    line-height: 1.68;
+    text-align: left;
+    hyphens: manual;
+    -webkit-hyphens: manual;
+  }
 
   .connect-grid { grid-template-columns: 1fr; }
 
