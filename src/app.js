@@ -36,7 +36,6 @@ app.disable('x-powered-by');
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
-app.use(express.static(PUBLIC_DIR));
 
 // Initialize database connection for serverless environments
 let dbInitialized = false;
@@ -51,7 +50,7 @@ async function ensureDbConnection() {
         }
         return;
     }
-    
+
     dbInitializing = true;
     try {
         await connectToDatabase();
@@ -88,10 +87,11 @@ app.get('/health', (req, res) => {
     res.type('application/json').send({ ok: true });
 });
 
-// Use all routes
+// App routes before static so /resume is not stolen by public/resume/
 app.use('/', routes);
+app.use(express.static(PUBLIC_DIR, { redirect: false }));
 
-// 404 handler - must come after routes
+// 404 handler - must come after routes + static
 app.use((req, res) => {
     res.status(404).render('404', { title: 'Not found' });
 });
