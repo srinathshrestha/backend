@@ -8,18 +8,12 @@
 <%- include("partials/nav") %>
 
 <main>
-  <section class="band notfound">
-    <div class="band__inner notfound__inner">
-      <p class="t-eyebrow">Error 500</p>
-      <h1 class="t-title-1">The server ran into a problem.</h1>
-      <p class="t-lead">This one is on my end, not yours.</p>
-      <pre class="error-detail"><%= message %></pre>
-      <a class="btn btn--primary" href="/">Back to the start</a>
-    </div>
-  </section>
+  <h1>500 &mdash; something broke</h1>
+  <p>
+    That one is on the server, not on you. Try again in a moment, or go back to
+    the <a href="/blogs">writing</a>.
+  </p>
 </main>
-
-<%- include("partials/footer") %>
 
 </body>
 </html>

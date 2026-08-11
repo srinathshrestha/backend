@@ -5,170 +5,84 @@
 </head>
 <body>
 
-<%- include("partials/nav", { active: "work" }) %>
+<%- include("partials/nav") %>
 
 <main>
+  <img class="portrait" src="/headshot.jpg" alt="Srinath Shrestha" width="150" height="150" />
 
-  <%# Hero — one statement, at scale. The portrait is a peer of the type,
-      not a badge stuck to it. %>
-  <section class="band hero">
-    <div class="band__inner hero__inner">
-      <div class="hero__text">
-        <h1 class="t-display">Srinath&nbsp;Shrestha</h1>
-        <p class="hero__statement">I build systems software in C, and write about what is happening underneath it.</p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="/blogs">Read the writing</a>
-          <a class="btn" href="/resume">Résumé</a>
-        </div>
-      </div>
-      <img class="hero__portrait" src="/HeadShot/IMG_0622 2.jpg" alt="Srinath Shrestha" width="320" height="320" />
-    </div>
-  </section>
+  <h1>Srinath Shrestha</h1>
+  <p>
+    I build systems software in C, and write about what is happening underneath
+    it. Most of my time goes into understanding how systems behave once the
+    abstractions run out — memory, files, and the paths a program actually takes
+    through them. I work in C with GDB, LLDB, Valgrind, and Make. Whatever I am
+    taking apart usually ends up on the <a href="/blogs">blog</a>.
+  </p>
 
-  <%# About — a single narrow column at the editorial measure. %>
-  <section class="band band--tint">
-    <div class="band__inner band__inner--read">
-      <p class="prose">
-        I write programs that are simple and fast. Most of my time goes into
-        understanding how systems behave once the abstractions run out — memory,
-        files, and the paths a program actually takes through them. I work in C
-        with GDB, LLDB, Valgrind, and Make.
-      </p>
-      <p class="prose">
-        Whatever I am taking apart usually ends up on the
-        <a class="prose__link" href="/blogs">blog</a>.
-      </p>
-    </div>
-  </section>
+  <h2>Projects</h2>
+  <ul>
+    <li>
+      <a href="https://github.com/srinathshrestha/priso">Priso</a> —
+      a scene description language with a built-in editor, rendering 2D and 3D
+      objects through OpenGL. Lexer, parser, renderer and editor written from
+      scratch in C.
+    </li>
+    <li>
+      <a href="https://github.com/srinathshrestha/quickLogg">quickLogg</a> —
+      a log parser that sustains 1–2 GB/s on a single core. Detects JSON,
+      Syslog, Nginx and key-value formats automatically, and emits NDJSON for
+      anything downstream.
+    </li>
+    <li>
+      <a href="https://github.com/srinathshrestha/shortURL">ShortURL</a> —
+      self-hosted link shortening with click analytics by country, device and
+      referrer. Go, Python, PostgreSQL and Redis.
+    </li>
+    <li>
+      <a href="https://github.com/srinathshrestha/c-Game">2D Car Racing</a> —
+      an arcade racing game in C with its own rendering path and hand-made
+      assets. Written to learn where the frame budget actually goes.
+    </li>
+  </ul>
 
-  <%# Projects — two-up, generous, one sentence each. %>
-  <section class="band">
-    <div class="band__inner">
-      <div class="band__head">
-        <h2 class="t-title-1">Projects</h2>
-        <p class="t-lead">Four things I built to understand something better.</p>
-      </div>
+  <h2>Experience</h2>
+  <ul>
+    <li>
+      <b>Full Stack Developer</b>, LinkVerse (May — July 2025, internship).
+      Automated PDF certificate generation with Next.js and Puppeteer, used more
+      than 100 times. Built AWS CloudFormation utilities for an AI DevOps agent.
+    </li>
+    <li>
+      <b>Backend Developer</b>, SkyForge System Solutions (January — May 2025,
+      internship). Built the production backend for Heliosensium, an AI parenting
+      agent. Integrated Neon, Pinecone and secure payments, deployed on Render.
+    </li>
+  </ul>
 
-      <div class="grid grid--2">
+  <h2>Tools</h2>
+  <dl>
+    <dt><b>Systems</b></dt>
+    <dd>C, GDB, Valgrind, Make, Git, x86 assembly</dd>
+    <dt><b>Web</b></dt>
+    <dd>JavaScript, Node.js, Next.js, Express, PostgreSQL, Docker, AWS</dd>
+  </dl>
 
-        <article class="work">
-          <p class="t-eyebrow">Systems</p>
-          <h3 class="work__title t-title-3">Priso</h3>
-          <p class="work__summary">A scene description language with a built-in editor, rendering 2D and 3D objects through OpenGL. Lexer, parser, renderer and editor written from scratch in C.</p>
-          <p class="work__stack t-caption">C · OpenGL · Lexer &amp; parser</p>
-          <a class="t-link work__link" href="https://github.com/srinathshrestha/priso" target="_blank" rel="noopener">View on GitHub</a>
-        </article>
+  <h2>Reading</h2>
+  <ul>
+    <li><i>Computer Systems: A Programmer's Perspective</i> — Bryant &amp; O'Hallaron</li>
+    <li><i>The C Programming Language</i> — Kernighan &amp; Ritchie</li>
+    <li><i>Operating Systems: Three Easy Pieces</i> — Arpaci-Dusseau</li>
+    <li><i>Hacking: The Art of Exploitation</i> — Jon Erickson</li>
+  </ul>
 
-        <article class="work">
-          <p class="t-eyebrow">Tooling</p>
-          <h3 class="work__title t-title-3">quickLogg</h3>
-          <p class="work__summary">A log parser that sustains 1–2 GB/s on a single core. Detects JSON, Syslog, Nginx and key-value formats automatically, and emits NDJSON for anything downstream.</p>
-          <p class="work__stack t-caption">C · NDJSON · CLI</p>
-          <a class="t-link work__link" href="https://github.com/srinathshrestha/quickLogg" target="_blank" rel="noopener">View on GitHub</a>
-        </article>
-
-        <article class="work">
-          <p class="t-eyebrow">Platform</p>
-          <h3 class="work__title t-title-3">ShortURL</h3>
-          <p class="work__summary">Self-hosted link shortening with click analytics by country, device and referrer. Runs as a small set of services you can deploy yourself.</p>
-          <p class="work__stack t-caption">Go · Python · PostgreSQL · Redis</p>
-          <a class="t-link work__link" href="https://github.com/srinathshrestha/shortURL" target="_blank" rel="noopener">View on GitHub</a>
-        </article>
-
-        <article class="work">
-          <p class="t-eyebrow">Graphics</p>
-          <h3 class="work__title t-title-3">2D Car Racing</h3>
-          <p class="work__summary">An arcade racing game in C with its own rendering path and hand-made assets. Written to learn where the frame budget actually goes.</p>
-          <p class="work__stack t-caption">C · Graphics</p>
-          <a class="t-link work__link" href="https://github.com/srinathshrestha/c-Game" target="_blank" rel="noopener">View on GitHub</a>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <%# Experience — a list, not cards. Roles are read, not browsed. %>
-  <section class="band band--tint">
-    <div class="band__inner">
-      <div class="band__head"><h2 class="t-title-1">Experience</h2></div>
-
-      <ol class="roles">
-        <li class="role">
-          <div class="role__when t-caption">
-            <b>May — July 2025</b>
-            <span>Internship</span>
-          </div>
-          <div class="role__what">
-            <h3 class="t-title-3">Full Stack Developer</h3>
-            <p class="role__org t-caption">LinkVerse</p>
-            <p class="role__detail">Automated PDF certificate generation with Next.js and Puppeteer, used more than 100 times. Built AWS CloudFormation utilities for an AI DevOps agent.</p>
-          </div>
-        </li>
-        <li class="role">
-          <div class="role__when t-caption">
-            <b>January — May 2025</b>
-            <span>Internship</span>
-          </div>
-          <div class="role__what">
-            <h3 class="t-title-3">Backend Developer</h3>
-            <p class="role__org t-caption">SkyForge System Solutions</p>
-            <p class="role__detail">Built the production backend for Heliosensium, an AI parenting agent. Integrated Neon, Pinecone and secure payments, deployed on Render.</p>
-          </div>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <%# Skills and reading share a band — both answer "what is he working with
-      right now", and splitting them into two bands would overstate them. %>
-  <section class="band">
-    <div class="band__inner">
-      <div class="grid grid--2 grid--wide-gap">
-
-        <div>
-          <div class="band__head"><h2 class="t-title-2">Tools</h2></div>
-          <dl class="specs">
-            <div class="spec">
-              <dt class="t-caption">Systems</dt>
-              <dd>C, GDB, Valgrind, Make, Git, x86 assembly</dd>
-            </div>
-            <div class="spec">
-              <dt class="t-caption">Web</dt>
-              <dd>JavaScript, Node.js, Next.js, Express, PostgreSQL, Docker, AWS</dd>
-            </div>
-          </dl>
-        </div>
-
-        <div>
-          <div class="band__head"><h2 class="t-title-2">Reading</h2></div>
-          <ul class="reading">
-            <li><b>Computer Systems: A Programmer's Perspective</b><span class="t-caption">Bryant &amp; O'Hallaron</span></li>
-            <li><b>The C Programming Language</b><span class="t-caption">Kernighan &amp; Ritchie</span></li>
-            <li><b>Operating Systems: Three Easy Pieces</b><span class="t-caption">Arpaci-Dusseau</span></li>
-            <li><b>Hacking: The Art of Exploitation</b><span class="t-caption">Jon Erickson</span></li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <%# Closing band — every Apple page ends by telling you what to do next. %>
-  <section class="band band--tint cta">
-    <div class="band__inner band__inner--read">
-      <h2 class="t-title-1">Get in touch</h2>
-      <p class="t-lead">Happy to talk about systems work, or anything on the blog.</p>
-      <div class="cta__links">
-        <a class="t-link" href="mailto:me@srinathshrestha.xyz">me@srinathshrestha.xyz</a>
-        <a class="t-link" href="https://github.com/srinathshrestha" target="_blank" rel="noopener">GitHub</a>
-        <a class="t-link" href="https://www.linkedin.com/in/srinath-shrestha-584171204/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-  </section>
-
+  <h2>Contact</h2>
+  <ul>
+    <li><a href="mailto:me@srinathshrestha.xyz">me@srinathshrestha.xyz</a></li>
+    <li><a href="https://github.com/srinathshrestha">GitHub</a></li>
+    <li><a href="https://www.linkedin.com/in/srinath-shrestha-584171204/">LinkedIn</a></li>
+    <li><a href="/resume">Résumé (PDF)</a></li>
+  </ul>
 </main>
-
-<%- include("partials/footer") %>
 
 </body>
 </html>

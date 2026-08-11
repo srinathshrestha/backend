@@ -5,143 +5,33 @@
 </head>
 <body>
 
-<div class="progress" aria-hidden="true"><div class="progress__bar" id="pbar"></div></div>
-
-<%- include("partials/nav", { active: "writing", wide: true }) %>
+<%- include("partials/nav") %>
 
 <%
   const pubDate = new Date(post.publishedAt || post.updatedAt);
   const pubFull = pubDate.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const pubIso = pubDate.toISOString().slice(0, 10);
-
-  const wordCount = (post.markdown || post.html.replace(/<[^>]+>/g, '')).split(/\s+/).filter(Boolean).length;
-  const readingMin = Math.max(1, Math.ceil(wordCount / 200));
 %>
 
-<main class="article">
+<article>
+  <h1><%= post.title %></h1>
+  <p class="byline">
+    <time datetime="<%= pubIso %>"><%= pubFull %></time><% if (post.tags && post.tags.length) { %>
+    &middot; <%= post.tags.join(', ') %><% } %>
+  </p>
 
-  <%# Headline block. Everything a left rail used to carry — date, reading
-      time, tags, author — belongs here, next to the title it describes. %>
-  <header class="article__head">
-    <div class="article__head-inner">
-      <p class="t-eyebrow">Essay</p>
-      <h1 class="t-display article__title"><%= post.title %></h1>
-      <p class="article__byline t-caption">
-        Srinath Shrestha
-        <span aria-hidden="true">·</span>
-        <time datetime="<%= pubIso %>"><%= pubFull %></time>
-        <span aria-hidden="true">·</span>
-        <%= readingMin %> min read
-        <% if (post.tags && post.tags.length) { %>
-        <span aria-hidden="true">·</span>
-        <%= post.tags.join(', ') %>
-        <% } %>
-      </p>
-    </div>
-  </header>
-
-  <div class="article__layout">
-    <article class="article__body post-body" id="body">
-      <%- post.html %>
-    </article>
-
-    <%# The one piece of chrome that earns its place on a long essay:
-        where am I, and what else is here. %>
-    <aside class="article__toc" id="tocWrap" hidden>
-      <h2 class="t-caption article__toc-head">On this page</h2>
-      <nav class="post-toc" id="toc" aria-label="Table of contents"></nav>
-    </aside>
+  <div class="post-body">
+    <%- post.html %>
   </div>
+</article>
 
-  <div class="article__end">
-    <button class="btn" id="copyLink" type="button">Copy link</button>
-  </div>
+<% if (prevPost || nextPost) { %>
+<hr />
+<nav class="pager" aria-label="More articles">
+  <% if (prevPost) { %><a href="/blogs/<%= prevPost.slug %>">&larr; <%= prevPost.title %></a><% } else { %><span></span><% } %>
+  <% if (nextPost) { %><a href="/blogs/<%= nextPost.slug %>"><%= nextPost.title %> &rarr;</a><% } %>
+</nav>
+<% } %>
 
-  <% if (prevPost || nextPost) { %>
-  <nav class="article__more" aria-label="More articles">
-    <% if (prevPost) { %>
-    <a href="/blogs/<%= prevPost.slug %>">
-      <span class="t-caption">Previous</span>
-      <span class="t-title-3"><%= prevPost.title %></span>
-    </a>
-    <% } else { %><span></span><% } %>
-    <% if (nextPost) { %>
-    <a href="/blogs/<%= nextPost.slug %>" class="is-next">
-      <span class="t-caption">Next</span>
-      <span class="t-title-3"><%= nextPost.title %></span>
-    </a>
-    <% } %>
-  </nav>
-  <% } %>
-
-</main>
-
-<%- include("partials/footer") %>
-
-<script>
-(function () {
-  var bar = document.getElementById('pbar');
-  var body = document.getElementById('body');
-  if (!body) return;
-
-  /* Reading progress, driven 1:1 with the scroll position — scaleX stays
-     on the compositor, where animating `width` would relayout every frame. */
-  var ticking = false;
-  function measure() {
-    var total = body.offsetHeight - window.innerHeight +
-                (body.getBoundingClientRect().top + window.scrollY);
-    var done = total > 0 ? Math.min(Math.max(window.scrollY / total, 0), 1) : 0;
-    bar.style.transform = 'scaleX(' + done + ')';
-    ticking = false;
-  }
-  function onScroll() {
-    if (!ticking) { ticking = true; requestAnimationFrame(measure); }
-  }
-  measure();
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-
-  /* Table of contents, built from the H2s the article actually has. */
-  var tocEl = document.getElementById('toc');
-  var tocWrap = document.getElementById('tocWrap');
-  var headings = [].slice.call(body.querySelectorAll('h2'));
-  var links = [];
-
-  headings.forEach(function (h, i) {
-    var id = h.id || 'section-' + (i + 1);
-    h.id = id;
-    var a = document.createElement('a');
-    a.href = '#' + id;
-    a.textContent = h.textContent.replace(/^[§#:\s]+/, '').trim() || h.textContent.trim();
-    tocEl.appendChild(a);
-    links.push(a);
-  });
-
-  if (headings.length > 1) {
-    tocWrap.hidden = false;
-
-    var updateTOC = function () {
-      var threshold = window.scrollY + window.innerHeight * 0.25;
-      var active = 0;
-      for (var i = 0; i < headings.length; i++) {
-        if (headings[i].getBoundingClientRect().top + window.scrollY <= threshold) active = i;
-      }
-      links.forEach(function (a, i) { a.classList.toggle('is-active', i === active); });
-    };
-    updateTOC();
-    window.addEventListener('scroll', updateTOC, { passive: true });
-    window.addEventListener('resize', updateTOC);
-  }
-
-  /* Copy link — confirm the action, then return to rest. */
-  var copy = document.getElementById('copyLink');
-  copy.addEventListener('click', function () {
-    navigator.clipboard.writeText(window.location.href).then(function () {
-      copy.textContent = 'Link copied';
-      setTimeout(function () { copy.textContent = 'Copy link'; }, 1600);
-    });
-  });
-})();
-</script>
 </body>
 </html>

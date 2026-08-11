@@ -8,17 +8,10 @@
 <%- include("partials/nav") %>
 
 <main>
-  <section class="band notfound">
-    <div class="band__inner notfound__inner">
-      <p class="t-eyebrow">Error <%= status %></p>
-      <h1 class="t-title-1">Something went wrong.</h1>
-      <p class="t-lead"><%= message %></p>
-      <a class="btn btn--primary" href="/">Back to the start</a>
-    </div>
-  </section>
+  <h1><%= status %> &mdash; something went sideways</h1>
+  <p><%= message %></p>
+  <p><a href="/">Back to safety</a></p>
 </main>
-
-<%- include("partials/footer") %>
 
 </body>
 </html>

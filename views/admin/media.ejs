@@ -1,72 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include("../partials/head") %>
-    <style>
-      .media-shell { max-width: 1100px; margin: 0 auto; padding: 0; }
-      .media-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-      .upload-label {
-        display: inline-flex; align-items: center; gap: .5rem;
-        padding: 9px 18px; cursor: pointer;
-        border: none; border-radius: var(--r-pill);
-        background: var(--accent); color: var(--accent-ink);
-        font-size: 14.5px; font-weight: 590; letter-spacing: -.01em;
-        white-space: nowrap; line-height: 1.2;
-        transition: background-color var(--t-fast) var(--ease-damped),
-                    transform var(--t-instant) var(--ease-damped);
-      }
-      .upload-label:hover { background: var(--accent-hover); }
-      .upload-label:active { transform: scale(.96); }
-      #file-input { display: none; }
-      #upload-status { font-size: 13.5px; color: var(--muted); }
-
-      .media-table {
-        width: 100%; border-collapse: collapse; font-size: 14px;
-        background: var(--bg-raised); border-radius: var(--r-lg);
-        box-shadow: var(--shadow-1); overflow: hidden;
-      }
-      .media-table th {
-        text-align: left; padding: 12px 16px;
-        border-bottom: 1px solid var(--separator);
-        font-size: 12.5px; font-weight: 590; color: var(--muted);
-        letter-spacing: -.005em; white-space: nowrap;
-      }
-      .media-table td { padding: 12px 16px; border-bottom: 1px solid var(--separator); vertical-align: middle; }
-      .media-table tr:last-child td { border-bottom: none; }
-      .media-table tbody tr { transition: background-color var(--t-fast) var(--ease-damped); }
-      .media-table tbody tr:hover { background: var(--fill); }
-
-      .thumb {
-        width: 52px; height: 52px; object-fit: cover;
-        border-radius: var(--r-xs); display: block; background: var(--fill);
-      }
-      .key-cell {
-        font-family: var(--mono); font-size: 12.5px; color: var(--muted);
-        max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      }
-      .url-cell { display: flex; align-items: center; gap: .5rem; }
-      .url-text {
-        font-family: var(--mono); font-size: 12px; max-width: 340px;
-        overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted);
-      }
-      .copy-btn, .del-btn {
-        flex-shrink: 0; padding: 5px 12px; font-size: 13px; font-weight: 500;
-        border: none; border-radius: var(--r-pill);
-        cursor: pointer; background: var(--fill); color: var(--ink-2);
-        white-space: nowrap;
-        transition: background-color var(--t-fast) var(--ease-damped),
-                    color var(--t-fast) var(--ease-damped),
-                    transform var(--t-instant) var(--ease-damped);
-      }
-      .copy-btn:hover { background: var(--fill-strong); color: var(--ink); }
-      .del-btn { color: var(--danger); background: var(--danger-soft); }
-      .del-btn:hover { background: var(--danger); color: #fff; }
-      .copy-btn:active, .del-btn:active { transform: scale(.95); }
-      .size-cell { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
-      .empty-msg { text-align: center; padding: 3rem; color: var(--muted); }
-      .flash { padding: 10px 16px; border-radius: var(--r-sm); font-size: 14px; }
-      .flash.error { background: var(--danger-soft); color: var(--danger); border: none; }
-    </style>
+    <%- include("../partials/head-admin") %>
   </head>
   <body class="writer-mode">
     <main>
@@ -92,7 +27,7 @@
           <label class="upload-label">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
             Upload image
-            <input id="file-input" type="file" accept="image/*" />
+            <input id="file-input" type="file" accept="image/*" hidden />
           </label>
           <span id="upload-status"></span>
         </div>
@@ -111,9 +46,13 @@
             </tr>
           </thead>
           <tbody>
-            <% images.forEach(function(img) { %>
-            <tr data-key="<%= img.key %>">
-              <td><img class="thumb" src="<%= img.url %>" alt="" loading="lazy" /></td>
+            <% images.forEach(function(img, i) { %>
+            <tr data-key="<%= img.key %>" data-url="<%= img.url %>" data-index="<%= i %>">
+              <td>
+                <button type="button" class="thumb-button" data-view aria-label="View <%= img.key %>">
+                  <img class="thumb" src="<%= img.url %>" alt="" loading="lazy" />
+                </button>
+              </td>
               <td class="key-cell" title="<%= img.key %>"><%= img.key %></td>
               <td>
                 <div class="url-cell">
@@ -133,68 +72,30 @@
       </div>
     </main>
 
-    <script>
-      // Upload
-      document.getElementById('file-input').addEventListener('change', async function () {
-        const file = this.files[0];
-        if (!file) return;
-        const status = document.getElementById('upload-status');
-        status.textContent = 'Uploading…';
+    <%# Lightbox — full-size viewing with zoom, pan and stepping between images. %>
+    <div class="lightbox" data-lightbox hidden>
+      <div class="lightbox-stage" data-stage>
+        <button type="button" class="lightbox-close" data-close aria-label="Close">&times;</button>
+        <button type="button" class="lightbox-nav lightbox-prev" data-prev aria-label="Previous image">&lsaquo;</button>
+        <img class="lightbox-img" data-lightbox-img src="" alt="" />
+        <button type="button" class="lightbox-nav lightbox-next" data-next aria-label="Next image">&rsaquo;</button>
+      </div>
+      <div class="lightbox-bar">
+        <span class="lightbox-key" data-lightbox-key></span>
+        <div class="lightbox-zoom">
+          <button type="button" data-zoom-out aria-label="Zoom out">&minus;</button>
+          <span class="lightbox-zoom-level" data-zoom-level>100%</span>
+          <button type="button" data-zoom-in aria-label="Zoom in">+</button>
+          <button type="button" data-zoom-fit>Fit</button>
+        </div>
+        <div class="lightbox-actions">
+          <button type="button" data-copy-url>Copy URL</button>
+          <button type="button" data-copy-md>Copy markdown</button>
+          <button type="button" class="del-btn" data-delete>Delete</button>
+        </div>
+      </div>
+    </div>
 
-        const fd = new FormData();
-        fd.append('image', file);
-
-        try {
-          const res = await fetch('/admin/media/upload', { method: 'POST', body: fd });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.message || 'Upload failed');
-          status.textContent = 'Uploaded. Refreshing…';
-          location.reload();
-        } catch (err) {
-          status.textContent = '';
-          showError(err.message);
-        }
-        this.value = '';
-      });
-
-      // Copy URL
-      document.addEventListener('click', function (e) {
-        if (!e.target.classList.contains('copy-btn')) return;
-        const url = e.target.dataset.url;
-        navigator.clipboard.writeText(url).then(() => {
-          const orig = e.target.textContent;
-          e.target.textContent = 'Copied!';
-          setTimeout(() => { e.target.textContent = orig; }, 1500);
-        });
-      });
-
-      // Delete
-      document.addEventListener('click', async function (e) {
-        if (!e.target.classList.contains('del-btn')) return;
-        const key = e.target.dataset.key;
-        if (!confirm('Delete "' + key + '" from S3? This cannot be undone.')) return;
-
-        try {
-          const res = await fetch('/admin/media', {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ key }),
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || 'Delete failed');
-          const row = document.querySelector(`tr[data-key="${CSS.escape(key)}"]`);
-          if (row) row.remove();
-        } catch (err) {
-          showError(err.message);
-        }
-      });
-
-      function showError(msg) {
-        const banner = document.getElementById('error-banner');
-        banner.textContent = msg;
-        banner.style.display = 'block';
-        setTimeout(() => { banner.style.display = 'none'; }, 5000);
-      }
-    </script>
+    <script type="module" src="/media.js"></script>
   </body>
 </html>

@@ -13,7 +13,7 @@ function toInt(value, fallback) {
 const rawConfig = {
     port: toInt(process.env.PORT, 3000),
     siteUrl: process.env.SITE_URL || 'http://localhost:3000',
-    blogTitle: process.env.BLOG_TITLE || 'Rawdog Dev Log',
+    blogTitle: process.env.BLOG_TITLE || 'Srinath Shrestha',
     sessionTtlDays: toInt(process.env.SESSION_TTL_DAYS, 7),
     adminPasswordHash: process.env.ADMIN_PASSWORD_HASH,
     adminPassword: process.env.ADMIN_PASSWORD,

@@ -5,95 +5,29 @@
 </head>
 <body>
 
-<%- include("partials/nav", { active: "writing" }) %>
+<%- include("partials/nav") %>
 
 <main>
-  <%# Page header band. The filter sits with the content it filters,
-      not in the global chrome — proximity is the mapping. %>
-  <section class="band band--tint">
-    <div class="band__inner">
-      <h1 class="t-display">Writing</h1>
-      <p class="t-lead">Notes on systems, C, and how computers actually work underneath.</p>
-      <div class="filter">
-        <label class="filter__field">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-          <input id="searchInput" type="search" placeholder="Filter articles" aria-label="Filter articles" />
-          <span class="filter__kbd" aria-hidden="true">⌘K</span>
-        </label>
-        <span class="filter__count t-caption" id="resultCount"><%= posts ? posts.length : 0 %> articles</span>
-      </div>
-    </div>
-  </section>
+  <h1>Writing</h1>
+  <p>Notes on systems, C, and how computers actually work underneath.</p>
 
-  <%# The archive: hairline-separated rows, whole row is the target.
-      No cards — cards without imagery are just empty boxes. %>
-  <section class="band band--flush">
-    <div class="band__inner">
-      <% if (!posts || posts.length === 0) { %>
-        <p class="empty t-lead">Nothing published yet.</p>
-      <% } else { %>
-      <ol class="archive" id="posts">
-        <% posts.forEach(function(post) {
-          const d = new Date(post.publishedAt || post.updatedAt);
-          const full = d.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-          const iso = d.toISOString().slice(0, 10);
-        %>
-        <li class="entry">
-          <a class="entry__link" href="/blogs/<%= post.slug %>">
-            <time class="entry__date t-caption" datetime="<%= iso %>"><%= full %></time>
-            <h2 class="entry__title t-title-2"><%= post.title %></h2>
-            <% if (post.excerpt) { %>
-            <p class="entry__excerpt"><%= post.excerpt %></p>
-            <% } %>
-            <% if (post.tags && post.tags.length) { %>
-            <p class="entry__tags t-caption"><%= post.tags.join(' · ') %></p>
-            <% } %>
-          </a>
-        </li>
-        <% }); %>
-      </ol>
-      <% } %>
-
-      <p class="empty t-lead" id="noresults" hidden>
-        No articles match <b id="searchQuery"></b>.
-      </p>
-    </div>
-  </section>
+  <% if (!posts || posts.length === 0) { %>
+    <p>Nothing published yet.</p>
+  <% } else { %>
+  <ul class="posts">
+    <% posts.forEach(function (post) {
+      const d = new Date(post.publishedAt || post.updatedAt);
+      const iso = d.toISOString().slice(0, 10);
+      const shown = d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    %>
+    <li>
+      <time datetime="<%= iso %>"><%= shown %></time>
+      <a href="/blogs/<%= post.slug %>"><%= post.title %></a>
+    </li>
+    <% }); %>
+  </ul>
+  <% } %>
 </main>
 
-<%- include("partials/footer") %>
-
-<script>
-(function () {
-  var input = document.getElementById('searchInput');
-  var entries = [].slice.call(document.querySelectorAll('#posts .entry'));
-  var empty = document.getElementById('noresults');
-  var query = document.getElementById('searchQuery');
-  var count = document.getElementById('resultCount');
-  if (!input) return;
-
-  function apply() {
-    var q = input.value.trim().toLowerCase();
-    var hits = 0;
-    entries.forEach(function (el) {
-      var show = !q || el.textContent.toLowerCase().indexOf(q) !== -1;
-      el.hidden = !show;
-      if (show) hits++;
-    });
-    count.textContent = hits + (hits === 1 ? ' article' : ' articles');
-    empty.hidden = !(q && hits === 0);
-    if (!empty.hidden) query.textContent = '“' + input.value + '”';
-  }
-
-  input.addEventListener('input', apply);
-  window.addEventListener('keydown', function (e) {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-      e.preventDefault();
-      input.focus();
-      input.select();
-    }
-  });
-})();
-</script>
 </body>
 </html>

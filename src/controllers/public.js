@@ -9,7 +9,7 @@ const { recordView } = require('../utils/analytics');
 async function showBlogs(req, res, next) {
     try {
         const posts = await listPosts();
-        res.render('index', { title: blogTitle, posts });
+        res.render('index', { title: `Writing · ${blogTitle}`, posts });
     } catch (error) {
         next(error);
     }
@@ -24,7 +24,7 @@ async function showPortfolio(req, res, next) {
         //     spotifyRecent = await fetchSpotifyListen(spotifyToken);
         // }
         const spotifyRecent = null;
-        res.render('portfolio', { title: 'Portfolio · Srinath', spotifyRecent });
+        res.render('portfolio', { title: blogTitle, spotifyRecent });
     } catch (error) {
         next(error);
     }
@@ -45,10 +45,6 @@ async function showBlogPost(req, res, next) {
     } catch (error) {
         next(error);
     }
-}
-
-function showLanding(req, res) {
-    res.render('landing', { title: res.locals.blogTitle });
 }
 
 async function showDownloadResume(req, res, next) {
@@ -80,7 +76,6 @@ async function showRssFeed(req, res, next) {
 }
 
 module.exports = {
-    showLanding,
     showBlogs,
     showPortfolio,
     showDownloadResume,

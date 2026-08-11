@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include("../partials/head") %>
+    <%- include("../partials/head-admin") %>
   </head>
   <body class="writer-mode">
-    <main>
+    <main class="main-edit">
       <header class="admin-header">
         <h1><%= post ? 'Edit Post' : 'New Draft' %></h1>
         <nav>
@@ -58,6 +58,29 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
               </button>
             </div>
+
+            <div class="editor-toolbar" data-editor-toolbar role="toolbar" aria-label="Formatting">
+              <button type="button" class="toolbar-button" data-action="bold" title="Bold (Cmd+B)"><b>B</b></button>
+              <button type="button" class="toolbar-button" data-action="italic" title="Italic (Cmd+I)"><i>I</i></button>
+              <button type="button" class="toolbar-button" data-action="strike" title="Strikethrough"><s>S</s></button>
+              <span class="toolbar-sep" aria-hidden="true"></span>
+              <button type="button" class="toolbar-button" data-action="link" title="Link (Cmd+K)">Link</button>
+              <button type="button" class="toolbar-button" data-action="image" title="Upload image">Image</button>
+              <span class="toolbar-sep" aria-hidden="true"></span>
+              <button type="button" class="toolbar-button" data-action="h2" title="Heading">H2</button>
+              <button type="button" class="toolbar-button" data-action="quote" title="Quote">&ldquo;&rdquo;</button>
+              <button type="button" class="toolbar-button" data-action="code" title="Inline code">Code</button>
+              <button type="button" class="toolbar-button" data-action="codeblock" title="Code block">{ }</button>
+              <span class="toolbar-sep" aria-hidden="true"></span>
+              <button type="button" class="toolbar-button" data-action="ul" title="Bullet list">&bull; List</button>
+              <button type="button" class="toolbar-button" data-action="ol" title="Numbered list">1. List</button>
+              <button type="button" class="toolbar-button" data-action="callout" title="Callout">!</button>
+              <button type="button" class="toolbar-button" data-action="mark" title="Highlight">==</button>
+              <button type="button" class="toolbar-button" data-action="footnote" title="Footnote">[^]</button>
+              <span class="toolbar-status" data-toolbar-status></span>
+            </div>
+            <input type="file" id="editor-image-input" accept="image/*" hidden />
+
             <textarea
               id="markdown"
               name="markdown"

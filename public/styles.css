@@ -1,8 +1,119 @@
-/* ── Main stylesheet ──────────────────────────────────────── */
+/* ── srinathshrestha.xyz ──────────────────────────────────────
+   One column, one column width, one link colour. No JavaScript
+   runs on these pages, so nothing here is waiting to be turned on.
+   ──────────────────────────────────────────────────────────── */
 
-@import url('./css/base.css');        /* theme vars, reset, nav, footer  */
-@import url('./css/components.css');   /* buttons, forms, tags, toggle    */
-@import url('./css/obsidian.css');    /* callouts, highlights, code       */
-@import url('./css/post.css');        /* article body — must follow obsidian */
-@import url('./css/pages.css');       /* blog index, portfolio            */
-@import url('./css/admin.css');       /* editor, dashboard, help modal    */
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: #111;
+  background: #fff;
+}
+
+body {
+  max-width: 40rem;
+  margin: 2rem auto 4rem;
+  padding: 0 1.25rem;
+}
+
+/* Links are blue and underlined, the way they have always been. */
+a { color: #0000ee; }
+a:visited { color: #551a8b; }
+a:hover { color: #0000ee; background: #eee; }
+
+h1, h2, h3, h4 { line-height: 1.25; margin: 2rem 0 0.5rem; font-weight: 700; }
+h1 { font-size: 1.6rem; margin-top: 0; }
+h2 { font-size: 1.25rem; clear: both; }
+h3 { font-size: 1.05rem; }
+p, ul, ol, dl, pre, table, blockquote, figure { margin: 0 0 1rem; }
+ul, ol { padding-left: 1.5rem; }
+li { margin-bottom: 0.25rem; }
+hr { border: none; border-top: 1px solid #ccc; margin: 2rem 0; }
+small, .muted { color: #666; font-size: 0.875rem; }
+
+/* ── Page chrome ─────────────────────────────────────────── */
+
+.nav { margin-bottom: 2rem; }
+.nav b { margin-right: 0.5rem; }
+
+/* The portrait sits in the text, not above it — float it and the
+   opening paragraph wraps around it the way a printed page would. */
+.portrait {
+  float: right;
+  width: 150px;
+  height: auto;
+  margin: 0 0 0.75rem 1.25rem;
+  border: 1px solid #ccc;
+}
+
+/* ── Post list ───────────────────────────────────────────── */
+
+.posts { list-style: none; padding: 0; }
+.posts li { margin-bottom: 0.4rem; }
+.posts time {
+  display: inline-block;
+  width: 6.5rem;
+  color: #666;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Article ─────────────────────────────────────────────── */
+
+.byline { color: #666; font-size: 0.875rem; margin-top: -0.25rem; }
+
+.post-body h2 { border-bottom: 1px solid #ddd; padding-bottom: 0.2rem; }
+.post-body img, .post-img { max-width: 100%; height: auto; }
+.post-figure figcaption { color: #666; font-size: 0.875rem; }
+.post-body blockquote {
+  border-left: 3px solid #ccc;
+  padding-left: 1rem;
+  margin-left: 0;
+  color: #444;
+}
+
+.pager { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.9375rem; }
+
+/* ── Code, tables, and the rest of what markdown emits ───── */
+
+code, kbd, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.875rem; }
+code { background: #f5f5f5; padding: 0.1em 0.3em; }
+pre { background: #f5f5f5; border: 1px solid #ddd; padding: 0.75rem; overflow-x: auto; }
+pre code { background: none; padding: 0; }
+
+/* Filename and language sit on one header row above the block, not
+   floated over it — a flex row wraps the <pre> onto its own line. */
+.code-container { margin-bottom: 1rem; display: flex; flex-wrap: wrap; column-gap: 0.75rem; }
+.code-filename, .code-language {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+.code-language { margin-left: auto; }
+.code-container .code-block { flex: 1 1 100%; min-width: 0; margin-bottom: 0; }
+
+.table-wrap { overflow-x: auto; margin-bottom: 1rem; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid #ccc; padding: 0.3rem 0.6rem; text-align: left; }
+th { background: #f5f5f5; }
+
+mark { background: #ffc; }
+
+/* Callouts stay monochrome — the type says which kind it is. */
+.callout { border-left: 3px solid #ccc; background: #f7f7f7; padding: 0.6rem 0.9rem; margin: 1rem 0; }
+.callout-title { font-weight: 700; }
+.callout-title svg { display: none; }
+.callout-body > :last-child { margin-bottom: 0; }
+
+.footnotes { border-top: 1px solid #ccc; margin-top: 2.5rem; padding-top: 0.5rem; font-size: 0.9375rem; }
+.fn-ref, .fn-backref { text-decoration: none; }
+
+.heading-anchor { text-decoration: none; color: #aaa; padding-right: 0.3rem; }
+
+@media (max-width: 34rem) {
+  body { margin-top: 1.25rem; }
+  .posts time { display: block; width: auto; }
+  .portrait { width: 110px; }
+}

@@ -1,65 +1,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <title><%= title ? `${title}` : blogTitle %></title>
-<script>
-  (function() {
-    var darkHref = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css';
-    var lightHref = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
-
-    // Keep theme state in one place so all pages behave the same.
-    function applyTheme(theme) {
-      var root = document.documentElement;
-      var next = theme === 'dark' ? 'dark' : 'light';
-      if (next === 'dark') root.setAttribute('data-theme', 'dark');
-      else root.removeAttribute('data-theme');
-      localStorage.setItem('theme', next);
-
-      // Keep code block colors readable in both themes.
-      var hljsSheet = document.getElementById('hljs-theme');
-      if (hljsSheet) hljsSheet.href = next === 'dark' ? darkHref : lightHref;
-      return next;
-    }
-
-    var saved = localStorage.getItem('theme') || 'light';
-    window.applyTheme = applyTheme;
-    window.toggleTheme = function toggleTheme() {
-      var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      var next = cur === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-    };
-    applyTheme(saved);
-  })();
-</script>
-
-<%# Typography is the platform's own system font — it already ships optical
-    sizing, tracking tables and legibility tuning, and costs no round trip. %>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="/styles.css" />
-
-<link
-  rel="stylesheet"
-  id="hljs-theme"
-  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
-<script
-  defer
-  src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
-  });
-  window.addEventListener("load", function () {
-    try { if (window.hljs) window.hljs.highlightAll(); } catch (e) {}
-  });
-
-</script>
-
-<script defer src="/motion.js"></script>
-
 <link rel="alternate" type="application/rss+xml" title="<%= blogTitle %> RSS" href="/rss.xml" />
