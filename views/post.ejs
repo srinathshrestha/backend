@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<%= typeof theme !== 'undefined' ? theme : 'light' %>">
 <head>
   <%- include("partials/head") %>
 </head>
@@ -31,6 +31,10 @@
   <% if (prevPost) { %><a href="/blogs/<%= prevPost.slug %>">&larr; <%= prevPost.title %></a><% } else { %><span></span><% } %>
   <% if (nextPost) { %><a href="/blogs/<%= nextPost.slug %>"><%= nextPost.title %> &rarr;</a><% } %>
 </nav>
+<% } %>
+
+<% if (prevPost || nextPost) { %>
+<script src="/prefetch.js" defer></script>
 <% } %>
 
 </body>

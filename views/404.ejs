@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<%= typeof theme !== 'undefined' ? theme : 'light' %>">
 <head>
   <%- include("partials/head") %>
 </head>
@@ -11,7 +11,7 @@
   <h1>404 &mdash; nothing here</h1>
   <p>
     The page you were hunting for isn't here. Maybe the post got scrapped, maybe
-    it never existed. Try the <a href="/blogs">writing</a>.
+    it never existed. Try the <a href="/blogs">blogs</a>.
   </p>
 </main>
 

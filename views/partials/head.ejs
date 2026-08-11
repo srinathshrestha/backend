@@ -1,6 +1,16 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title><%= title ? `${title}` : blogTitle %></title>
+<%# Apply cookie theme before CSS so toggles work even when HTML was cached. %>
+<script>
+(function () {
+  try {
+    var m = document.cookie.match(/(?:^|;\s*)raw_theme=([^;]*)/);
+    var t = m && decodeURIComponent(m[1]) === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="/styles.css" />
 <link rel="alternate" type="application/rss+xml" title="<%= blogTitle %> RSS" href="/rss.xml" />

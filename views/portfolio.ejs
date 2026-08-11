@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<%= typeof theme !== 'undefined' ? theme : 'light' %>">
 <head>
   <%- include("partials/head") %>
 </head>
 <body>
-
 <%- include("partials/nav") %>
 
 <main>
-  <img class="portrait" src="/headshot.jpg" alt="Srinath Shrestha" width="150" height="150" />
+  <img src="/headshot.jpg" alt="Srinath Shrestha" width="150" height="150" />
 
   <h1>Srinath Shrestha</h1>
   <p>
-    I build systems software in C, and write about what is happening underneath
+    I build software, and write about what is happening underneath
     it. Most of my time goes into understanding how systems behave once the
-    abstractions run out — memory, files, and the paths a program actually takes
-    through them. I work in C with GDB, LLDB, Valgrind, and Make. Whatever I am
+    abstractions run out of memory, files, and the paths a program actually takes
+    through them. I work in C, Go, with, LLDB, Valgrind, and Make. Whatever I am
     taking apart usually ends up on the <a href="/blogs">blog</a>.
   </p>
 
@@ -53,9 +52,11 @@
       than 100 times. Built AWS CloudFormation utilities for an AI DevOps agent.
     </li>
     <li>
-      <b>Backend Developer</b>, SkyForge System Solutions (January — May 2025,
-      internship). Built the production backend for Heliosensium, an AI parenting
-      agent. Integrated Neon, Pinecone and secure payments, deployed on Render.
+      <b>Backend Developer</b>, SkyForge System Solutions (Jan — May 2025, internship).
+      Built and optimized backend services for <a href="https://diagnostic.sirtika.com/login" target="_blank" rel="noopener">SIRTIKA</a>, a diagnostic platform, focusing on efficient report generation, reliable background processing, and high-performance APIs.
+      <br>
+      Platform: <a href="https://diagnostic.sirtika.com/login" target="_blank" rel="noopener">diagnostic.sirtika.com</a>, 
+      Landing page: <a href="https://sirtika.com/" target="_blank" rel="noopener">sirtika.com</a>
     </li>
   </ul>
 
@@ -63,16 +64,15 @@
   <dl>
     <dt><b>Systems</b></dt>
     <dd>C, GDB, Valgrind, Make, Git, x86 assembly</dd>
-    <dt><b>Web</b></dt>
+    <dt>Web <i>[previous]</i></dt>
     <dd>JavaScript, Node.js, Next.js, Express, PostgreSQL, Docker, AWS</dd>
   </dl>
 
-  <h2>Reading</h2>
+  <h2>Books</h2>
   <ul>
-    <li><i>Computer Systems: A Programmer's Perspective</i> — Bryant &amp; O'Hallaron</li>
-    <li><i>The C Programming Language</i> — Kernighan &amp; Ritchie</li>
-    <li><i>Operating Systems: Three Easy Pieces</i> — Arpaci-Dusseau</li>
-    <li><i>Hacking: The Art of Exploitation</i> — Jon Erickson</li>
+    <li><i>Computer Systems: A Programmer's Perspective</i> — Bryant &amp; O'Hallaron [<b><i>read</i></b>]</li> 
+    <li><i>Operating Systems: Three Easy Pieces</i> — Arpaci-Dusseau [<b><i>read</i></b>]</li> 
+    <li><i>Hacking: The Art of Exploitation</i> — Jon Erickson [<i>reading</i>]</li> 
   </ul>
 
   <h2>Contact</h2>
@@ -83,6 +83,8 @@
     <li><a href="/resume">Résumé (PDF)</a></li>
   </ul>
 </main>
+
+<script src="/prefetch.js" defer></script>
 
 </body>
 </html>

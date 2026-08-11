@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<%= typeof theme !== 'undefined' ? theme : 'light' %>">
 <head>
   <%- include("partials/head") %>
 </head>
@@ -28,6 +28,10 @@
   </ul>
   <% } %>
 </main>
+
+<% if (posts && posts.length) { %>
+<script src="/prefetch.js" defer></script>
+<% } %>
 
 </body>
 </html>
