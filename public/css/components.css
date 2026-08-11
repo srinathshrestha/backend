@@ -1,201 +1,125 @@
-/* ── Buttons, forms, inputs, tags, theme toggle ───────────── */
+/* ── Controls ──────────────────────────────────────────────────
+   Feedback lands on pointer-down, never on release. motion.js adds
+   .is-pressed the instant a pointer goes down and removes it if the
+   pointer drags more than ~10px away, so a press stays cancellable.
+   ───────────────────────────────────────────────────────────── */
 
-.button, button, input, textarea {
-  font: inherit;
-  color: inherit;
-}
+.button, button, input, textarea, select { font: inherit; color: inherit; }
 
-.button, button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  border-radius: 2px;
-  border: 1px solid var(--border);
-  background: var(--bg-soft);
-  color: var(--fg);
+/* Pill buttons — Apple's control shape. */
+.btn, .button, button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  background: var(--fill);
+  color: var(--ink);
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-family: var(--sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  letter-spacing: var(--tr-body);
+  line-height: 1.2;
+  text-transform: none;
+  white-space: nowrap;
+  transition: background-color var(--t-fast) var(--ease-damped),
+              color var(--t-fast) var(--ease-damped),
+              transform var(--t-instant) var(--ease-damped);
 }
+.btn:hover, .button:hover, button:hover { background: var(--fill-2); }
+.btn:active, .button:active, button:active { transform: scale(0.96); }
 
-.button:hover, button:hover { 
-  background: var(--bg-softer);
-  border-color: var(--accent);
-  color: var(--accent);
+.btn--primary, .button.accent {
+  background: var(--accent); color: var(--accent-ink);
 }
+.btn--primary:hover, .button.accent:hover { background: var(--accent-hover); }
 
-.button.primary { 
-  background: var(--bg-softer); 
-  border-color: var(--accent);
-  color: var(--accent);
-}
+.button.primary { background: var(--accent-soft); color: var(--accent); }
+.button.danger { background: var(--danger-soft); color: var(--danger); }
+.button.danger:hover { background: var(--danger); color: #fff; }
 
-.button.accent { 
-  background: var(--accent); 
-  color: var(--paper); 
-  border-color: var(--accent);
-}
-
-.button.accent:hover {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
-}
-
-.button.danger {
-  background: var(--danger-soft);
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
-.button.danger:hover {
-  background: var(--danger);
-  color: var(--paper);
-}
-
-/* Icon-only buttons */
 .button.post-link, .button.post-delete {
-  min-width: unset; width: 36px; height: 36px; padding: 0;
+  min-width: unset; width: 32px; height: 32px; padding: 0; border-radius: 50%;
+}
+
+/* Fields */
+input, textarea, select {
+  width: 100%;
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline);
+  background: var(--bg-raised);
+  padding: 11px 14px;
+  font-size: var(--fs-body);
+  letter-spacing: var(--tr-body);
+  transition: border-color var(--t-fast) var(--ease-damped),
+              box-shadow var(--t-fast) var(--ease-damped);
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+textarea { resize: vertical; min-height: 240px; line-height: 1.6; }
+
+label {
+  display: flex; flex-direction: column; gap: 7px;
+  font-size: var(--fs-caption);
+  letter-spacing: var(--tr-caption);
+  color: var(--muted);
   text-transform: none;
 }
 
-input, textarea {
-  width: 100%;
-  border-radius: 2px;
-  border: 1px solid var(--border);
-  background: var(--bg-soft);
-  padding: 12px 14px;
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-input:focus, textarea:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-textarea { 
-  resize: vertical; 
-  min-height: 240px; 
-  line-height: 1.7; 
-}
-
-label { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 8px; 
-  font-size: 0.9rem;
-  font-family: 'Cormorant Garamond', serif;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
 .tag-chip {
-  display: inline-flex; 
-  align-items: center;
-  padding: 4px 10px; 
-  border-radius: 2px;
-  border: 1px solid var(--border); 
-  background: var(--bg-softer);
-  color: var(--fg-muted); 
-  font-size: 0.7rem;
-  font-family: 'Cormorant Garamond', serif;
-  text-transform: uppercase; 
-  letter-spacing: 0.1em;
+  display: inline-flex; align-items: center;
+  padding: 3px 10px; border-radius: var(--r-pill);
+  border: none; background: var(--fill);
+  color: var(--ink-2);
+  font-size: var(--fs-micro); letter-spacing: var(--tr-micro);
+  text-transform: none;
 }
 
-/* ── Theme toggle ─────────────────────────────────────── */
-.theme-toggle {
-  display: inline-flex; 
-  align-items: center; 
-  justify-content: center;
-  width: 38px; 
-  height: 38px; 
-  padding: 0; 
-  border-radius: 2px;
-  border: 1px solid var(--border); 
-  background: var(--bg-soft);
-  color: var(--fg-muted); 
+/* ── Appearance switch — lives in the footer ───────────────── */
+.appearance, .theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; padding: 0;
+  border-radius: 50%; border: none;
+  background: var(--fill); color: var(--muted);
   cursor: pointer;
-  transition: all 0.2s ease;
 }
+.appearance:hover, .theme-toggle:hover { background: var(--fill-2); color: var(--ink); }
+.appearance:active, .theme-toggle:active { transform: scale(0.92); }
 
-.theme-toggle:hover {
-  border-color: var(--accent);
-  background: var(--bg-softer); 
-  color: var(--accent);
-}
-
-.theme-toggle .icon { 
-  display: block; 
-  transition: opacity 0.2s ease; 
-}
-
-.theme-toggle .icon-sun  { opacity: 1; }
-.theme-toggle .icon-moon { display: none; }
-
+.appearance .icon-sun, .theme-toggle .icon-sun  { display: block; }
+.appearance .icon-moon, .theme-toggle .icon-moon { display: none; }
+:root[data-theme="dark"] .appearance .icon-sun,
 :root[data-theme="dark"] .theme-toggle .icon-sun  { display: none; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: block; opacity: 1; }
+:root[data-theme="dark"] .appearance .icon-moon,
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
 
-/* ── Site title and author ────────────────────────────── */
+/* ── Press state ───────────────────────────────────────────── */
+.is-pressed { transition-duration: var(--t-instant) !important; }
+
+.btn.is-pressed, .button.is-pressed, button.is-pressed,
+.appearance.is-pressed, .theme-toggle.is-pressed,
+.toolbar-button.is-pressed, .help-toggle.is-pressed {
+  transform: scale(0.96);
+}
+
+.work.is-pressed, .post-nav a.is-pressed {
+  transform: scale(0.99);
+  box-shadow: var(--shadow-1);
+}
+
+.entry__link.is-pressed { opacity: 0.62; }
+
+.nav__links a.is-pressed, .footer__links a.is-pressed,
+.post-toc a.is-pressed, .t-link.is-pressed { opacity: 0.6; }
+
+/* ── Legacy admin aliases ──────────────────────────────────── */
 .site-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  font-weight: 400;
-  letter-spacing: 0.02em; 
-  color: var(--accent);
-  margin: 0;
+  font-family: var(--display);
+  font-size: var(--fs-title-2); font-weight: 600;
+  letter-spacing: var(--tr-title-2); line-height: var(--lh-title);
+  color: var(--ink); margin: 0;
 }
-
-.site-title a {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: none;
-}
-
-.site-title a:hover {
-  color: var(--fg);
-  border-bottom: none;
-}
-
-.author-info {
-  display: flex; 
-  align-items: center; 
-  gap: 14px;
-  margin: 0 0 32px; 
-  text-decoration: none;
-  color: inherit; 
-  border-radius: 2px; 
-  padding: 10px 14px;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
-  width: fit-content;
-}
-
-.author-info:hover { 
-  background: var(--bg-soft);
-  border-color: var(--border);
-}
-
-.author-photo {
-  width: 52px; 
-  height: 52px; 
-  border-radius: 999px;
-  object-fit: cover; 
-  border: 2px solid var(--border);
-  box-shadow: var(--shadow);
-}
-
-.author-name { 
-  font-size: 0.85rem; 
-  font-family: 'Cormorant Garamond', serif;
-  color: var(--fg-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+.site-title a:hover { color: var(--accent); }

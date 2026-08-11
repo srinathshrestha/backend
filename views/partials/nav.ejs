@@ -1,0 +1,11 @@
+<%# Global chrome. One bar: name, then destinations. Nothing else —
+    RSS and the appearance control live in the footer, where secondary
+    affordances belong. `active` is 'writing' | 'work' | none.
+    `wide` widens the bar to match the article grid. %>
+<header class="nav<%= typeof wide !== 'undefined' && wide ? ' nav--wide' : '' %>">
+  <a class="nav__brand" href="/">Srinath Shrestha</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="/blogs" <%= typeof active !== 'undefined' && active === 'writing' ? 'aria-current="page"' : '' %>>Writing</a>
+    <a href="/" <%= typeof active !== 'undefined' && active === 'work' ? 'aria-current="page"' : '' %>>Work</a>
+  </nav>
+</header>

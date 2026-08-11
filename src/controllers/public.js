@@ -4,6 +4,7 @@ const { buildRssFeed } = require('../utils/rss');
 const { siteUrl, blogTitle } = require('../config');
 const { PUBLIC_DIR } = require('../utils/paths');
 const { recordView } = require('../utils/analytics');
+// const { fetchSpotifyListen } = require('../utils/spotify');
 
 async function showBlogs(req, res, next) {
     try {
@@ -14,8 +15,19 @@ async function showBlogs(req, res, next) {
     }
 }
 
-function showPortfolio(req, res) {
-    res.render('portfolio', { title: 'Portfolio · Srinath' });
+async function showPortfolio(req, res, next) {
+    try {
+        // Spotify (disabled)
+        // let spotifyRecent = null;
+        // const spotifyToken = process.env.SPOTIFY_ACCESS_TOKEN;
+        // if (spotifyToken) {
+        //     spotifyRecent = await fetchSpotifyListen(spotifyToken);
+        // }
+        const spotifyRecent = null;
+        res.render('portfolio', { title: 'Portfolio · Srinath', spotifyRecent });
+    } catch (error) {
+        next(error);
+    }
 }
 
 async function showBlogPost(req, res, next) {

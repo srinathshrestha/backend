@@ -32,10 +32,8 @@
   })();
 </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-
+<%# Typography is the platform's own system font — it already ships optical
+    sizing, tracking tables and legibility tuning, and costs no round trip. %>
 <link rel="stylesheet" href="/styles.css" />
 
 <link
@@ -61,5 +59,7 @@
   });
 
 </script>
+
+<script defer src="/motion.js"></script>
 
 <link rel="alternate" type="application/rss+xml" title="<%= blogTitle %> RSS" href="/rss.xml" />

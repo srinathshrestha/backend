@@ -3,38 +3,22 @@
 <head>
   <%- include("partials/head") %>
 </head>
-<body class="page-404">
+<body>
 
-<nav class="top">
-  <a class="wordmark" href="/blogs">
-    <span class="dot"></span>srinath<i>.</i>xyz
-  </a>
-  <div class="navlinks">
-    <a href="/blogs">Blog</a>
-    <a href="/">Portfolio</a>
-  </div>
-  <div class="nav-right">
-    <a class="btn-rss" href="/rss.xml">RSS ↗</a>
-  </div>
-</nav>
+<%- include("partials/nav") %>
 
-<div class="container">
-  <div class="err-wrap">
-    <div class="err-num">404</div>
-    <h1 class="err-title">Nothing here.</h1>
-    <p class="err-body">The page you were hunting for isn't here. Maybe the post got scrapped, maybe it never existed.</p>
-    <a class="err-back" href="/blogs">← head back to the blog</a>
-  </div>
-</div>
+<main>
+  <section class="band notfound">
+    <div class="band__inner notfound__inner">
+      <p class="t-eyebrow">Error 404</p>
+      <h1 class="t-title-1">This page doesn’t exist.</h1>
+      <p class="t-lead">The article may have been removed, or the link may be wrong.</p>
+      <a class="btn btn--primary" href="/blogs">Go to Writing</a>
+    </div>
+  </section>
+</main>
 
-<footer class="site-footer">
-  <span>&copy; <%= year %> · srinath shrestha</span>
-  <div class="links">
-    <a href="/blogs">blog</a>
-    <a href="/">portfolio</a>
-    <a href="/rss.xml">rss</a>
-  </div>
-</footer>
+<%- include("partials/footer") %>
 
 </body>
 </html>

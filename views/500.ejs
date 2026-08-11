@@ -1,31 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include("partials/head") %>
-  </head>
-  <body>
-    <main class="error-page">
-      <header>
-        <h1 class="site-title"><a href="/"><%= blogTitle %></a></h1>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/rss.xml">RSS</a>
-          <a href="/admin">Writer</a>
-        </nav>
-      </header>
+<head>
+  <%- include("partials/head") %>
+</head>
+<body>
 
-      <section class="error-card">
-        <h2>500 · Something broke</h2>
-        <p>The server choked on that request. Details:</p>
-        <pre><%= message %></pre>
-        <p>
-          <a class="button" href="/">Try the homepage</a>
-        </p>
-      </section>
+<%- include("partials/nav") %>
 
-      <footer>
-         <p>Built with hands &copy; <%= year %>.</p>
-      </footer>
-    </main>
-  </body>
+<main>
+  <section class="band notfound">
+    <div class="band__inner notfound__inner">
+      <p class="t-eyebrow">Error 500</p>
+      <h1 class="t-title-1">The server ran into a problem.</h1>
+      <p class="t-lead">This one is on my end, not yours.</p>
+      <pre class="error-detail"><%= message %></pre>
+      <a class="btn btn--primary" href="/">Back to the start</a>
+    </div>
+  </section>
+</main>
+
+<%- include("partials/footer") %>
+
+</body>
 </html>

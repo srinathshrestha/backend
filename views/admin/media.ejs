@@ -3,43 +3,69 @@
   <head>
     <%- include("../partials/head") %>
     <style>
-      .media-shell { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
-      .media-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+      .media-shell { max-width: 1100px; margin: 0 auto; padding: 0; }
+      .media-toolbar { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
       .upload-label {
         display: inline-flex; align-items: center; gap: .5rem;
-        padding: .5rem 1rem; cursor: pointer;
-        border: 1px solid var(--border, #d0d0d0); border-radius: 4px;
-        font-size: .875rem; font-weight: 500;
+        padding: 9px 18px; cursor: pointer;
+        border: none; border-radius: var(--r-pill);
+        background: var(--accent); color: var(--accent-ink);
+        font-size: 14.5px; font-weight: 590; letter-spacing: -.01em;
+        white-space: nowrap; line-height: 1.2;
+        transition: background-color var(--t-fast) var(--ease-damped),
+                    transform var(--t-instant) var(--ease-damped);
       }
-      .upload-label:hover { background: var(--hover-bg, #f5f5f5); }
+      .upload-label:hover { background: var(--accent-hover); }
+      .upload-label:active { transform: scale(.96); }
       #file-input { display: none; }
-      #upload-status { font-size: .875rem; color: var(--muted, #666); }
+      #upload-status { font-size: 13.5px; color: var(--muted); }
 
-      .media-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+      .media-table {
+        width: 100%; border-collapse: collapse; font-size: 14px;
+        background: var(--bg-raised); border-radius: var(--r-lg);
+        box-shadow: var(--shadow-1); overflow: hidden;
+      }
       .media-table th {
-        text-align: left; padding: .6rem .75rem;
-        border-bottom: 2px solid var(--border, #d0d0d0);
-        font-weight: 600; white-space: nowrap;
+        text-align: left; padding: 12px 16px;
+        border-bottom: 1px solid var(--separator);
+        font-size: 12.5px; font-weight: 590; color: var(--muted);
+        letter-spacing: -.005em; white-space: nowrap;
       }
-      .media-table td { padding: .6rem .75rem; border-bottom: 1px solid var(--border, #eee); vertical-align: middle; }
+      .media-table td { padding: 12px 16px; border-bottom: 1px solid var(--separator); vertical-align: middle; }
       .media-table tr:last-child td { border-bottom: none; }
+      .media-table tbody tr { transition: background-color var(--t-fast) var(--ease-damped); }
+      .media-table tbody tr:hover { background: var(--fill); }
 
-      .thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; display: block; background: var(--hover-bg, #f0f0f0); }
-      .key-cell { font-family: monospace; font-size: .8rem; color: var(--muted, #555); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .url-cell { display: flex; align-items: center; gap: .5rem; }
-      .url-text { font-family: monospace; font-size: .78rem; max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted, #555); }
-      .copy-btn, .del-btn {
-        flex-shrink: 0; padding: .3rem .65rem; font-size: .8rem;
-        border: 1px solid var(--border, #ccc); border-radius: 4px;
-        cursor: pointer; background: transparent; white-space: nowrap;
+      .thumb {
+        width: 52px; height: 52px; object-fit: cover;
+        border-radius: var(--r-xs); display: block; background: var(--fill);
       }
-      .copy-btn:hover { background: var(--hover-bg, #f5f5f5); }
-      .del-btn { color: #c0392b; border-color: #e8b4b0; }
-      .del-btn:hover { background: #fdf0ef; }
-      .size-cell { white-space: nowrap; color: var(--muted, #777); }
-      .empty-msg { text-align: center; padding: 3rem; color: var(--muted, #888); }
-      .flash { padding: .5rem 1rem; border-radius: 4px; font-size: .875rem; }
-      .flash.error { background: #fdf0ef; color: #c0392b; border: 1px solid #e8b4b0; }
+      .key-cell {
+        font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+        max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .url-cell { display: flex; align-items: center; gap: .5rem; }
+      .url-text {
+        font-family: var(--mono); font-size: 12px; max-width: 340px;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted);
+      }
+      .copy-btn, .del-btn {
+        flex-shrink: 0; padding: 5px 12px; font-size: 13px; font-weight: 500;
+        border: none; border-radius: var(--r-pill);
+        cursor: pointer; background: var(--fill); color: var(--ink-2);
+        white-space: nowrap;
+        transition: background-color var(--t-fast) var(--ease-damped),
+                    color var(--t-fast) var(--ease-damped),
+                    transform var(--t-instant) var(--ease-damped);
+      }
+      .copy-btn:hover { background: var(--fill-strong); color: var(--ink); }
+      .del-btn { color: var(--danger); background: var(--danger-soft); }
+      .del-btn:hover { background: var(--danger); color: #fff; }
+      .copy-btn:active, .del-btn:active { transform: scale(.95); }
+      .size-cell { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+      .empty-msg { text-align: center; padding: 3rem; color: var(--muted); }
+      .flash { padding: 10px 16px; border-radius: var(--r-sm); font-size: 14px; }
+      .flash.error { background: var(--danger-soft); color: var(--danger); border: none; }
     </style>
   </head>
   <body class="writer-mode">

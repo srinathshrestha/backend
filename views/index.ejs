@@ -5,123 +5,95 @@
 </head>
 <body>
 
-<nav class="top">
-  <a class="wordmark" href="/blogs">
-    <span class="dot"></span>srinath<i>.</i>xyz
-  </a>
-  <div class="navlinks">
-    <a href="/blogs" class="active">Blog</a>
-    <a href="/portfolio">Portfolio</a>
-  </div>
-  <div class="nav-right">
-    <div class="search" onclick="this.querySelector('input').focus()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="searchInput" placeholder="search posts…" aria-label="Search posts" />
-      <span class="kbd">⌘K</span>
-    </div>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-      <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      <svg class="icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
-    <a class="btn-rss" href="/rss.xml">RSS ↗</a>
-  </div>
-</nav>
+<%- include("partials/nav", { active: "writing" }) %>
 
-<div class="container">
-  <header class="sitehead">
-    <div class="title">
-      <h1>Blog<em>.</em></h1>
-      <span class="under">writing on systems, C/C++, and whatever I'm currently reading</span>
+<main>
+  <%# Page header band. The filter sits with the content it filters,
+      not in the global chrome — proximity is the mapping. %>
+  <section class="band band--tint">
+    <div class="band__inner">
+      <h1 class="t-display">Writing</h1>
+      <p class="t-lead">Notes on systems, C, and how computers actually work underneath.</p>
+      <div class="filter">
+        <label class="filter__field">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="searchInput" type="search" placeholder="Filter articles" aria-label="Filter articles" />
+          <span class="filter__kbd" aria-hidden="true">⌘K</span>
+        </label>
+        <span class="filter__count t-caption" id="resultCount"><%= posts ? posts.length : 0 %> articles</span>
+      </div>
     </div>
-    <a class="me" href="/portfolio">
-      <div class="pic">
-        <img src="/HeadShot/IMG_0622 2.jpg" alt="Srinath Shrestha" />
-      </div>
-      <div>
-        <div class="n">Srinath Shrestha</div>
-        <div class="h">/ portfolio →</div>
-      </div>
-    </a>
-  </header>
-
-  <section class="posts" id="posts">
-    <% if (!posts || posts.length === 0) { %>
-    <p style="font-family: var(--mono); color: var(--muted); padding: 60px 0;">No posts yet. Time to write something raw.</p>
-    <% } else { %>
-    <% posts.forEach(function(post) {
-      const isNonTech = post.tags && post.tags.some(t => t.toLowerCase() === 'non-tech');
-      const d = new Date(post.publishedAt || post.updatedAt);
-      const day = d.getDate().toString().padStart(2, '0');
-      const month = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-      const yr = d.getFullYear();
-    %>
-    <article class="post" <%= isNonTech ? 'data-kind="non-tech"' : '' %>>
-      <div class="date">
-        <span class="d"><%= day %></span>
-        <span class="m"><%= month %></span>
-        <span class="y"><%= yr %></span>
-      </div>
-      <div class="main">
-        <h2><a href="/blogs/<%= post.slug %>"><%= post.title %></a></h2>
-        <% if (post.excerpt) { %>
-        <p class="excerpt"><%= post.excerpt %></p>
-        <% } %>
-        <% if (post.tags && post.tags.length) { %>
-        <div class="tags">
-          <% post.tags.forEach(function(tag) { %>
-          <span class="tag"><%= tag %></span>
-          <% }); %>
-        </div>
-        <% } %>
-      </div>
-      <a class="read" href="/blogs/<%= post.slug %>">read post →</a>
-    </article>
-    <% }); %>
-    <% } %>
   </section>
 
-  <div class="noresults" id="noresults" style="display:none">
-    Nothing matches <b id="searchQuery"></b>. Try another word.
-  </div>
-</div>
+  <%# The archive: hairline-separated rows, whole row is the target.
+      No cards — cards without imagery are just empty boxes. %>
+  <section class="band band--flush">
+    <div class="band__inner">
+      <% if (!posts || posts.length === 0) { %>
+        <p class="empty t-lead">Nothing published yet.</p>
+      <% } else { %>
+      <ol class="archive" id="posts">
+        <% posts.forEach(function(post) {
+          const d = new Date(post.publishedAt || post.updatedAt);
+          const full = d.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+          const iso = d.toISOString().slice(0, 10);
+        %>
+        <li class="entry">
+          <a class="entry__link" href="/blogs/<%= post.slug %>">
+            <time class="entry__date t-caption" datetime="<%= iso %>"><%= full %></time>
+            <h2 class="entry__title t-title-2"><%= post.title %></h2>
+            <% if (post.excerpt) { %>
+            <p class="entry__excerpt"><%= post.excerpt %></p>
+            <% } %>
+            <% if (post.tags && post.tags.length) { %>
+            <p class="entry__tags t-caption"><%= post.tags.join(' · ') %></p>
+            <% } %>
+          </a>
+        </li>
+        <% }); %>
+      </ol>
+      <% } %>
 
-<footer class="site-footer">
-  <div>&copy; <%= year %> &middot; srinath shrestha</div>
-  <div class="links">
-    <a href="/portfolio">/ portfolio</a>
-    <a href="/rss.xml">/ rss.xml</a>
-    <a href="/admin">/ writer</a>
-  </div>
-</footer>
+      <p class="empty t-lead" id="noresults" hidden>
+        No articles match <b id="searchQuery"></b>.
+      </p>
+    </div>
+  </section>
+</main>
+
+<%- include("partials/footer") %>
 
 <script>
-const inp = document.getElementById('searchInput');
-const postsEls = [...document.querySelectorAll('#posts .post')];
-const nr = document.getElementById('noresults');
-const qOut = document.getElementById('searchQuery');
+(function () {
+  var input = document.getElementById('searchInput');
+  var entries = [].slice.call(document.querySelectorAll('#posts .entry'));
+  var empty = document.getElementById('noresults');
+  var query = document.getElementById('searchQuery');
+  var count = document.getElementById('resultCount');
+  if (!input) return;
 
-inp.addEventListener('input', () => {
-  const q = inp.value.trim().toLowerCase();
-  let hits = 0;
-  postsEls.forEach(p => {
-    const show = !q || p.textContent.toLowerCase().includes(q);
-    p.style.display = show ? '' : 'none';
-    if (show) hits++;
+  function apply() {
+    var q = input.value.trim().toLowerCase();
+    var hits = 0;
+    entries.forEach(function (el) {
+      var show = !q || el.textContent.toLowerCase().indexOf(q) !== -1;
+      el.hidden = !show;
+      if (show) hits++;
+    });
+    count.textContent = hits + (hits === 1 ? ' article' : ' articles');
+    empty.hidden = !(q && hits === 0);
+    if (!empty.hidden) query.textContent = '“' + input.value + '”';
+  }
+
+  input.addEventListener('input', apply);
+  window.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      input.focus();
+      input.select();
+    }
   });
-  if (q && hits === 0) {
-    nr.style.display = '';
-    qOut.textContent = '"' + inp.value + '"';
-  } else {
-    nr.style.display = 'none';
-  }
-});
-
-window.addEventListener('keydown', e => {
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-    e.preventDefault();
-    inp.focus();
-  }
-});
+})();
 </script>
 </body>
 </html>
