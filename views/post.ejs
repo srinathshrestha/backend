@@ -7,6 +7,10 @@
 
 <%- include("partials/nav") %>
 
+<% if (typeof isPreview !== 'undefined' && isPreview) { %>
+<p class="preview-banner">Preview &middot; <%= post.status %>, not what readers see at this URL &middot; <%= post.slug %></p>
+<% } %>
+
 <%
   const pubDate = new Date(post.publishedAt || post.updatedAt);
   const pubFull = pubDate.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -36,6 +40,11 @@
 <% if (prevPost || nextPost) { %>
 <script src="/prefetch.js" defer></script>
 <% } %>
+
+<% if (post.hasCode) { %><script src="/vendor/hljs/hljs.min.js"></script><% } %>
+<% if (post.hasMath) { %><script src="/vendor/katex/katex.min.js"></script><% } %>
+<% if (post.hasMermaid) { %><script src="/vendor/mermaid/mermaid.min.js"></script><% } %>
+<% if (post.hasCode || post.hasMath || post.hasMermaid) { %><script src="/post-enhance.js" defer></script><% } %>
 
 </body>
 </html>

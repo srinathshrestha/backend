@@ -17,6 +17,15 @@
   --quote: #444;
   --mark: #ffc;
   --anchor: #aaa;
+  /* A handful of muted, desaturated tokens for syntax highlighting — not a
+     theme, just enough separation to scan code without the page stopping
+     being black-on-white everywhere else. */
+  --code-keyword: #7a3e9d;
+  --code-string: #2f6f4e;
+  --code-comment: var(--muted);
+  --code-number: #a34d17;
+  --code-title: #1a5a96;
+  --inline-code: #a34d17;
 }
 
 :root[data-theme="dark"] {
@@ -33,6 +42,12 @@
   --quote: #ccc;
   --mark: #4b3f00;
   --anchor: #777;
+  --code-keyword: #c497e0;
+  --code-string: #7fce9f;
+  --code-comment: var(--muted);
+  --code-number: #e0a875;
+  --code-title: #7fb8e8;
+  --inline-code: #e0a875;
 }
 
 html {
@@ -106,9 +121,13 @@ html[data-theme="dark"] .theme-to-dark { display: none; }
 /* ── Code, tables, and the rest of what markdown emits ───── */
 
 code, kbd, pre { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 0.875rem; }
-code { background: var(--soft); padding: 0.1em 0.3em; }
+/* Inline `code` gets a color of its own, not just the background — otherwise
+   it reads as "gray box around normal text" instead of a distinct span. Only
+   inline: a fenced block's own text stays plain (or hljs-colored), so this
+   doesn't fight the block's `.hljs-*` token colors. */
+code { background: var(--soft); color: var(--inline-code); padding: 0.1em 0.3em; }
 pre { background: var(--soft); border: 1px solid var(--soft-border); padding: 0.75rem; overflow-x: auto; }
-pre code { background: none; padding: 0; }
+pre code { background: none; padding: 0; color: inherit; }
 
 /* Filename and language sit on one header row above the block, not
    floated over it — a flex row wraps the <pre> onto its own line. */
@@ -138,6 +157,59 @@ mark { background: var(--mark); color: var(--text); }
 .fn-ref, .fn-backref { text-decoration: none; }
 
 .heading-anchor { text-decoration: none; color: var(--anchor); padding-right: 0.3rem; }
+
+/* ── Task lists ──────────────────────────────────────────── */
+
+.task-list-item { list-style: none; margin-left: -1.4rem; }
+.task-list-item input[type="checkbox"] { margin-right: 0.45rem; vertical-align: middle; }
+
+/* ── Wikilinks ───────────────────────────────────────────── */
+
+/* A resolved wikilink is a plain <a> — no reason it should look like
+   anything but the links around it. Only the unresolved case gets a mark,
+   so a typo'd target is obvious while writing instead of a dead link
+   readers find first. */
+.wikilink-broken { color: var(--muted); border-bottom: 1px dashed var(--rule); cursor: help; }
+
+/* ── Math (KaTeX) ────────────────────────────────────────── */
+
+.math-display { overflow-x: auto; margin: 0 0 1rem; }
+.math-display .katex-display { margin: 0; }
+/* Before the client renders it, or if it never does, this is the literal
+   $...$ / $$...$$ text — plain but legible, not broken markup. */
+.math { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+.math-error { color: var(--muted); }
+
+/* ── Diagrams (Mermaid) ──────────────────────────────────── */
+
+pre.mermaid { background: none; border: none; padding: 0; overflow-x: auto; text-align: center; }
+pre.mermaid svg { max-width: 100%; height: auto; }
+
+/* ── Syntax highlighting (highlight.js) ──────────────────── */
+
+/* No hljs theme is loaded — `.hljs` would otherwise carry its own
+   background/padding, fighting the `.code-block` it already sits inside. A
+   handful of token colors is enough to scan code by shape; it doesn't need
+   to look like an IDE. */
+.hljs { background: none; color: inherit; padding: 0; }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-section { color: var(--code-keyword); }
+.hljs-string, .hljs-attr, .hljs-regexp, .hljs-addition { color: var(--code-string); }
+.hljs-comment, .hljs-quote { color: var(--code-comment); font-style: italic; }
+.hljs-number, .hljs-deletion { color: var(--code-number); }
+.hljs-title, .hljs-name, .hljs-built_in, .hljs-type { color: var(--code-title); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }
+
+/* ── Preview banner (TUI "view draft in browser") ───────── */
+
+.preview-banner {
+  background: var(--soft);
+  border: 1px solid var(--soft-border);
+  border-left: 3px solid var(--code-number);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
 
 @media (max-width: 34rem) {
   body { margin-top: 1.25rem; }
