@@ -674,4 +674,15 @@ app.use((err, req, res, next) => {
     return res.status(status).type('text/plain').send(message);
 });
 
-module.exports = { app, port, siteUrl, closeDatabase, renderMarkdown };
+module.exports = {
+    app,
+    port,
+    siteUrl,
+    blogTitle,
+    closeDatabase,
+    ensureDb,
+    listPosts,
+    getPostBySlug,
+    buildRssFeed,
+    renderMarkdown,
+};

@@ -7,7 +7,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "node --test",
-    "build": "echo 'No build step required for this server. Skipping.'",
+    "build": "node src/build-static.js",
+    "serve": "npx serve dist",
     "start:prod": "node src/server.js"
   },
   "keywords": [],
