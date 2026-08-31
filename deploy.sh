@@ -10,6 +10,11 @@ BUCKET=myblogs-static-975050135234
 DISTRIBUTION=E1YG8LZ8DK4XYU
 REGION=ap-south-1
 SITE_URL=https://srinathshrestha.xyz
+# Deploys run as blog-deploy, whose policy covers exactly this bucket and this
+# distribution. The default profile is an account administrator; a publish
+# should not be able to reach anything it does not need, least of all by
+# accident.
+PROFILE=blog-deploy
 
 cd "$(dirname "$0")"
 
@@ -31,6 +36,7 @@ echo "==> syncing to s3://$BUCKET"
 # retry re-sends only what is still missing or changed.
 attempt=1
 until aws s3 sync dist/ "s3://$BUCKET/" --delete --region "$REGION" \
+        --profile "$PROFILE" \
         --cache-control "public, max-age=300" --only-show-errors; do
   if [ "$attempt" -ge 5 ]; then
     echo "    sync failed 5 times — refusing to invalidate a partial deploy" >&2
@@ -46,6 +52,7 @@ echo "==> invalidating CloudFront"
 # in S3 but nobody sees it, and the deploy looks like it worked.
 attempt=1
 until ID=$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" \
+             --profile "$PROFILE" \
              --paths '/*' --query 'Invalidation.Id' --output text); do
   if [ "$attempt" -ge 5 ]; then
     echo "    could not create invalidation; S3 is updated but CloudFront still serves the old copy" >&2
@@ -56,6 +63,7 @@ until ID=$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" 
   attempt=$((attempt + 1))
 done
 echo "    $ID — waiting"
-aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION" --id "$ID"
+aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION" \
+  --profile "$PROFILE" --id "$ID"
 
 echo "==> live at https://srinathshrestha.xyz/"
