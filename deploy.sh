@@ -14,7 +14,17 @@ SITE_URL=https://srinathshrestha.xyz
 # distribution. The default profile is an account administrator; a publish
 # should not be able to reach anything it does not need, least of all by
 # accident.
+#
+# GitHub Actions injects AWS_ACCESS_KEY_ID for that same user, so skip
+# --profile when env credentials are already present.
 PROFILE=blog-deploy
+aws_cli() {
+  if [[ -n "${AWS_ACCESS_KEY_ID:-}" ]]; then
+    aws "$@"
+  else
+    aws --profile "$PROFILE" "$@"
+  fi
+}
 
 cd "$(dirname "$0")"
 
@@ -35,8 +45,7 @@ echo "==> syncing to s3://$BUCKET"
 # old version with nothing to indicate it had failed. sync is idempotent, so a
 # retry re-sends only what is still missing or changed.
 attempt=1
-until aws s3 sync dist/ "s3://$BUCKET/" --delete --region "$REGION" \
-        --profile "$PROFILE" \
+until aws_cli s3 sync dist/ "s3://$BUCKET/" --delete --region "$REGION" \
         --cache-control "public, max-age=300" --only-show-errors; do
   if [ "$attempt" -ge 5 ]; then
     echo "    sync failed 5 times — refusing to invalidate a partial deploy" >&2
@@ -51,8 +60,7 @@ echo "==> invalidating CloudFront"
 # A successful sync with no invalidation is the worst outcome: the new site is
 # in S3 but nobody sees it, and the deploy looks like it worked.
 attempt=1
-until ID=$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" \
-             --profile "$PROFILE" \
+until ID=$(aws_cli cloudfront create-invalidation --distribution-id "$DISTRIBUTION" \
              --paths '/*' --query 'Invalidation.Id' --output text); do
   if [ "$attempt" -ge 5 ]; then
     echo "    could not create invalidation; S3 is updated but CloudFront still serves the old copy" >&2
@@ -63,7 +71,7 @@ until ID=$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" 
   attempt=$((attempt + 1))
 done
 echo "    $ID — waiting"
-aws cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION" \
-  --profile "$PROFILE" --id "$ID"
+aws_cli cloudfront wait invalidation-completed --distribution-id "$DISTRIBUTION" \
+  --id "$ID"
 
 echo "==> live at https://srinathshrestha.xyz/"
